@@ -1,0 +1,8 @@
+my_tour.core.bundle:
+    resource: '../src/CoreBundle/Resources/config/routing.yml'
+
+my_tour.user.bundle:
+    resource: '../src/UserBundle/Resources/config/routing.yml'
+
+my_tour.excursion.bundle:
+    resource: '../src/ExcursionBundle/Resources/config/routing.yml'
