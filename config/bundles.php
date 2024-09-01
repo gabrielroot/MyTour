@@ -1,14 +1,14 @@
 <?php
 
-use MyTour\CoreBundle\MyTourCoreBundle;
-use MyTour\ExcursionBundle\MyTourExcursionBundle;
-use MyTour\UserBundle\MyTourUserBundle;
-
 return [
-    ### DOMAIN_BUNDLES ##
-    MyTourCoreBundle::class => ['all' => true],
-    MyTourExcursionBundle::class => ['all' => true],
-    MyTourUserBundle::class => ['all' => true],
-    ### APP_BUNDLES ##
+    MyTour\CoreBundle\MyTourCoreBundle::class => ['all' => true],
+    MyTour\ExcursionBundle\MyTourExcursionBundle::class => ['all' => true],
+    MyTour\UserBundle\MyTourUserBundle::class => ['all' => true],
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
+    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+    Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
 ];

@@ -1,3 +1,0 @@
-core:
-  resource: '../../Controller/'
-  type: attribute
