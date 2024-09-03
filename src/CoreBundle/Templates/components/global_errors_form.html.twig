@@ -1,0 +1,9 @@
+{% if form.vars.errors|length > 0 %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            {% for error in form.vars.errors %}
+                <li class="text-black-50 d-block">{{ error.message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

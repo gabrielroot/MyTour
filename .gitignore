@@ -61,3 +61,4 @@
 ###< symfony/framework-bundle ###
 /.docker/.env.nginx.local
 
+.docker/mysql/data

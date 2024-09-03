@@ -35,6 +35,8 @@ services:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE=mytour
             - MYSQL_ROOT_HOST=%
+        volumes:
+            - ./.docker/mysql/data:/var/lib/mysql
         ports:
             - 3306:3306
         networks:
