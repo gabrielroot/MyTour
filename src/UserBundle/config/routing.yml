@@ -1,3 +1,0 @@
-core:
-  resource: '@MyTourUserBundle/Controller/'
-  type: attribute

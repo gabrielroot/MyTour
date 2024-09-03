@@ -1,2 +1,0 @@
-# MyTour
-Excursion management

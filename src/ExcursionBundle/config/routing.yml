@@ -1,3 +1,0 @@
-core:
-  resource: '@MyTourExcursionBundle/Controller/'
-  type: attribute
