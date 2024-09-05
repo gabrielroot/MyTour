@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use MyTour\CoreBundle\Interface\IEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<IEntity>
@@ -65,7 +66,7 @@ abstract class BaseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function save(IEntity $entity): void
+    public function save(IEntity|UserInterface $entity): void
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();

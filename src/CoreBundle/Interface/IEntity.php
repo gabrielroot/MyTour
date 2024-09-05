@@ -32,4 +32,8 @@ interface IEntity
     public function setDeletedBy(?User $deletedBy): void;
 
     public function isDeleted(): bool;
+
+    public function getLastLogin(): ?DateTime;
+
+    public function setLastLogin(?DateTime $lastLogin): void;
 }

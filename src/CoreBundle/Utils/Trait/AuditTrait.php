@@ -26,6 +26,9 @@ trait AuditTrait
     #[ORM\ManyToOne(targetEntity: User::class)]
     protected ?User $deletedBy = null;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    protected ?DateTime $lastLogin = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -94,5 +97,15 @@ trait AuditTrait
     public function isDeleted(): bool
     {
         return !is_null($this->deletedAt);
+    }
+
+    public function getLastLogin(): ?DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?DateTime $lastLogin): void
+    {
+        $this->lastLogin = $lastLogin;
     }
 }
