@@ -1,0 +1,43 @@
+<div id="audit-extra-filters" class="container-fluid" style="display: none">
+    <fieldset
+            class="form-group border p-2 row d-flex justify-content-center"
+            style="background: linear-gradient(to bottom, #f5f5f5, #ffffff);"
+    >
+        <legend class="fs-5">Auditoria:</legend>
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                {{ form_row(form.createdBy) }}
+            </div>
+            <div class="col-sm-6 col-md-4">
+                {{ form_row(form.updatedBy) }}
+            </div>
+            <div class="col-sm-6 col-md-4">
+                {{ form_row(form.deletedBy) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                {{ form_row(form.createdAtStart) }}
+            </div>
+            <div class="col-sm-6 col-md-3">
+                {{ form_row(form.createdAtEnd) }}
+            </div>
+            <div class="col-sm-6 col-md-3">
+                {{ form_row(form.updatedAtStart) }}
+            </div>
+            <div class="col-sm-6 col-md-3">
+                {{ form_row(form.updatedAtEnd) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                {{ form_row(form.deletedAtStart) }}
+            </div>
+            <div class="col-sm-6 col-md-3">
+                {{ form_row(form.deletedAtEnd) }}
+            </div>
+        </div>
+    </fieldset>
+</div>
