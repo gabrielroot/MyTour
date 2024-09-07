@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('template_assets/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template_assets/vendors/flag-icon-css/css/flag-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template_assets/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <!-- endinject -->
 
@@ -46,8 +47,6 @@
       </div>
       <!-- page-body-wrapper ends -->
     </div>
-    {% block javascripts %}
-    {% endblock %}
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="{{ asset('template_assets/vendors/js/vendor.bundle.base.js') }}"></script>
@@ -59,6 +58,12 @@
     <script src="{{ asset('template_assets/js/misc.js') }}"></script>
     <script src="{{ asset('template_assets/js/settings.js') }}"></script>
     <script src="{{ asset('template_assets/js/todolist.js') }}"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/pt.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+
     <!-- endinject -->
+    {% block javascripts %}
+    {% endblock %}
   </body>
 </html>

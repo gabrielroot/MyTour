@@ -26,9 +26,6 @@ trait AuditTrait
     #[ORM\ManyToOne(targetEntity: User::class)]
     protected ?User $deletedBy = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    protected ?DateTime $lastLogin = null;
-
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -39,9 +36,10 @@ trait AuditTrait
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getUpdatedAt(): ?DateTime
@@ -49,9 +47,10 @@ trait AuditTrait
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?DateTime $updatedAt): void
+    public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 
     public function getDeletedAt(): ?DateTime
@@ -59,9 +58,10 @@ trait AuditTrait
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTime $deletedAt): void
+    public function setDeletedAt(?DateTime $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+        return $this;
     }
 
     public function getCreatedBy(): ?User
@@ -69,9 +69,10 @@ trait AuditTrait
         return $this->createdBy;
     }
 
-    public function setCreatedBy(?User $createdBy): void
+    public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+        return $this;
     }
 
     public function getUpdatedBy(): ?User
@@ -79,9 +80,10 @@ trait AuditTrait
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(?User $updatedBy): void
+    public function setUpdatedBy(?User $updatedBy): self
     {
         $this->updatedBy = $updatedBy;
+        return $this;
     }
 
     public function getDeletedBy(): ?User
@@ -89,23 +91,14 @@ trait AuditTrait
         return $this->deletedBy;
     }
 
-    public function setDeletedBy(?User $deletedBy): void
+    public function setDeletedBy(?User $deletedBy): self
     {
         $this->deletedBy = $deletedBy;
+        return $this;
     }
 
-    public function isDeleted(): bool
+    public function isActive(): bool
     {
-        return !is_null($this->deletedAt);
-    }
-
-    public function getLastLogin(): ?DateTime
-    {
-        return $this->lastLogin;
-    }
-
-    public function setLastLogin(?DateTime $lastLogin): void
-    {
-        $this->lastLogin = $lastLogin;
+        return is_null($this->deletedAt);
     }
 }

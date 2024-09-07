@@ -1,3 +1,7 @@
-body, a, p {
-    color: #4a4a58 !important;
+/*body, a, p, input{*/
+/*    color: #4a4a58 !important;*/
+/*}*/
+
+.form-label {
+    margin-bottom: 0 !important;
 }

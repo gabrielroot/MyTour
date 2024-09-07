@@ -2,7 +2,9 @@
 
 namespace MyTour\UserBundle\Entity;
 
+use DateTime;
 use MyTour\CoreBundle\Interface\IEntity;
+use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 use MyTour\CoreBundle\Utils\Trait\AuditTrait;
 use MyTour\UserBundle\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $username;
@@ -30,6 +32,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
 
     #[ORM\Column(type: 'string')]
     private string $password;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    protected ?DateTime $lastLogin = null;
+
+    public function __construct()
+    {
+        $this->roles = [RoleEnum::ROLE_USER->name];
+    }
 
     public function getId(): ?int
     {
@@ -65,11 +75,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = RoleEnum::ROLE_USER->value;
 
         return array_unique($roles);
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function getRoleName(): string
+    {
+        return RoleEnum::fromName($this->getRoles()[0])->value;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoleBadge(): string
+    {
+        return RoleEnum::fromNameBadge($this->getRoles()[0]);
+    }
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -102,5 +127,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getLastLogin(): ?DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?DateTime $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+        return $this;
     }
 }
