@@ -1,20 +1,20 @@
 <div class="d-flex flex-column" style="max-width: 167px">
-    <div class="mb-1 text-black badge badge-outline-{{ entity.isDeleted() ? 'danger' : 'success' }}" style="font-size: 9px; padding: 1px">
-        <span>{{ entity.isDeleted() ? 'Deletado' : 'Ativo' | upper }}</span>
+    <div class="mb-1 text-black badge badge-outline-{{ entity.isActive() ? 'success' : 'danger' }}" style="font-size: 9px; padding: 1px">
+        <span>{{ entity.isActive() ? 'Ativo' : 'Deletado' | upper }}</span>
     </div>
     <div class="d-flex font-monospace" style="font-size: 10px">
         <div class="d-flex flex-column me-1">
             <span class="fw-bold text-black">Criado:</span>
             <span class="fw-bold text-success">Atualizado:</span>
-            {% if not entity.isDeleted() %}
+            {% if not entity.isActive() %}
                 <span class="fw-bold text-danger">Deletado:</span>
             {% endif %}
         </div>
         <div class="d-flex flex-column">
-            <span class="text-black">{{ entity.createdAt | date('d/m/y - h:i') }}</span>
-            <span class="text-success">{{ entity.updatedAt | date('d/m/y - h:i') }}</span>
-            {% if not entity.isDeleted() %}
-                <span class="text-danger">{{ entity.deletedAt | date('d/m/y - h:i') }}</span>
+            <span class="text-black">{{ entity.createdAt | date('d/m/y - H:i') }}</span>
+            <span class="text-success">{{ entity.updatedAt | date('d/m/y - H:i') }}</span>
+            {% if not entity.isActive() %}
+                <span class="text-danger">{{ entity.deletedAt | date('d/m/y - H:i') }}</span>
             {% endif %}
         </div>
     </div>
