@@ -11,9 +11,9 @@ function initSidebarStatusActive(){
 
     for(const link of links){
         //If the current link is the same as the current path
-        if ($(link).attr('href').includes(window.location.pathname)){
+        if (window.location.pathname === $(link).attr('href')){
             //TODO: BUSCAR O PAI <LI> QUE DEVE RECEBER A CLASSE "active" (Submenu não pode recebê-la)
-            // $(link).parent
+            $(link).parent().addClass('active');
         }
     }
 }

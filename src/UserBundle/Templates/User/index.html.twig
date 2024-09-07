@@ -43,32 +43,8 @@
 
                   {{ include('@CoreBundle/components/audit_extra_filters.html.twig', {'form': form}) }}
 
-                  <div class="d-flex justify-content-end mt-2 container-fluid">
-                    <div class="me-2">
-                      {{ form_row(form.active, {'attr': {'style': 'min-width: 100px'}}) }}
-                    </div>
-                    <button
-                      id="btn-extra-filters"
-                      type="button"
-                      class="btn btn-inverse-secondary me-2 mb-1 d-flex justify-content-around align-content-center"
-                      style="min-width: 100px; height: 40px"
-                    >
-                      <span class="m-0 align-self-center">Audit</span>
-                      <i class="mdi mdi-plus fs-6 align-self-center"></i>
-                    </button>
-                    <a
-                      href="{{ path(app.request.attributes.get('_route')) }}"
-                      class="btn btn-inverse-info me-2 mb-1 d-flex justify-content-around align-content-center"
-                      style="min-width: 100px; height: 40px"
-                    >
-                      <p class="m-0 align-self-center">Reiniciar</p>
-                      <i class="mdi mdi-filter-remove fs-6 align-self-center"></i>
-                    </a>
-                    <button type="submit" class="btn btn-dark d-flex justify-content-around align-content-center" style="min-width: 100px; height: 40px">
-                      <span class="m-0 align-self-center text-white">Buscar</span>
-                      <i class="mdi mdi-magnify fs-6 align-self-center"></i>
-                    </button>
-                  </div>
+                  {{ include('@CoreBundle/components/form-filter-actions.html.twig', {'form': form}) }}
+
                   {{ form_widget(form._token) }}
                 {{ form_end(form, {'render_rest': false}) }}
               </div>
@@ -81,12 +57,15 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th class="{{ entities.isSorted('entity.id') ? 'sorted' : ''}}">
-                          {{ knp_pagination_sortable(entities, '#', 'entity.id') }}
-                          <i class="mdi mdi-arrow-{{ entities.isSorted('entity.id') ? 'down' : 'up' }}"></i>
+                      <th>
+                          <div class="d-flex">
+                              {{ knp_pagination_sortable(entities, '#', 'entity.id') }}
+                          </div>
                       </th>
-                      <th class="{{ entities.isSorted('entity.username') }}">
-                          {{ knp_pagination_sortable(entities, 'Nome de usuário', 'entity.username') }}
+                      <th>
+                          <div class="d-flex">
+                            {{ knp_pagination_sortable(entities, 'Nome de usuário', 'entity.username') }}
+                          </div>
                       </th>
                       <th>Nível de acesso</th>
                       <th>Status</th>
@@ -96,16 +75,10 @@
                   <tbody>
                     {% for entity in entities %}
                       <tr>
-                          <td>
-                            {{ entity.id }}
-                          </td>
-                          <td>
-                            {{ entity.username }}
-                          </td>
+                          <td>{{ entity.id }}</td>
+                          <td>{{ entity.username }}</td>
                           <td>{{ entity.getRoleBadge() | raw }} </td>
-                          <td>
-                            {{ include('@CoreBundle/pages/audit-status.html.twig', {'entity': entity})  }}
-                          </td>
+                          <td>{{ include('@CoreBundle/pages/audit-status.html.twig', {'entity': entity})  }}</td>
                           <td>
                               <div class="dropdown">
                                   <button

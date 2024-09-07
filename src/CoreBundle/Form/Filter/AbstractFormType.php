@@ -36,6 +36,7 @@ class AbstractFormType extends AbstractType
                     return $repository->newCriteriaActiveQb();
                 },
                 'label' => 'Criado por',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => ['class' => 'form-select form-control-sm'],
                 'placeholder' => 'Escolha um usuário',
                 'required' => false
@@ -48,6 +49,7 @@ class AbstractFormType extends AbstractType
                     return $repository->newCriteriaActiveQb();
                 },
                 'label' => 'Atualizado por',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => ['class' => 'form-select form-control-sm'],
                 'placeholder' => 'Escolha um usuário',
                 'required' => false
@@ -60,6 +62,7 @@ class AbstractFormType extends AbstractType
                     return $repository->newCriteriaActiveQb();
                 },
                 'label' => 'Deletado por',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => ['class' => 'form-select form-control-sm'],
                 'placeholder' => 'Escolha um usuário',
                 'required' => false
@@ -68,48 +71,54 @@ class AbstractFormType extends AbstractType
             //START_TIMESTAMPS
             ->add('createdAtStart', TextType::class, [
                 'label' => 'Criado de',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input form-control-sm',
+                    'class' => 'flatpickr flatpickr-input',
                     'placeholder' => 'Criado a partir de...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
             ->add('createdAtEnd', TextType::class, [
                 'label' => 'Criado até',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input form-control-sm',
+                    'class' => 'flatpickr flatpickr-input',
                     'placeholder' => 'Criado até...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
             ->add('updatedAtStart', TextType::class, [
                 'label' => 'Atualizado de',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input form-control-sm',
+                    'class' => 'flatpickr flatpickr-input',
                     'placeholder' => 'Atualizado a partir de...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
             ->add('updatedAtEnd', TextType::class, [
                 'label' => 'Atualizado até',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input form-control-sm',
+                    'class' => 'flatpickr flatpickr-input',
                     'placeholder' => 'Atualizado até...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
             ->add('deletedAtStart', TextType::class, [
                 'label' => 'Deletado de',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input form-control-sm',
+                    'class' => 'flatpickr flatpickr-input',
                     'placeholder' => 'Atualizado a partir de...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
             ->add('deletedAtEnd', TextType::class, [
                 'label' => 'Deletado até',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input form-control-sm',
+                    'class' => 'flatpickr flatpickr-input',
                     'placeholder' => 'Atualizado até...',
                     'autocomplete' => 'off'],
                 'required' => false
