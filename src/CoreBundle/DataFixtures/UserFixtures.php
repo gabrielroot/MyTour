@@ -10,10 +10,13 @@ use Doctrine\Persistence\ObjectManager;
 use MyTour\CoreBundle\Services\UserService;
 use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 use MyTour\UserBundle\Entity\User;
+use MyTour\UserBundle\Repository\UserRepository;
 
 class UserFixtures extends Fixture
 {
     private UserService $userService;
+
+    private UserRepository $userRepository;
 
     private array $names = ["João Pedro", "Maria Luiza", "Antonio Carlos", "Beatriz Silva", "Carlos Eduardo",
         "Felipe Alves", "Camila Rodrigues", "Matheus Ferreira", "Larissa Martins", "Vinicius Lima", "Amanda Pereira",
@@ -25,35 +28,44 @@ class UserFixtures extends Fixture
         "baleia", "tubarao", "crocodilo", "jacare", "cobra", "lagarto", "tartaruga", "coruja", "falcao", "aguia",
         "pato", "galinha", "boi", "vaca", "ovelha", "cavalo", "burro"];
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, UserRepository $userRepository)
     {
         $this->userService = $userService;
+        $this->userRepository = $userRepository;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $userRoot = new User();
-        $userRoot
-            ->setUsername('root')
-            ->setPassword('123')
-            ->setRoles([RoleEnum::ROLE_ORGANIZER->name]);
+        if (!$this->userRepository->findOneBy(['username' => 'root'])) {
+            $userRoot = new User();
+            $userRoot
+                ->setName('Gabriel')
+                ->setUsername('root')
+                ->setPassword('123')
+                ->setRoles([RoleEnum::ROLE_ORGANIZER->name])
+                ->setBirthday(new DateTime('1970-05-26'));
 
-        $this->userService->createUser(user: $userRoot, flush: false);
+            $this->userService->createUser(user: $userRoot, flush: false);
+        }
 
         for($i = 0; $i < 100; $i++) {
             $user = new User();
             $user
+                ->setName($this->generateName())
                 ->setUsername($this->generateUsername())
                 ->setPassword('123')
                 ->setRoles($this->generateRole())
-                ->setDeletedAt(rand(0, 1) ? new DateTime() : null);
+                ->setBirthday(new DateTime(rand(1970, 2006) . '-' . rand(1, 12) . '-' . rand(1, 28)))
+                ->setDeletedAt(
+                    rand(0, 1)
+                    ? new DateTime(rand(2020, 2024) . '-' . rand(1, 12) . '-' . rand(1, 28))
+                    : null);
 
             $this->userService->createUser(user: $user, flush: false);
         }
 
         $manager->flush();
     }
-
 
     private function generateName(): string
     {

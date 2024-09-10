@@ -5,7 +5,7 @@ namespace MyTour\CoreBundle\Interface;
 use DateTime;
 use MyTour\UserBundle\Entity\User;
 
-interface IEntity
+interface IAudit
 {
     public function getCreatedAt() : ?DateTime;
 

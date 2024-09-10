@@ -23,10 +23,17 @@ class AbstractFormType extends AbstractType
                 'choices' => ['Deletado' => 0, 'Ativo' => 1],
                 'placeholder' => 'Todos',
                 'label' => false,
-                'attr' => ['class' => 'form-select form-control-xs'],
+                'attr' => ['onChange' => 'this.form.submit()'],
                 'required' => false
             ])
             //END_STATUS
+            //START_PER_PAGE
+            ->add('perPage', ChoiceType::class, [
+                'label' => false,
+                'attr' => ['onChange' => 'this.form.submit()'],
+                'choices' => [20 => 20, 50 => 50, 100 => 100]
+            ])
+            //END_PER_PAGE
             //START_users
             ->add('createdBy', EntityType::class, [
                 'class' => User::class,

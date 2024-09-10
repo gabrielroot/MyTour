@@ -16,19 +16,30 @@ class UserFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('name', TextType::class, [
+                'label' => 'Nome:',
+                'attr' => [ 'placeholder' => 'Informe o nome'],
+                'required' => false
+            ])
             ->add('username', TextType::class, [
-                'label' => 'Nome de usuário',
+                'label' => 'Login:',
+                'attr' => [ 'placeholder' => 'Informe o nome de usuário'],
+                'required' => false
+            ])
+            ->add('birthday', TextType::class, [
+                'label' => 'Data de nascimento:',
+                'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'placeholder' => 'Informe o nome de usuário',
-                    'class' => 'form-control-sm',
-                ],
+                    'class' => 'flatpickr_no_time flatpickr-input',
+                    'placeholder' => 'Nasceu em...',
+                    'autocomplete' => 'off'],
                 'required' => false
             ])
             ->add('role', ChoiceType::class, [
-                'label' => 'Nível de acesso',
+                'label' => 'Nível de acesso:',
+                'placeholder' => 'Informe o nível de acesso',
                 'attr' => [
-                    'placeholder' => 'Informe o nível de acesso',
-                    'class' => 'form-select form-control-sm',
+                    'class' => 'form-select',
                 ],
                 'choices' => RoleEnum::getAllValueAndName(),
                 'required' => false

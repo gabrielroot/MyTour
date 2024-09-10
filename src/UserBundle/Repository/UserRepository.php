@@ -31,10 +31,22 @@ class UserRepository extends BaseRepository
     {
         $qb = $this->findByAbstractFilter($userFormFilter);
 
+        if ($userFormFilter->getName()){
+            $qb
+                ->andWhere('entity.name LIKE :name')
+                ->setParameter('name', "%{$userFormFilter->getName()}%");
+        }
+
         if ($userFormFilter->getUsername()){
             $qb
                 ->andWhere('entity.username LIKE :username')
                 ->setParameter('username', "%{$userFormFilter->getUsername()}%");
+        }
+
+        if ($userFormFilter->getBirthday()){
+            $qb
+                ->andWhere($qb->expr()->eq('entity.birthday', ':birthday'))
+                ->setParameter('birthday', $userFormFilter->getBirthday());
         }
 
         if ($userFormFilter->getRole()){
@@ -42,7 +54,7 @@ class UserRepository extends BaseRepository
         }
 
         return $qb
-            ->orderBy('entity.username', 'ASC')
+            ->orderBy('entity.name', 'ASC')
             ->getQuery();
     }
 }

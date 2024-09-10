@@ -4,7 +4,7 @@ namespace MyTour\CoreBundle\EventListener;
 
 use DateTime;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use MyTour\CoreBundle\Interface\IEntity;
+use MyTour\CoreBundle\Interface\IAudit;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -27,13 +27,13 @@ class AuditListener
     private function setAuditTrait(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
-        if (is_subclass_of($entity, IEntity::class)) {
+        if (is_subclass_of($entity, IAudit::class)) {
             $this->setDateTime($entity);
             $this->setUser($entity);
         }
     }
 
-    private function setDateTime(IEntity $entity): void
+    private function setDateTime(IAudit $entity): void
     {
         $entity->setUpdatedAt(new DateTime('now'));
 
@@ -41,7 +41,7 @@ class AuditListener
             $entity->setCreatedAt(new DateTime('now'));
     }
 
-    private function setUser(IEntity $entity): void
+    private function setUser(IAudit $entity): void
     {
         if ($currentUser = $this->getUser()) {
             $entity->setUpdatedBy($currentUser);

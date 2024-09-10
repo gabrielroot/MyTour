@@ -33,7 +33,7 @@ class UserController extends AbstractController
         $pagination = $paginator->paginate(
             $userService->findByFilter($userFilter),
             $request->query->getInt('page', 1),
-            10
+            $userFilter->getPerPage()
         );
 
         return $this->render('@UserBundle/User/index.html.twig', [

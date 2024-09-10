@@ -2,7 +2,6 @@
 
 namespace MyTour\CoreBundle\Services;
 
-use MyTour\CoreBundle\Interface\IEntity;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
 use MyTour\UserBundle\Entity\User;
 use MyTour\UserBundle\Repository\UserRepository;

@@ -24,6 +24,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $name;
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $username;
 
@@ -32,6 +35,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
 
     #[ORM\Column(type: 'string')]
     private string $password;
+
+    #[ORM\Column(type: 'datetime', )]
+    protected ?DateTime $birthday = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?DateTime $lastLogin = null;
@@ -137,6 +143,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
     public function setLastLogin(?DateTime $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): User
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getBirthday(): ?DateTime
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(?DateTime $birthday): User
+    {
+        $this->birthday = $birthday;
         return $this;
     }
 }

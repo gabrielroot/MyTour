@@ -24,9 +24,12 @@ abstract class AbstractFormFilter
 
     private ?int $active;
 
+    private ?int $perPage;
+
     public function __construct()
     {
         $this->active = 1;
+        $this->perPage = 20;
     }
 
     public function getCreatedBy(): ?User
@@ -64,7 +67,7 @@ abstract class AbstractFormFilter
 
     public function getCreatedAtStart(): ?string
     {
-        return $this->createdAtStart?->format('Y-m-d H:i:s');
+        return $this->getFormatedDateTime($this->createdAtStart);
     }
 
     public function setCreatedAtStart(mixed $createdAtStart): AbstractFormFilter
@@ -75,7 +78,7 @@ abstract class AbstractFormFilter
 
     public function getCreatedAtEnd(): ?string
     {
-        return $this->createdAtEnd?->format('Y-m-d H:i:s');
+        return $this->getFormatedDateTime($this->createdAtEnd);
     }
 
     public function setCreatedAtEnd(mixed $createdAtEnd): AbstractFormFilter
@@ -86,7 +89,7 @@ abstract class AbstractFormFilter
 
     public function getUpdatedAtStart(): ?string
     {
-        return $this->updatedAtStart?->format('Y-m-d H:i:s');
+        return $this->getFormatedDateTime($this->updatedAtStart);
     }
 
     public function setUpdatedAtStart(mixed $updatedAtStart): AbstractFormFilter
@@ -97,7 +100,7 @@ abstract class AbstractFormFilter
 
     public function getUpdatedAtEnd(): ?string
     {
-        return $this->updatedAtEnd?->format('Y-m-d H:i:s');
+        return $this->getFormatedDateTime($this->updatedAtEnd);
     }
 
     public function setUpdatedAtEnd(mixed $updatedAtEnd): AbstractFormFilter
@@ -108,7 +111,7 @@ abstract class AbstractFormFilter
 
     public function getDeletedAtStart(): ?string
     {
-        return $this->deletedAtStart?->format('Y-m-d H:i:s');
+        return $this->getFormatedDateTime($this->deletedAtStart);
     }
 
     public function setDeletedAtStart(mixed $deletedAtStart): AbstractFormFilter
@@ -119,7 +122,7 @@ abstract class AbstractFormFilter
 
     public function getDeletedAtEnd(): ?string
     {
-        return $this->deletedAtEnd?->format('Y-m-d H:i:s');
+        return $this->getFormatedDateTime($this->deletedAtEnd);
     }
 
     public function setDeletedAtEnd(mixed $deletedAtEnd): AbstractFormFilter
@@ -139,14 +142,34 @@ abstract class AbstractFormFilter
         return $this;
     }
 
-    private function getDateTimeFromMixed(mixed $dateTime): ?DateTime
+    public function getPerPage(): ?int
+    {
+        return $this->perPage;
+    }
+
+    public function setPerPage(?int $perPage): AbstractFormFilter
+    {
+        $this->perPage = $perPage;
+        return $this;
+    }
+
+    /**
+     * @param DateTime|null $dateTime
+     * @return string|null
+     */
+    public function getFormatedDateTime(?Datetime $dateTime, bool $justDate = false): ?string
+    {
+        return $dateTime?->format('Y-m-d' . ($justDate ? '' : ' H:i:s'));
+    }
+
+    public function getDateTimeFromMixed(mixed $dateTime): ?DateTime
     {
         if ($dateTime instanceof DateTime) {
             return $dateTime;
         }
 
         if (is_string($dateTime)) {
-            return DateTime::createFromFormat('d/m/Y H:i', $dateTime);
+            return DateTime::createFromFormat((strlen($dateTime) === 10) ? 'd/m/Y' : 'd/m/Y H:i', $dateTime);
         }
 
         return null;

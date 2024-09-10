@@ -7,11 +7,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use MyTour\CoreBundle\Entity\Filter\AbstractFormFilter;
-use MyTour\CoreBundle\Interface\IEntity;
+use MyTour\CoreBundle\Interface\IAudit;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @extends ServiceEntityRepository<IEntity>
+ * @extends ServiceEntityRepository<IAudit>
  */
 abstract class BaseRepository extends ServiceEntityRepository
 {
@@ -20,7 +20,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         parent::__construct($registry, $className);
     }
 
-    public function save(IEntity|UserInterface $entity, bool $flush = true): void
+    public function save(IAudit|UserInterface $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -29,7 +29,7 @@ abstract class BaseRepository extends ServiceEntityRepository
         }
     }
 
-    public function deleteNow(IEntity $entity, bool $flush = true): void
+    public function deleteNow(IAudit $entity, bool $flush = true): void
     {
         $entity->setDeletedAt(new DateTime());
         $this->getEntityManager()->persist($entity);
@@ -39,14 +39,14 @@ abstract class BaseRepository extends ServiceEntityRepository
         }
     }
 
-    public function reactivate(IEntity $entity): void
+    public function reactivate(IAudit $entity): void
     {
         $entity->setDeletedAt(null);
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
 
-    public function find(mixed $id, mixed $lockMode = null, $lockVersion = null): ?IEntity
+    public function find(mixed $id, mixed $lockMode = null, $lockVersion = null): ?IAudit
     {
         $qb = $this->newCriteriaActiveQb();
 
@@ -58,7 +58,7 @@ abstract class BaseRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?IEntity
+    public function findOneBy(array $criteria, array $orderBy = null): ?IAudit
     {
         $qb = $this->newCriteriaActiveQb();
 
@@ -149,62 +149,38 @@ abstract class BaseRepository extends ServiceEntityRepository
         //START TIMESTAMPS
         if ($abstractFormFilter->getCreatedAtStart()){
             $qb
-                ->andWhere($qb->expr()->orX(
-                    $qb->expr()->isNull('entity.createdAt'),
-                    $qb->expr()->gte('entity.createdAt', ':createdAtStart')
-                ))
-                ->setParameter('createdAtStart', DateTime::createFromFormat('Y-m-d H:i:s',
-                        $abstractFormFilter->getCreatedAtStart()));
+                ->andWhere($qb->expr()->gte('entity.createdAt', ':createdAtStart'))
+                ->setParameter('createdAtStart', $abstractFormFilter->getCreatedAtStart());
         }
 
         if ($abstractFormFilter->getCreatedAtEnd()){
             $qb
-                ->andWhere($qb->expr()->orX(
-                    $qb->expr()->isNull('entity.createdAt'),
-                    $qb->expr()->lte('entity.createdAt', ':createdAtEnd')
-                ))
-                ->setParameter('createdAtEnd', DateTime::createFromFormat('Y-m-d H:i:s',
-                        $abstractFormFilter->getCreatedAtEnd()));
+                ->andWhere($qb->expr()->lte('entity.createdAt', ':createdAtEnd'))
+                ->setParameter('createdAtEnd', $abstractFormFilter->getCreatedAtEnd());
         }
 
         if ($abstractFormFilter->getUpdatedAtStart()){
             $qb
-                ->andWhere($qb->expr()->orX(
-                    $qb->expr()->isNull('entity.updatedAt'),
-                    $qb->expr()->gte('entity.updatedAt', ':updatedAtStart')
-                ))
-                ->setParameter('updatedAtStart', DateTime::createFromFormat('Y-m-d H:i:s',
-                    $abstractFormFilter->getUpdatedAtStart()));
+                ->andWhere($qb->expr()->gte('entity.updatedAt', ':updatedAtStart'))
+                ->setParameter('updatedAtStart', $abstractFormFilter->getUpdatedAtStart());
         }
 
         if ($abstractFormFilter->getUpdatedAtEnd()){
             $qb
-                ->andWhere($qb->expr()->orX(
-                    $qb->expr()->isNull('entity.updatedAt'),
-                    $qb->expr()->lte('entity.updatedAt', ':updatedAtEnd')
-                ))
-                ->setParameter('updatedAtEnd', DateTime::createFromFormat('Y-m-d H:i:s',
-                    $abstractFormFilter->getUpdatedAtEnd()));
+                ->andWhere($qb->expr()->lte('entity.updatedAt', ':updatedAtEnd'))
+                ->setParameter('updatedAtEnd', $abstractFormFilter->getUpdatedAtEnd());
         }
 
         if ($abstractFormFilter->getDeletedAtStart()){
             $qb
-                ->andWhere($qb->expr()->orX(
-                    $qb->expr()->isNull('entity.deletedAt'),
-                    $qb->expr()->gte('entity.deletedAt', ':deletedAtStart')
-                ))
-                ->setParameter('deletedAtStart', DateTime::createFromFormat('Y-m-d H:i:s',
-                    $abstractFormFilter->getDeletedAtStart()));
+                ->andWhere($qb->expr()->gte('entity.deletedAt', ':deletedAtStart'))
+                ->setParameter('deletedAtStart', $abstractFormFilter->getDeletedAtStart());
         }
 
         if ($abstractFormFilter->getDeletedAtEnd()){
             $qb
-                ->andWhere($qb->expr()->orX(
-                    $qb->expr()->isNull('entity.deletedAt'),
-                    $qb->expr()->lte('entity.deletedAt', ':deletedAtEnd')
-                ))
-                ->setParameter('deletedAtEnd', DateTime::createFromFormat('Y-m-d H:i:s',
-                    $abstractFormFilter->getDeletedAtEnd()));
+                ->andWhere($qb->expr()->lte('entity.deletedAt', ':deletedAtEnd'))
+                ->setParameter('deletedAtEnd', $abstractFormFilter->getDeletedAtEnd());
         }
         //END TIMESTAMPS
 
