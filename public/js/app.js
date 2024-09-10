@@ -10,10 +10,16 @@ function initSidebarStatusActive(){
     const links = $('#sidebar').find('li > a')
 
     for(const link of links){
-        //If the current link is the same as the current path
+        //If the menu link is the same as the current path
         if (window.location.pathname === $(link).attr('href')){
-            //TODO: BUSCAR O PAI <LI> QUE DEVE RECEBER A CLASSE "active" (Submenu não pode recebê-la)
-            $(link).parent().addClass('active');
+            const is_submenu = $(link).parent().parent().parent().parent().hasClass('nav-item')
+            if (is_submenu){
+                $(link).addClass('text-success');
+                $(link).parent().parent().parent().parent().addClass('active');
+                document.querySelector('li.nav-item.active a[data-bs-toggle="collapse"]').click()
+            } else {
+                $(link).parent().addClass('active');
+            }
         }
     }
 }
@@ -30,12 +36,15 @@ function dropdownMenuOverflow() {
 }
 
 function initFlatpickr(){
-    flatpickr(".flatpickr", {
-        enableTime: true,
-        dateFormat: "d/m/Y H:i",
+    const defaultConfig = {
+        enableTime: false,
+        dateFormat: "d/m/Y",
         locale: "pt",
         allowInput: true,
-    });
+    }
+
+    flatpickr(".flatpickr", {...defaultConfig, enableTime: true, dateFormat: "d/m/Y H:i"});
+    flatpickr(".flatpickr_no_time", defaultConfig);
 }
 
 function initAuditExtraFiltersManager(){

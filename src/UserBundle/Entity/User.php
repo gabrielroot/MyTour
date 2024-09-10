@@ -3,7 +3,7 @@
 namespace MyTour\UserBundle\Entity;
 
 use DateTime;
-use MyTour\CoreBundle\Interface\IEntity;
+use MyTour\CoreBundle\Interface\IAudit;
 use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 use MyTour\CoreBundle\Utils\Trait\AuditTrait;
 use MyTour\UserBundle\Repository\UserRepository;
@@ -14,8 +14,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap([
+    'ORGANIZER' => Organizer::class,
+    'TRAVELER' => Traveler::class,
+    'USER' => self::class
+])]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, IEntity
+class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
 {
     use AuditTrait;
 

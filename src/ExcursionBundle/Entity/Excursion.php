@@ -9,11 +9,9 @@ class Excursion
     private int $capacity;
     private \DateTime $dateStart;
     private \DateTime $dateEnd;
-    private bool $available;
     private float $price;
 
     public function __construct() {
-        $this->available = true;
         $this->dateStart = new \DateTime();
         $this->dateEnd = new \DateTime();
     }
@@ -70,17 +68,6 @@ class Excursion
     public function setDateEnd(\DateTime $dateEnd): Excursion
     {
         $this->dateEnd = $dateEnd;
-        return $this;
-    }
-
-    public function isAvailable(): bool
-    {
-        return $this->available;
-    }
-
-    public function setAvailable(bool $available): Excursion
-    {
-        $this->available = $available;
         return $this;
     }
 

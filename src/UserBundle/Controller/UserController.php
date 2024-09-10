@@ -42,6 +42,13 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/create', name: 'create')]
+    public function create(Request $request, UserService $userService): Response
+    {
+        $this->addErrorMessage('Testando as FLASHES!!');
+        return $this->render('@UserBundle/User/create.html.twig', []);
+    }
+
     #[Route(path: '/logout', name: 'logout')]
     public function logout(): void
     {
