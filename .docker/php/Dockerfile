@@ -33,4 +33,18 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Add user for laravel application
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+# Copy existing application directory permissions
+COPY --chown=www:www . /var/www/symfony
+
+RUN chown www:www-data -R /var/www/symfony
+RUN chmod 755 -R /var/www/symfony
+RUN chmod g+s -R  /var/www/symfony
+
+# Change current user to www
+USER www
+
 WORKDIR /var/www/symfony
