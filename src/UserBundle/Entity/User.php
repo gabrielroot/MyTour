@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    private string $password;
+    private ?string $password;
 
     #[ORM\Column(type: 'datetime', )]
     protected ?DateTime $birthday = null;
@@ -118,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -126,7 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
     /**
      * @return string the hashed password for this user
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 

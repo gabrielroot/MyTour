@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace MyTour\UserBundle\Controller;
 
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use MyTour\CoreBundle\Controller\AbstractController;
 use MyTour\CoreBundle\Services\UserService;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
+use MyTour\UserBundle\Entity\User;
 use MyTour\UserBundle\Form\Filter\UserFilterType;
+use MyTour\UserBundle\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -45,8 +48,69 @@ class UserController extends AbstractController
     #[Route('/create', name: 'create')]
     public function create(Request $request, UserService $userService): Response
     {
-        $this->addErrorMessage('Testando as FLASHES!!');
-        return $this->render('@UserBundle/User/create.html.twig', []);
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $userService->createUser($user);
+                $this->addSuccessMessage("\"{$user->getName()}\", agora faz parte do sistema!");
+                return $this->redirectToRoute('user_index');
+            } catch (Exception $exception) {
+                $this->addErrorMessage($exception->getMessage());
+            }
+        }
+
+        return $this->render('@UserBundle/User/create.html.twig', ['form' => $form->createView()]);
+    }
+
+    #[Route('/update/{user}', name: 'update')]
+    public function update(Request $request, UserService $userService, User $user): Response
+    {
+        $userBefore = clone $user;
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $userService->updateUser($user, $userBefore);
+                $this->addSuccessMessage("\"{$user->getName()}\", foi editada com sucesso!");
+                return $this->redirectToRoute('user_index');
+            } catch (Exception $exception) {
+                $this->addErrorMessage($exception->getMessage());
+            }
+        }
+
+        return $this->render('@UserBundle/User/update.html.twig', ['form' => $form->createView()]);
+    }
+
+    #[Route('/delete/{user}', name: 'delete')]
+    public function delete(UserService $userService, User $user): Response
+    {
+        try {
+            $userService->deleteUser($user);
+            $this->addSuccessMessage("O usuário foi removido do sistema!");
+            return $this->redirectToRoute('user_index');
+        } catch (Exception $exception) {
+            $this->addErrorMessage($exception->getMessage());
+        }
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    #[Route('/reactivate/{user_id}', name: 'reactivate')]
+    public function reactivate(UserService $userService, int $user_id): Response
+    {
+        try {
+            $userService->reactivateUser($user_id);
+            $this->addSuccessMessage("O usuário foi reativado!");
+            return $this->redirectToRoute('user_index');
+        } catch (Exception $exception) {
+            $this->addErrorMessage($exception->getMessage());
+        }
+
+        return $this->redirectToRoute('user_index');
     }
 
     #[Route(path: '/logout', name: 'logout')]

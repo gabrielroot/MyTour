@@ -39,16 +39,19 @@ abstract class BaseRepository extends ServiceEntityRepository
         }
     }
 
-    public function reactivate(IAudit $entity): void
+    public function reactivate(IAudit $entity, bool $flush = true): void
     {
         $entity->setDeletedAt(null);
         $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
-    public function find(mixed $id, mixed $lockMode = null, $lockVersion = null): ?IAudit
+    public function find(mixed $id, mixed $lockMode = null, $lockVersion = null, bool $onlyActive = true): ?IAudit
     {
-        $qb = $this->newCriteriaActiveQb();
+        $qb = $this->newCriteriaActiveQb(onlyActive: $onlyActive);
 
         return $qb
             ->andWhere($qb->expr()->eq('entity.id', ':id'))
@@ -58,9 +61,9 @@ abstract class BaseRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?IAudit
+    public function findOneBy(array $criteria, array $orderBy = null, bool $onlyActive = true): ?IAudit
     {
-        $qb = $this->newCriteriaActiveQb();
+        $qb = $this->newCriteriaActiveQb(onlyActive: $onlyActive);
 
         $this->addCriteriaAndOrder($qb, $criteria, $orderBy ?? []);
 
@@ -70,9 +73,14 @@ abstract class BaseRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findBy(array $criteria, array $orderBy = null, ?int $limit = null, ?int $offset = 0): array
+    public function findBy(
+        array $criteria,
+        array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = 0,
+        bool $onlyActive = true): array
     {
-        $qb = $this->newCriteriaActiveQb();
+        $qb = $this->newCriteriaActiveQb(onlyActive: $onlyActive);
 
         $this->addCriteriaAndOrder($qb, $criteria, $orderBy ?? []);
 
@@ -91,10 +99,15 @@ abstract class BaseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function newCriteriaActiveQb(): QueryBuilder
+    public function newCriteriaActiveQb(bool $onlyActive = true): QueryBuilder
     {
         $qb = $this->createQueryBuilder('entity');
-        return $qb->where($qb->expr()->isNull('entity.deletedAt'));
+
+        if ($onlyActive) {
+            $qb->where($qb->expr()->isNull('entity.deletedAt'));
+        }
+
+        return $qb;
     }
 
     private function addCriteriaAndOrder(QueryBuilder $qb, array $criteria, array $orderBy): void

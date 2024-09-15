@@ -10,7 +10,7 @@ class StringToDateTimeTransformer implements DataTransformerInterface
 {
     public function transform($value): ?string
     {
-        return $value;
+        return DateTimeUtils::getFormatedDateTime($value);
     }
 
     public function reverseTransform($value): ?DateTime

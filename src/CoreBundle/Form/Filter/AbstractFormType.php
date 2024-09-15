@@ -39,9 +39,11 @@ class AbstractFormType extends AbstractType
             ->add('createdBy', EntityType::class, [
                 'class' => User::class,
                 'choice_value' => 'id',
-                'choice_label' => 'username',
+                'choice_label' => 'name',
                 'query_builder' => function (UserRepository $repository) {
-                    return $repository->newCriteriaActiveQb();
+                    return $repository
+                        ->newCriteriaActiveQb()
+                        ->orderBy('entity.name');
                 },
                 'label' => 'Criado por',
                 'label_attr' => ['class' => 'mt-1'],
@@ -52,9 +54,11 @@ class AbstractFormType extends AbstractType
             ->add('updatedBy', EntityType::class, [
                 'class' => User::class,
                 'choice_value' => 'id',
-                'choice_label' => 'username',
+                'choice_label' => 'name',
                 'query_builder' => function (UserRepository $repository) {
-                    return $repository->newCriteriaActiveQb();
+                    return $repository
+                        ->newCriteriaActiveQb()
+                        ->orderBy('entity.name');
                 },
                 'label' => 'Atualizado por',
                 'label_attr' => ['class' => 'mt-1'],
@@ -65,9 +69,11 @@ class AbstractFormType extends AbstractType
             ->add('deletedBy', EntityType::class, [
                 'class' => User::class,
                 'choice_value' => 'id',
-                'choice_label' => 'username',
+                'choice_label' => 'name',
                 'query_builder' => function (UserRepository $repository) {
-                    return $repository->newCriteriaActiveQb();
+                    return $repository
+                        ->newCriteriaActiveQb()
+                        ->orderBy('entity.name');
                 },
                 'label' => 'Deletado por',
                 'label_attr' => ['class' => 'mt-1'],

@@ -1,0 +1,35 @@
+{% extends '@CoreBundle/base_template/__base_template.html.twig' %}
+
+{% set page_title = 'Novo usuário' %}
+
+{% block body %}
+    <!-- partial -->
+    {{ include('@CoreBundle/components/title_breadcrumb.html.twig', {
+            'title': page_title,
+            'links': [
+                {'path': path('user_index'), 'name': 'Usuários'},
+            ],
+            'current_name': 'Criar'
+        })
+    }}
+
+    <div class=" grid-margin stretch-cards">
+        {{ include('@CoreBundle/components/flashMessages.html.twig') }}
+        {{ include ('@CoreBundle/components/global_errors_form.html.twig', {form: form}) }}
+        {{ form_start(form) }}
+            <div class="card mb-3 border rounded" style="min-height: 60vh">
+                <div class="card-body p-3">
+                    <div class="card-body p-3">
+                        {{ include('@UserBundle/User/_form.html.twig', {'form': form}) }}
+                    </div>
+                </div>
+                <div class="card-footer ps-4">
+                    <a href="{{ path('user_index') }}" class="btn btn-secondary btn-fw me-2">Voltar</a>
+                    <button class="btn btn-primary btn-fw">Salvar</button>
+                </div>
+                {{ form_widget(form._token) }}
+            </div>
+        {{ form_end(form, {'render_rest': false}) }}
+    </div>
+    <!-- main-panel ends -->
+{% endblock %}
