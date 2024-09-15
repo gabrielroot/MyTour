@@ -2,8 +2,8 @@ $(function(){
     initSidebarStatusActive()
     dropdownMenuOverflow()
     initAuditExtraFiltersManager()
+    initSelect2()
     initFlatpickr()
-
 })
 
 function initSidebarStatusActive(){
@@ -72,4 +72,8 @@ function initAuditExtraFiltersManager(){
     btn_extra_filters.click(function(){
         audit_extra_filters_box.slideToggle(200)
     })
+}
+
+function initSelect2(){
+    $('.select2').select2({})
 }
