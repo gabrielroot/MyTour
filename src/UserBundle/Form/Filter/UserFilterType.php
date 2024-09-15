@@ -2,6 +2,7 @@
 
 namespace MyTour\UserBundle\Form\Filter;
 
+use MyTour\CoreBundle\Form\Custom\DateTimePickerType;
 use MyTour\CoreBundle\Form\Filter\AbstractFormType;
 use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
@@ -26,11 +27,11 @@ class UserFilterType extends AbstractType
                 'attr' => [ 'placeholder' => 'Informe o nome de usuário'],
                 'required' => false
             ])
-            ->add('birthday', TextType::class, [
+            ->add('birthday', DateTimePickerType::class, [
                 'label' => 'Data de nascimento:',
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr_no_time flatpickr-input',
+                    'class' => 'flatpickr flatpickr-input',
                     'placeholder' => 'Nasceu em...',
                     'autocomplete' => 'off'],
                 'required' => false

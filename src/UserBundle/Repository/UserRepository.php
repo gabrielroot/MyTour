@@ -45,8 +45,8 @@ class UserRepository extends BaseRepository
 
         if ($userFormFilter->getBirthday()){
             $qb
-                ->andWhere($qb->expr()->eq('entity.birthday', ':birthday'))
-                ->setParameter('birthday', $userFormFilter->getBirthday());
+                ->andWhere($qb->expr()->eq('DATE(entity.birthday)', ':birthday'))
+                ->setParameter('birthday', $userFormFilter->getBirthday()->format('Y-m-d'));
         }
 
         if ($userFormFilter->getRole()){

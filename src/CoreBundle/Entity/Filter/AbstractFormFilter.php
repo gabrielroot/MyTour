@@ -65,69 +65,69 @@ abstract class AbstractFormFilter
         return $this;
     }
 
-    public function getCreatedAtStart(): ?string
+    public function getCreatedAtStart(): ?DateTime
     {
-        return $this->getFormatedDateTime($this->createdAtStart);
+        return $this->createdAtStart;
     }
 
-    public function setCreatedAtStart(mixed $createdAtStart): AbstractFormFilter
+    public function setCreatedAtStart(?DateTime $createdAtStart): AbstractFormFilter
     {
-        $this->createdAtStart = $this->getDateTimeFromMixed($createdAtStart);
+        $this->createdAtStart = $createdAtStart;
         return $this;
     }
 
-    public function getCreatedAtEnd(): ?string
+    public function getCreatedAtEnd(): ?DateTime
     {
-        return $this->getFormatedDateTime($this->createdAtEnd);
+        return $this->createdAtEnd;
     }
 
-    public function setCreatedAtEnd(mixed $createdAtEnd): AbstractFormFilter
+    public function setCreatedAtEnd(?DateTime $createdAtEnd): AbstractFormFilter
     {
-        $this->createdAtEnd = $this->getDateTimeFromMixed($createdAtEnd);
+        $this->createdAtEnd = $createdAtEnd;
         return $this;
     }
 
-    public function getUpdatedAtStart(): ?string
+    public function getUpdatedAtStart(): ?DateTime
     {
-        return $this->getFormatedDateTime($this->updatedAtStart);
+        return $this->updatedAtStart;
     }
 
-    public function setUpdatedAtStart(mixed $updatedAtStart): AbstractFormFilter
+    public function setUpdatedAtStart(?DateTime $updatedAtStart): AbstractFormFilter
     {
-        $this->updatedAtStart = $this->getDateTimeFromMixed($updatedAtStart);
+        $this->updatedAtStart = $updatedAtStart;
         return $this;
     }
 
-    public function getUpdatedAtEnd(): ?string
+    public function getUpdatedAtEnd(): ?DateTime
     {
-        return $this->getFormatedDateTime($this->updatedAtEnd);
+        return $this->updatedAtEnd;
     }
 
-    public function setUpdatedAtEnd(mixed $updatedAtEnd): AbstractFormFilter
+    public function setUpdatedAtEnd(?DateTime $updatedAtEnd): AbstractFormFilter
     {
-        $this->updatedAtEnd = $this->getDateTimeFromMixed($updatedAtEnd);
+        $this->updatedAtEnd = $updatedAtEnd;
         return $this;
     }
 
-    public function getDeletedAtStart(): ?string
+    public function getDeletedAtStart(): ?DateTime
     {
-        return $this->getFormatedDateTime($this->deletedAtStart);
+        return $this->deletedAtStart;
     }
 
-    public function setDeletedAtStart(mixed $deletedAtStart): AbstractFormFilter
+    public function setDeletedAtStart(?DateTime $deletedAtStart): AbstractFormFilter
     {
-        $this->deletedAtStart = $this->getDateTimeFromMixed($deletedAtStart);
+        $this->deletedAtStart = $deletedAtStart;
         return $this;
     }
 
-    public function getDeletedAtEnd(): ?string
+    public function getDeletedAtEnd(): ?DateTime
     {
-        return $this->getFormatedDateTime($this->deletedAtEnd);
+        return $this->deletedAtEnd;
     }
 
-    public function setDeletedAtEnd(mixed $deletedAtEnd): AbstractFormFilter
+    public function setDeletedAtEnd(?DateTime $deletedAtEnd): AbstractFormFilter
     {
-        $this->deletedAtEnd = $this->getDateTimeFromMixed($deletedAtEnd);
+        $this->deletedAtEnd = $deletedAtEnd;
         return $this;
     }
 
@@ -153,25 +153,4 @@ abstract class AbstractFormFilter
         return $this;
     }
 
-    /**
-     * @param DateTime|null $dateTime
-     * @return string|null
-     */
-    public function getFormatedDateTime(?Datetime $dateTime, bool $justDate = false): ?string
-    {
-        return $dateTime?->format('Y-m-d' . ($justDate ? '' : ' H:i:s'));
-    }
-
-    public function getDateTimeFromMixed(mixed $dateTime): ?DateTime
-    {
-        if ($dateTime instanceof DateTime) {
-            return $dateTime;
-        }
-
-        if (is_string($dateTime)) {
-            return DateTime::createFromFormat((strlen($dateTime) === 10) ? 'd/m/Y' : 'd/m/Y H:i', $dateTime);
-        }
-
-        return null;
-    }
 }

@@ -3,6 +3,7 @@
 namespace MyTour\CoreBundle\Form\Filter;
 
 use MyTour\CoreBundle\Entity\Filter\AbstractFormFilter;
+use MyTour\CoreBundle\Form\Custom\DateTimePickerType;
 use MyTour\UserBundle\Entity\User;
 use MyTour\UserBundle\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -44,7 +45,7 @@ class AbstractFormType extends AbstractType
                 },
                 'label' => 'Criado por',
                 'label_attr' => ['class' => 'mt-1'],
-                'attr' => ['class' => 'form-select form-control-sm'],
+                'attr' => ['class' => 'form-select select2'],
                 'placeholder' => 'Escolha um usuário',
                 'required' => false
             ])
@@ -57,7 +58,7 @@ class AbstractFormType extends AbstractType
                 },
                 'label' => 'Atualizado por',
                 'label_attr' => ['class' => 'mt-1'],
-                'attr' => ['class' => 'form-select form-control-sm'],
+                'attr' => ['class' => 'form-select select2'],
                 'placeholder' => 'Escolha um usuário',
                 'required' => false
             ])
@@ -70,62 +71,62 @@ class AbstractFormType extends AbstractType
                 },
                 'label' => 'Deletado por',
                 'label_attr' => ['class' => 'mt-1'],
-                'attr' => ['class' => 'form-select form-control-sm'],
+                'attr' => ['class' => 'form-select form-control-sm select2'],
                 'placeholder' => 'Escolha um usuário',
                 'required' => false
             ])
             //END_users
             //START_TIMESTAMPS
-            ->add('createdAtStart', TextType::class, [
+            ->add('createdAtStart', DateTimePickerType::class, [
                 'label' => 'Criado de',
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input',
+                    'class' => 'flatpickr_timed flatpickr-input',
                     'placeholder' => 'Criado a partir de...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
-            ->add('createdAtEnd', TextType::class, [
+            ->add('createdAtEnd', DateTimePickerType::class, [
                 'label' => 'Criado até',
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input',
+                    'class' => 'flatpickr_timed flatpickr-input',
                     'placeholder' => 'Criado até...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
-            ->add('updatedAtStart', TextType::class, [
+            ->add('updatedAtStart', DateTimePickerType::class, [
                 'label' => 'Atualizado de',
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input',
+                    'class' => 'flatpickr_timed flatpickr-input',
                     'placeholder' => 'Atualizado a partir de...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
-            ->add('updatedAtEnd', TextType::class, [
+            ->add('updatedAtEnd', DateTimePickerType::class, [
                 'label' => 'Atualizado até',
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input',
+                    'class' => 'flatpickr_timed flatpickr-input',
                     'placeholder' => 'Atualizado até...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
-            ->add('deletedAtStart', TextType::class, [
+            ->add('deletedAtStart', DateTimePickerType::class, [
                 'label' => 'Deletado de',
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input',
+                    'class' => 'flatpickr_timed flatpickr-input',
                     'placeholder' => 'Atualizado a partir de...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])
-            ->add('deletedAtEnd', TextType::class, [
+            ->add('deletedAtEnd', DateTimePickerType::class, [
                 'label' => 'Deletado até',
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input',
+                    'class' => 'flatpickr_timed flatpickr-input',
                     'placeholder' => 'Atualizado até...',
                     'autocomplete' => 'off'],
                 'required' => false

@@ -43,8 +43,8 @@ function initFlatpickr(){
         allowInput: true,
     }
 
-    flatpickr(".flatpickr", {...defaultConfig, enableTime: true, dateFormat: "d/m/Y H:i"});
-    flatpickr(".flatpickr_no_time", defaultConfig);
+    flatpickr(".flatpickr_timed", {...defaultConfig, enableTime: true, dateFormat: "d/m/Y H:i"});
+    flatpickr(".flatpickr", defaultConfig);
 }
 
 function initAuditExtraFiltersManager(){

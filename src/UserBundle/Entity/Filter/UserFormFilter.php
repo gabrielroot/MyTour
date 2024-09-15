@@ -4,7 +4,6 @@ namespace MyTour\UserBundle\Entity\Filter;
 
 use DateTime;
 use MyTour\CoreBundle\Entity\Filter\AbstractFormFilter;
-use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 
 class UserFormFilter extends AbstractFormFilter
 {
@@ -49,14 +48,14 @@ class UserFormFilter extends AbstractFormFilter
         return $this;
     }
 
-    public function getBirthday(): ?string
+    public function getBirthday(): ?DateTime
     {
-        return $this->getFormatedDateTime($this->birthday, true);
+        return $this->birthday;
     }
 
-    public function setBirthday(mixed $birthday): UserFormFilter
+    public function setBirthday(?DateTime $birthday): UserFormFilter
     {
-        $this->birthday = $this->getDateTimeFromMixed($birthday);
+        $this->birthday = $birthday;
         return $this;
     }
 }

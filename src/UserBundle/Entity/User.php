@@ -169,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
         return $this->birthday;
     }
 
-    public function setBirthday(?DateTime $birthday): User
+    public function setBirthday(DateTime $birthday): User
     {
         $this->birthday = $birthday;
         return $this;
