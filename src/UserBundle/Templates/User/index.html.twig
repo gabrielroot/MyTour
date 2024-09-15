@@ -4,18 +4,17 @@
 
 {% block body %}
     <!-- partial -->
-        <div class="page-header container-fluid">
-          <h3 class="page-title">{{ page_title }}</h3>
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="{{ path(app.request.attributes.get('_route')) }}">Usuários</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Listagem</li>
-            </ol>
-          </nav>
-        </div>
-          <div class=" grid-margin stretch-cards">
+        {{ include('@CoreBundle/components/title_breadcrumb.html.twig', {
+                'title': page_title,
+                'links': [
+                    {'path': path('user_index'), 'name': 'Usuários'},
+                ],
+                'current_name': 'Listagem'
+            })
+        }}
+        <div class=" grid-margin stretch-cards">
             <div class="card mb-3 border rounded-top">
-                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}, 'method': 'get'}) }}
+                {{ form_start(form, {'attr': {}, 'method': 'get'}) }}
                   <div class="card-header d-flex justify-content-between p-2 mb-2">
                       <div class="d-flex align-items-center">
 
