@@ -21,7 +21,7 @@ class AbstractFormType extends AbstractType
         $builder
             //START_STATUS
             ->add('active', ChoiceType::class, [
-                'choices' => ['Deletado' => 0, 'Ativo' => 1],
+                'choices' => ['Deletados' => 0, 'Ativos' => 1],
                 'placeholder' => 'Todos',
                 'label' => false,
                 'attr' => ['onChange' => 'this.form.submit()'],

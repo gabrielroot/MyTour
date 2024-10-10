@@ -26,7 +26,8 @@ class UserService
      * @param UserFormFilter $userFormFilter
      * @return mixed
      */
-    public function findByFilter(UserFormFilter $userFormFilter){
+    public function findByFilter(UserFormFilter $userFormFilter): mixed
+    {
 
         return $this->userRepository->findByFilter($userFormFilter);
     }

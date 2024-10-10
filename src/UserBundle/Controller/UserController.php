@@ -55,7 +55,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $userService->createUser($user);
-                $this->addSuccessMessage("\"{$user->getName()}\", agora faz parte do sistema!");
+                $this->addSuccessMessage("O usuário \"{$user->getName()}\", agora faz parte do sistema!");
                 return $this->redirectToRoute('user_index');
             } catch (Exception $exception) {
                 $this->addErrorMessage($exception->getMessage());
@@ -75,7 +75,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $userService->updateUser($user, $userBefore);
-                $this->addSuccessMessage("\"{$user->getName()}\", foi editada com sucesso!");
+                $this->addSuccessMessage("O usuário \"{$user->getName()}\", foi editado com sucesso!");
                 return $this->redirectToRoute('user_index');
             } catch (Exception $exception) {
                 $this->addErrorMessage($exception->getMessage());
