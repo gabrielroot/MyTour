@@ -29,10 +29,6 @@ class UserController extends AbstractController
         $form = $this->createForm(UserFilterType::class, $userFilter, ['method' => 'GET']);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-//            $this->addSuccessMessage('Testando as FLASHES!!');
-        }
-
         $pagination = $paginator->paginate(
             $userService->findByFilter($userFilter),
             $request->query->getInt('page', 1),
@@ -86,31 +82,29 @@ class UserController extends AbstractController
     }
 
     #[Route('/delete/{user}', name: 'delete')]
-    public function delete(UserService $userService, User $user): Response
+    public function delete(UserService $userService, User $user, Request $request): Response
     {
         try {
             $userService->deleteUser($user);
             $this->addSuccessMessage("O usuário foi removido do sistema!");
-            return $this->redirectToRoute('user_index');
         } catch (Exception $exception) {
             $this->addErrorMessage($exception->getMessage());
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToReferer($request, $this->generateUrl('user_index'));
     }
 
     #[Route('/reactivate/{user_id}', name: 'reactivate')]
-    public function reactivate(UserService $userService, int $user_id): Response
+    public function reactivate(UserService $userService, int $user_id, Request $request): Response
     {
         try {
             $userService->reactivateUser($user_id);
             $this->addSuccessMessage("O usuário foi reativado!");
-            return $this->redirectToRoute('user_index');
         } catch (Exception $exception) {
             $this->addErrorMessage($exception->getMessage());
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToReferer($request, $this->generateUrl('user_index'));
     }
 
     #[Route(path: '/logout', name: 'logout')]

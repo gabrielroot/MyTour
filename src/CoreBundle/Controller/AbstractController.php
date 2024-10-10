@@ -3,11 +3,23 @@
 namespace MyTour\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractController extends BaseController
 {
     public function __construct()
     {
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function redirectToReferer(Request $request, string $fallbackUrl): RedirectResponse
+    {
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer ?: $fallbackUrl);
     }
 
     /**
