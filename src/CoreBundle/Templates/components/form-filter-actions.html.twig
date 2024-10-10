@@ -1,20 +1,28 @@
 <div class="d-flex justify-content-end mt-2 container-fluid">
-    <div class="me-2">
+    <span
+        class="me-2"
+        data-bs-toggle="tooltip"
+        data-bs-title="Status ds registros"
+    >
         {{ form_row(form.active, {'attr': {'style': 'min-width: 100px'}}) }}
-    </div>
+    </span>
     <button
-            id="btn-extra-filters"
-            type="button"
-            class="btn btn-inverse-secondary me-2 mb-1 d-flex justify-content-around align-content-center"
-            style="min-width: 100px; height: 40px"
+        id="btn-extra-filters"
+        type="button"
+        class="btn btn-inverse-secondary me-2 mb-1 d-flex justify-content-around align-content-center"
+        style="min-width: 100px; height: 40px"
+        data-bs-toggle="tooltip"
+        data-bs-title="Filtros de auditoria"
     >
         <span class="m-0 align-self-center">Audit</span>
         <i class="mdi mdi-plus fs-6 align-self-center"></i>
     </button>
     <a
-            href="{{ path(app.request.attributes.get('_route')) }}"
-            class="btn btn-inverse-info me-2 mb-1 d-flex justify-content-around align-content-center"
-            style="min-width: 100px; height: 40px"
+        href="{{ path(app.request.attributes.get('_route')) }}"
+        class="btn btn-inverse-info me-2 mb-1 d-flex justify-content-around align-content-center"
+        style="min-width: 100px; height: 40px"
+        data-bs-toggle="tooltip"
+        data-bs-title="Reiniciar filtros"
     >
         <p class="m-0 align-self-center">Reiniciar</p>
         <i class="mdi mdi-reload fs-6 align-self-center"></i>

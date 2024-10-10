@@ -4,6 +4,7 @@ $(function(){
     initAuditExtraFiltersManager()
     initSelect2()
     initFlatpickr()
+    initTooltips()
 })
 
 function initSidebarStatusActive(){
@@ -76,4 +77,9 @@ function initAuditExtraFiltersManager(){
 
 function initSelect2(){
     $('.select2').select2({})
+}
+
+function initTooltips(){
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 }
