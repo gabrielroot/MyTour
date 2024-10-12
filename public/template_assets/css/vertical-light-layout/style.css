@@ -28598,7 +28598,7 @@ select.tt-hint {
   outline: 1px solid rgba(151, 151, 151, 0.3);
   color: #181824;
   appearance: none;
-  background: url("../../../assets/images/arrow-down.svg");
+  background: url("../../images/arrow-down.svg");
   background-repeat: no-repeat;
   background-position: 99% center;
 }
@@ -28724,7 +28724,7 @@ select.form-select {
   outline: 1px solid rgba(151, 151, 151, 0.3);
   color: #181824;
   appearance: none;
-  background: url("../../../assets/images/arrow-down.svg");
+  background: url("../../images/arrow-down.svg");
   background-repeat: no-repeat;
   background-position: 99% center;
 }
