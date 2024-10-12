@@ -32,7 +32,7 @@ return [
     ],
     '@fortawesome/fontawesome-free/css/all.min.css' => [
         'version' => '6.6.0',
-        'type' => 'css'
+        'type' => 'css',
     ],
     '@fortawesome/fontawesome-free/js/all.min.js' => [
         'version' => '6.6.0',
@@ -43,5 +43,8 @@ return [
     '@fortawesome/fontawesome-free/css/fontawesome.min.css' => [
         'version' => '6.6.0',
         'type' => 'css',
+    ],
+    'sweetalert2' => [
+        'version' => '11.14.2',
     ],
 ];

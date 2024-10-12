@@ -4,10 +4,19 @@
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
  */
+"use strict";
+
 import './styles/app.css';
+
+import 'flatpickr/dist/flatpickr.min.css';
+
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import '@fortawesome/fontawesome-free/js/all.min.js';
 
 import flatpickr from "flatpickr"
 import { Portuguese } from 'flatpickr/dist/l10n/pt.js';
+
+import Swal from 'sweetalert2';
 
 $(function(){
     initSidebarStatusActive()
@@ -16,6 +25,7 @@ $(function(){
     initSelect2()
     initFlatpickr()
     initTooltips()
+    initConfirmAction()
 })
 
 function initSidebarStatusActive(){
@@ -93,4 +103,57 @@ function initSelect2(){
 function initTooltips(){
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+}
+
+function initConfirmAction(){
+    $('.confirm-action').click(function(e){
+        e.preventDefault();
+
+        const data_title = $(this).data('title');
+        const data_message = $(this).data('message');
+        const data_url = $(this).data('url');
+
+        Swal.fire({
+            title: data_title||"Tem certeza?",
+            text: data_message||"Talvez você não consiga reverter isso.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, tenho certeza!",
+            cancelButtonText: "Não, cancelar.",
+            reverseButtons: true,
+            preConfirm: async () => {
+                try {
+                    const response = await fetch(data_url);
+
+                    if (!response.ok) {
+                        return Swal.showValidationMessage(response.statusText);
+                    }
+                } catch (error) {
+                    console.error(error)
+                    Swal.showValidationMessage(`Ocorreu um erro durante a solicitação.`);
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Sucesso!",
+                    text: "Operação realizado com sucesso.",
+                    icon: "success",
+                    willClose: () => {
+                        window.location.reload();
+                    }
+                });
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire({
+                    title: "Falha",
+                    text: "Ocorreu um erro durante sua solicitação.",
+                    icon: "error"
+                });
+            }
+        });
+    })
 }

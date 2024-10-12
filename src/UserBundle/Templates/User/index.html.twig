@@ -131,8 +131,11 @@
 
                                       {% if entity.isActive() %}
                                           <a
-                                              class="dropdown-item text-danger"
-                                              href="{{path('user_delete', {'user': entity.id})}}"
+                                              class="dropdown-item text-danger confirm-action"
+                                              data-title="Deletar?"
+                                              data-message="Deseja realmente deletar esse usuário?"
+                                              data-url="{{path('user_delete', {'user': entity.id})}}"
+                                              href="#"
                                           >
                                               Deletar
                                           </a>
