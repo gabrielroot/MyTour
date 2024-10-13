@@ -1,6 +1,6 @@
 <?php
 
-namespace MyTour\UserBundle\Repository;
+namespace MyTour\CoreBundle\Repository;
 
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -121,6 +121,16 @@ abstract class BaseRepository extends ServiceEntityRepository
         foreach ($orderBy as $column => $value) {
             $qb->addOrderBy("entity.$column", $value);
         }
+    }
+
+    public function getOneRandom(bool $onlyActives = false): mixed
+    {
+        return $this->newCriteriaActiveQb(false)
+            ->select('DISTINCT entity')
+            ->orderBy('RAND()', 'ASC')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getSingleResult();
     }
 
     /**

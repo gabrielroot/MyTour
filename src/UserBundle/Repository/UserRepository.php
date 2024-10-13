@@ -4,6 +4,7 @@ namespace MyTour\UserBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use MyTour\CoreBundle\Repository\BaseRepository;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
 use MyTour\UserBundle\Entity\User;
 

@@ -7,7 +7,7 @@ namespace MyTour\UserBundle\Controller;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use MyTour\CoreBundle\Controller\AbstractController;
-use MyTour\CoreBundle\Services\UserService;
+use MyTour\UserBundle\Service\UserService;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
 use MyTour\UserBundle\Entity\User;
 use MyTour\UserBundle\Form\Filter\UserFilterType;

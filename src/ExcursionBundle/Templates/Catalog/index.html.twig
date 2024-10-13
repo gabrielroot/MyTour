@@ -1,13 +1,13 @@
 {% extends '@CoreBundle/base_template/__base_template.html.twig' %}
 
-{% set page_title = 'Usuários' %}
+{% set page_title = 'Catálogos' %}
 
 {% block body %}
     <!-- partial -->
         {{ include('@CoreBundle/components/title_breadcrumb.html.twig', {
                 'title': page_title,
                 'links': [
-                    {'path': path('user_index'), 'name': 'Usuários'},
+                    {'path': path('user_index'), 'name': 'Catálogos'},
                 ],
                 'current_name': 'Listagem'
             })
@@ -27,7 +27,7 @@
                       </div>
                     <div class="d-flex align-content-center">
                         <a
-                          href="{{ path('user_create') }}"
+                          href="{{ path('catalog_create') }}"
                           class="btn btn-sm btn-primary d-flex align-content-center"
                           style="margin-top: -25px; height: 40px"
                         >
@@ -39,18 +39,21 @@
                   <div class="card-body p-3">
                       <div class="row">
                         <div class="col-sm-6 col-md-4">
-                            {{ form_row(form.name) }}
+                            {{ form_row(form.title) }}
                         </div>
                         <div class="col-sm-6 col-md-4">
-                            {{ form_row(form.username) }}
+                            {{ form_row(form.description) }}
                         </div>
                         <div class="col-sm-6 col-md-4">
-                            {{ form_row(form.role) }}
+                            {{ form_row(form.price) }}
                         </div>
                       </div>
                       <div class="row">
                           <div class="col-sm-6 col-md-4">
-                              {{ form_row(form.birthday) }}
+                              {{ form_row(form.organizer) }}
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                              {{ form_row(form.available) }}
                           </div>
                       </div>
 
@@ -75,20 +78,20 @@
                       </th>
                       <th>
                           <div class="d-flex">
-                            {{ knp_pagination_sortable(entities, 'Nome', 'entity.name') }}
+                            {{ knp_pagination_sortable(entities, 'Título', 'entity.title') }}
                           </div>
                       </th>
                       <th>
                           <div class="d-flex">
-                            {{ knp_pagination_sortable(entities, 'Nome de usuário', 'entity.username') }}
+                            {{ knp_pagination_sortable(entities, 'Descrição', 'entity.description') }}
                           </div>
                       </th>
                       <th>
                           <div class="d-flex">
-                            {{ knp_pagination_sortable(entities, 'Data Nasc.', 'entity.birthday') }}
+                            {{ knp_pagination_sortable(entities, 'Preço', 'entity.price') }}
                           </div>
                       </th>
-                      <th>Nível de acesso</th>
+                      <th>Disponível?</th>
                       <th>Status</th>
                       <th>Ações</th>
                     </tr>
@@ -97,10 +100,14 @@
                     {% for entity in entities %}
                       <tr>
                           <td>{{ entity.id }}</td>
-                          <td>{{ entity.name }}</td>
-                          <td>{{ entity.username }}</td>
-                          <td>{{ entity.birthday | date('d/m/Y') ~ ' ('~ entity.birthday.diff(date('now')).y ~' anos)' }}</td>
-                          <td>{{ entity.getRoleBadge() | raw }} </td>
+                          <td>{{ entity.title }}</td>
+                          <td>{{ entity.description }}</td>
+                          <td>{{ entity.price }}</td>
+                          <td>
+                              <span class="badge {{ entity.available ? 'badge-success' : 'badge-danger'}}">
+                                  {{ entity.available ? 'Sim' : 'Não' }}
+                              </span>
+                          </td>
                           <td>{{ include('@CoreBundle/pages/audit-status.html.twig', {'entity': entity})  }}</td>
                           <td>
                               <div class="dropdown">
@@ -120,7 +127,7 @@
                                       {% if entity.active %}
                                           <a
                                               class="dropdown-item"
-                                              href="{{ path('user_update', {'user': entity.id})
+                                              href="{{ path('catalog_update', {'catalog': entity.id})
                                           }}">
                                               Editar
                                           </a>
@@ -133,7 +140,7 @@
                                               class="dropdown-item text-danger confirm-action"
                                               data-title="Deletar?"
                                               data-message="Deseja realmente deletar esse usuário?"
-                                              data-url="{{path('user_delete', {'user': entity.id})}}"
+                                              data-url="{{path('catalog_delete', {'catalog': entity.id})}}"
                                               href="#"
                                           >
                                               Deletar
@@ -141,7 +148,7 @@
                                       {% else %}
                                           <a
                                               class="dropdown-item text-success"
-                                              href="{{ path('user_reactivate', {'user_id': entity.id}) }}"
+                                              href="{{ path('catalog_reactivate', {'catalog_id': entity.id}) }}"
                                           >
                                               Reativar
                                           </a>

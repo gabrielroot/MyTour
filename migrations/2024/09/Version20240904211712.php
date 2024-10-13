@@ -20,7 +20,7 @@ final class Version20240904211712 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users ADD last_login DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE users ADD last_login DATETIME DEFAULT NULL AFTER password');
     }
 
     public function down(Schema $schema): void

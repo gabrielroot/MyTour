@@ -11,10 +11,10 @@
             {% endif %}
         </div>
         <div class="d-flex flex-column">
-            <span class="text-black">{{ entity.createdAt | date('d/m/y - H:i') }}</span>
-            <span class="text-success">{{ entity.updatedAt | date('d/m/y - H:i') }}</span>
+            <span class="text-black text-nowrap">{{ entity.createdAt | date('d/m/y - H:i') }}</span>
+            <span class="text-success text-nowrap">{{ entity.updatedAt | date('d/m/y - H:i') }}</span>
             {% if not entity.isActive() %}
-                <span class="text-danger">{{ entity.deletedAt | date('d/m/y - H:i') }}</span>
+                <span class="text-danger text-nowrap">{{ entity.deletedAt | date('d/m/y - H:i') }}</span>
             {% endif %}
         </div>
     </div>

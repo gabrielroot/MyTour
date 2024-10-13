@@ -13,3 +13,15 @@ select {
 .form-control {
     padding: 0.6rem 1rem !important;
 }
+
+tbody td {
+    white-space: normal !important;
+}
+
+thead th a[class="sortable"], thead th a[class="asc"], thead th a[class="desc"] {
+    display: flex;
+}
+
+thead th a span {
+    margin-right: 4px !important;
+}
