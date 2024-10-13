@@ -19,8 +19,7 @@ import { Portuguese } from 'flatpickr/dist/l10n/pt.js';
 import Swal from 'sweetalert2';
 
 $(function(){
-    initSidebarStatusActive()
-    initDropdownMenuOverflow()
+    initSidebarMenuActive()
     initAuditExtraFiltersManager()
     initSelect2()
     initFlatpickr()
@@ -28,7 +27,7 @@ $(function(){
     initConfirmAction()
 })
 
-function initSidebarStatusActive(){
+function initSidebarMenuActive(){
     const links = $('#sidebar').find('li > a')
 
     for(const link of links){
@@ -44,17 +43,6 @@ function initSidebarStatusActive(){
             }
         }
     }
-}
-
-function initDropdownMenuOverflow() {
-    const btnDropdown = $('table > tbody > tr > td > div.dropdown > button')
-    btnDropdown.click(function (){
-        if ($('table > tbody > tr > td > div.dropdown > button ~ .show').length === 0) {
-            $('table').parent().addClass('table-responsive')
-        } else {
-            $('table').parent().removeClass('table-responsive')
-        }
-    })
 }
 
 function initFlatpickr(){
