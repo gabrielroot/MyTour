@@ -1,2 +1,2 @@
-public/libs/* linguist-documentation
-public/template_assets/* linguist-documentation
+public/libs/** linguist-vendored
+public/template_assets/** linguist-vendored
