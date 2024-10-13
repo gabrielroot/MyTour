@@ -24,7 +24,8 @@ doctrine:
                 alias: MyTour
         dql:
             datetime_functions:
-                DATE: DoctrineExtensions\Query\Postgresql\Date
+                DATE: DoctrineExtensions\Query\Mysql\Date
+                RAND: DoctrineExtensions\Query\Mysql\Rand
 
 when@test:
     doctrine:
