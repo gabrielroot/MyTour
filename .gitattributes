@@ -1,2 +1,5 @@
-public/libs/** linguist-vendored
-public/template_assets/** linguist-vendored
+* linguist-vendored
+*.php linguist-vendored=false
+*.twig linguist-vendored=false
+*.yml linguist-vendored=false
+*.yaml linguist-vendored=false
