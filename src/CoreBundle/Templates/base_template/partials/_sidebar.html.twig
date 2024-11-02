@@ -28,6 +28,23 @@
       </div>
     </li>
 
+    {% if is_granted('ROLE_ORGANIZER') %}
+      <li class="nav-item nav-category">Empresa</li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          {% if is_granted('ROLE_ADMIN') %}
+            href="{{ path('company_index') }}"
+          {% else %}
+            href="{{ path('company_update', {company: app.user.company.id}) }}"
+          {% endif %}
+        >
+          <span class="icon-bg"><i class="mdi mdi-office-building menu-icon"></i></span>
+          <span class="menu-title">Empresa</span>
+        </a>
+      </li>
+    {% endif %}
+
     <li class="nav-item nav-category">Extras</li>
 
     <li class="nav-item sidebar-user-actions">

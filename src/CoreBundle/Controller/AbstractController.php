@@ -5,6 +5,7 @@ namespace MyTour\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractController extends BaseController
 {

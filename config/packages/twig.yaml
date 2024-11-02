@@ -9,6 +9,9 @@ twig:
         '%kernel.project_dir%/src/CoreBundle/Templates': 'CoreBundle'
         '%kernel.project_dir%/src/ExcursionBundle/Templates': 'ExcursionBundle'
 
+    globals:
+        global: '@MyTour\CoreBundle\Utils\TwigVars\GlobalVariableTwig'
+
 when@test:
     twig:
         strict_variables: true
