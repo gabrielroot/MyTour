@@ -7,6 +7,7 @@ namespace MyTour\UserBundle\Controller;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use MyTour\CoreBundle\Controller\AbstractController;
+use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Service\UserService;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
 use MyTour\UserBundle\Entity\User;
@@ -44,14 +45,14 @@ class UserController extends AbstractController
     #[Route('/create', name: 'create')]
     public function create(Request $request, UserService $userService): Response
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $organizer = new Organizer();
+        $form = $this->createForm(UserType::class, $organizer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $userService->createUser($user);
-                $this->addSuccessMessage("O usuário \"{$user->getName()}\", agora faz parte do sistema!");
+                $userService->createUser($organizer);
+                $this->addSuccessMessage("O usuário \"{$organizer->getName()}\", agora faz parte do sistema!");
                 return $this->redirectToRoute('user_index');
             } catch (Exception $exception) {
                 $this->addErrorMessage($exception->getMessage());
@@ -78,7 +79,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('@UserBundle/User/update.html.twig', ['form' => $form->createView()]);
+        return $this->render('@UserBundle/User/update.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 
     #[Route('/delete/{user}', name: 'delete')]

@@ -41,13 +41,13 @@ class CatalogService
 
     public function deleteCatalog(Catalog $catalog, bool $flush = true): void
     {
-        $this->catalogRepository->save(entity: $catalog, flush: $flush);
+        $this->catalogRepository->deleteNow($catalog, $flush);
     }
 
     /**
      * @throws Exception
      */
-    public function reactivateUser(int $id, bool $flush = true): void
+    public function reactivateCatalog(int $id, bool $flush = true): void
     {
         $userFound = $this->catalogRepository->find($id, onlyActive: false);
 
@@ -55,6 +55,6 @@ class CatalogService
             throw new Exception('Catálogo não encontrado.');
         }
 
-        $this->catalogRepository->reactivate($userFound);
+        $this->catalogRepository->reactivate(entity: $userFound, flush: $flush);
     }
 }

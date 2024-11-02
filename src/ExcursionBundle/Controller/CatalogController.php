@@ -101,7 +101,7 @@ class CatalogController extends AbstractController
     public function reactivate(CatalogService $catalogService, int $catalog_id, Request $request): Response
     {
         try {
-            $catalogService->reactivateUser($catalog_id);
+            $catalogService->reactivateCatalog($catalog_id);
             $this->addSuccessMessage("O catálogo foi reativado!");
         } catch (Exception $exception) {
             $this->addErrorMessage($exception->getMessage());
