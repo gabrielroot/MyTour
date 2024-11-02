@@ -20,6 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\DiscriminatorMap([
     'ORGANIZER' => Organizer::class,
     'TRAVELER' => Traveler::class,
+    'ADMIN' => Admin::class,
     'USER' => self::class
 ])]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]

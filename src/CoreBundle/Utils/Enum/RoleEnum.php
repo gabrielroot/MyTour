@@ -6,6 +6,7 @@ Enum RoleEnum: string {
     case ROLE_USER = 'Usuário';
     case ROLE_TRAVELER = 'Viajante';
     case ROLE_ORGANIZER = 'Organizador';
+    case ROLE_ADMIN = 'Administrador';
 
     public static function getAllValueAndName(): array
     {
@@ -42,6 +43,7 @@ Enum RoleEnum: string {
             RoleEnum::ROLE_USER => "dark",
             RoleEnum::ROLE_TRAVELER => "primary",
             RoleEnum::ROLE_ORGANIZER => "info",
+            RoleEnum::ROLE_ADMIN => "success",
         };
     }
 }
