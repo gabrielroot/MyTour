@@ -57,20 +57,6 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('roles', ChoiceType::class, [
-                'label' => 'Nível de acesso:',
-                'multiple' => true,
-                'placeholder' => 'Informe o nível de acesso',
-                'attr' => [
-                    'class' => 'form-select select2',
-                ],
-                'choices' => RoleEnum::getAllValueAndName(),
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Por favor, informe um valor.',
-                    ]),
-                ],
-            ])
             ->add('password', PasswordType::class, [
                 'label' => 'Senha',
                 'attr' => [
@@ -87,7 +73,10 @@ class UserType extends AbstractType
 
             // Verifica se o usuário é novo (sem ID) ou está editando
             $isEditing = $user->getId();
-            if ($isEditing) return null;
+            if ($isEditing) {
+                $form->remove('role');
+                return null;
+            };
 
             // Se o usuário for novo ou se ele está tentando mudar a senha, tornamos o campo obrigatório
             $form->add('password', PasswordType::class, [

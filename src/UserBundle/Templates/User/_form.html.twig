@@ -7,9 +7,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-6 col-md-4">
-        {{ form_row(form.roles) }}
-    </div>
+    {% if form.role is defined %}
+        <div class="col-sm-6 col-md-4">
+            {{ form_row(form.role) }}
+        </div>
+    {% endif %}
     <div class="col-sm-6 col-md-4">
         {{ form_row(form.birthday) }}
     </div>

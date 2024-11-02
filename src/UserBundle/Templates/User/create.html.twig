@@ -1,6 +1,6 @@
 {% extends '@CoreBundle/base_template/__base_template.html.twig' %}
 
-{% set page_title = 'Novo usuário' %}
+{% set page_title = 'Novo organizador' %}
 
 {% block body %}
     <!-- partial -->
@@ -8,6 +8,7 @@
             'title': page_title,
             'links': [
                 {'path': path('user_index'), 'name': 'Usuários'},
+                {'path': null, 'name': 'Organizador'},
             ],
             'current_name': 'Criar'
         })

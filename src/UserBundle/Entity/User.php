@@ -3,6 +3,7 @@
 namespace MyTour\UserBundle\Entity;
 
 use DateTime;
+use MyTour\CoreBundle\Entity\Company;
 use MyTour\CoreBundle\Interface\IAudit;
 use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 use MyTour\CoreBundle\Utils\Trait\AuditTrait;
@@ -48,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?DateTime $lastLogin = null;
+
+    #[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'users')]
+    private Company $company;
 
     public function __construct()
     {
@@ -172,6 +176,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
     public function setBirthday(DateTime $birthday): User
     {
         $this->birthday = $birthday;
+        return $this;
+    }
+
+
+    public function getCompany(): Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(Company $company): User
+    {
+        $this->company = $company;
         return $this;
     }
 }

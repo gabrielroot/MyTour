@@ -3,7 +3,10 @@
 namespace MyTour\UserBundle\Service;
 
 use Exception;
+use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
+use MyTour\UserBundle\Entity\Organizer;
+use MyTour\UserBundle\Entity\Traveler;
 use MyTour\UserBundle\Entity\User;
 use MyTour\UserBundle\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -35,6 +38,13 @@ class UserService
     public function createUser(User $user, bool $flush = true): void
     {
         $user->setPassword($this->hasher->hashPassword($user, $user->getPassword()));
+
+        if ($user instanceof Organizer) {
+            $user->setRoles([RoleEnum::ROLE_ORGANIZER->name]);
+        } elseif ($user instanceof Traveler) {
+            $user->setRoles([RoleEnum::ROLE_TRAVELER->name]);
+        }
+
         $this->userRepository->save(entity: $user, flush: $flush);
     }
 

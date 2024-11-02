@@ -30,6 +30,13 @@ abstract class BaseFixtures extends Fixture
         "1 semana vivenciando São Paulo", "Rio de Janeiro em 11 dias de visitas", "4 dias pela Serra Gaúcha",
         "Ouro Preto por 6 dias", "Lençóis Maranhenses explorados em 15 dias", "10 dias em Trancoso"];
 
+    protected $companyName = ["Turismo Aventura BR", "Excursões Tropicais", "Viagem Brasil Tours",
+        "Descubra o Brasil Turismo", "Explora Mundo Viagens", "Excursões Naturais BR", "Tur BR Destinos",
+        "Aventuras do Brasil Turismo", "Tour Cultural BR", "Expedições Tur Brasil", "Maravilhas do Brasil Turismo",
+        "Roteiros Brasileiros Excursões", "EcoTurismo Brasil", "BR Viajantes Turismo", "Turismo Praias BR",
+        "Brasil Excursões e Viagens", "Natureza Viva Turismo", "Destinos Incríveis BR", "Passeios & Trilhas BR"];
+
+
     public function __construct()
     {
     }

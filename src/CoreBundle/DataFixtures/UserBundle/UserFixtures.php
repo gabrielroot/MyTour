@@ -3,8 +3,10 @@
 namespace MyTour\CoreBundle\DataFixtures\UserBundle;
 
 use DateTime;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use MyTour\CoreBundle\DataFixtures\BaseFixtures;
+use MyTour\CoreBundle\DataFixtures\CoreBundle\CompanyFixtures;
 use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Entity\Traveler;
@@ -12,7 +14,7 @@ use MyTour\UserBundle\Entity\User;
 use MyTour\UserBundle\Repository\UserRepository;
 use MyTour\UserBundle\Service\UserService;
 
-class UserFixtures extends BaseFixtures
+class UserFixtures extends BaseFixtures implements DependentFixtureInterface
 {
     private UserService $userService;
 
@@ -62,5 +64,12 @@ class UserFixtures extends BaseFixtures
 
             $this->userService->createUser(user: $user, flush: false);
         }
+    }
+
+    public function getDependencies()
+    {
+        return [
+            CompanyFixtures::class,
+        ];
     }
 }
