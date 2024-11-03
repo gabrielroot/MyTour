@@ -3,7 +3,9 @@
 namespace MyTour\UserBundle\Service;
 
 use Exception;
+use MyTour\CoreBundle\Repository\CompanyRepository;
 use MyTour\CoreBundle\Utils\Enum\RoleEnum;
+use MyTour\CoreBundle\Utils\GlobalSession;
 use MyTour\UserBundle\Entity\Filter\UserFormFilter;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Entity\Traveler;
@@ -16,13 +18,16 @@ class UserService
     private UserRepository $userRepository;
 
     private UserPasswordHasherInterface $hasher;
+    private CompanyRepository $companyRepository;
 
     public function __construct(
-        UserRepository $userRepository,
+        UserRepository              $userRepository,
+        CompanyRepository           $companyRepository,
         UserPasswordHasherInterface $hasher)
     {
         $this->userRepository = $userRepository;
         $this->hasher = $hasher;
+        $this->companyRepository = $companyRepository;
     }
 
     /**
@@ -44,6 +49,8 @@ class UserService
         } elseif ($user instanceof Traveler) {
             $user->setRoles([RoleEnum::ROLE_TRAVELER->name]);
         }
+
+        $user->setCompany($this->companyRepository->find(GlobalSession::getCurrentCompany()->getId()));
 
         $this->userRepository->save(entity: $user, flush: $flush);
     }
