@@ -8,6 +8,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use MyTour\CoreBundle\Entity\Filter\AbstractFormFilter;
 use MyTour\CoreBundle\Interface\IAudit;
+use MyTour\CoreBundle\Utils\GlobalSession;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -15,9 +16,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 abstract class BaseRepository extends ServiceEntityRepository
 {
+    protected $entity;
+
     public function __construct(ManagerRegistry $registry, $className)
     {
         parent::__construct($registry, $className);
+
+        $this->entity = new $className;
     }
 
     public function save(IAudit|UserInterface $entity, bool $flush = true): void
@@ -206,6 +211,12 @@ abstract class BaseRepository extends ServiceEntityRepository
                 ->setParameter('deletedAtEnd', $abstractFormFilter->getDeletedAtEnd());
         }
         //END TIMESTAMPS
+
+        if (property_exists($this->entity, 'company') && GlobalSession::getCurrentCompany()){
+            $qb
+                ->andWhere('entity.company = :company')
+                ->setParameter('company', GlobalSession::getCurrentCompany());
+        }
 
         return $qb;
     }
