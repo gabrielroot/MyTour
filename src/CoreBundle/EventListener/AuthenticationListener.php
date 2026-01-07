@@ -6,6 +6,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use MyTour\CoreBundle\Entity\Company;
 use MyTour\CoreBundle\Exception\CompanyInactiveException;
 use MyTour\CoreBundle\Utils\GlobalSession;
+use MyTour\UserBundle\Entity\Admin;
+use MyTour\UserBundle\Entity\Organizer;
+use MyTour\UserBundle\Entity\Traveler;
 use MyTour\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -33,6 +36,7 @@ class AuthenticationListener
     private function manageSession(UserInterface $user): void
     {
         $extendedUser = $this->em->getRepository($user::class)->find($user->getId());
+        /** @var Organizer|User|Traveler|Admin $currentCompany */
         $currentCompany = $this->em->getRepository(Company::class)
             ->find(id: $extendedUser->getCompany()->getId(), onlyActive: false);
 

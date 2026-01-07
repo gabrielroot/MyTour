@@ -4,7 +4,7 @@ namespace MyTour\CoreBundle\Form\Filter;
 
 use MyTour\CoreBundle\Entity\Filter\CompanyFormFilter;
 use MyTour\CoreBundle\Form\Filter\AbstractFormType;
-use MyTour\ExcursionBundle\Entity\Filter\CatalogFormFilter;
+use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Repository\OrganizerRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

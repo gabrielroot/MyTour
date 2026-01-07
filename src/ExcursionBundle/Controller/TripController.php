@@ -11,29 +11,31 @@ use MyTour\ExcursionBundle\Entity\Catalog;
 use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
 use MyTour\ExcursionBundle\Form\CatalogType;
 use MyTour\ExcursionBundle\Form\Filter\CatalogFilterType;
+use MyTour\ExcursionBundle\Form\Filter\TripFilterType;
 use MyTour\ExcursionBundle\Service\CatalogService;
+use MyTour\ExcursionBundle\Service\TripService;
 use MyTour\UserBundle\Repository\OrganizerRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(path: 'catalog', name: 'catalog_')]
-class CatalogController extends AbstractController
+#[Route(path: 'trip', name: 'trip_')]
+class TripController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(
         Request            $request,
-        CatalogService     $catalogService,
+        TripService     $tripService,
         PaginatorInterface $paginator): Response
     {
-        $catalogFilter = new TripFormFilter();
-        $form = $this->createForm(CatalogFilterType::class, $catalogFilter, ['method' => 'GET']);
+        $tripFilter = new TripFormFilter();
+        $form = $this->createForm(TripFilterType::class, $tripFilter, ['method' => 'GET']);
         $form->handleRequest($request);
 
         $pagination = $paginator->paginate(
-            $catalogService->findByFilter($catalogFilter),
+            $tripService->findByFilter($tripFilter),
             $request->query->getInt('page', 1),
-            $catalogFilter->getPerPage()
+            $tripFilter->getPerPage()
         );
 
         return $this->render('@ExcursionBundle/Catalog/index.html.twig', [

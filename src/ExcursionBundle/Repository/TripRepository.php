@@ -6,8 +6,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use MyTour\CoreBundle\Repository\BaseRepository;
 use MyTour\CoreBundle\Utils\GlobalSession;
-use MyTour\ExcursionBundle\Entity\Catalog;
 use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
+use MyTour\ExcursionBundle\Entity\Trip;
 use MyTour\UserBundle\Entity\User;
 
 
@@ -19,55 +19,49 @@ use MyTour\UserBundle\Entity\User;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CatalogRepository extends BaseRepository
+class TripRepository extends BaseRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Catalog::class);
+        parent::__construct($registry, Trip::class);
     }
 
     /**
-     * @param TripFormFilter $catalogFormFilter
+     * @param TripFormFilter $tripFormFilter
      * @return mixed
      */
-    public function findByFilter(TripFormFilter $catalogFormFilter)
+    public function findByFilter(TripFormFilter $tripFormFilter)
     {
-        $qb = $this->findByAbstractFilter($catalogFormFilter);
+        $qb = $this->findByAbstractFilter($tripFormFilter);
 
-        $qb->join('entity.organizer', 'organizer');
+        $qb->join('entity.traveler', 'traveler');
 
         $qb
-            ->andWhere('organizer.company = :currentCompany')
+            ->andWhere('traveler.company = :currentCompany')
             ->setParameter('currentCompany', GlobalSession::getCurrentCompany());
 
-        if ($catalogFormFilter->getTitle()){
+        if ($tripFormFilter->getTitle()){
             $qb
                 ->andWhere('entity.title LIKE :title')
-                ->setParameter('title', "%{$catalogFormFilter->getTitle()}%");
+                ->setParameter('title', "%{$tripFormFilter->getTitle()}%");
         }
 
-        if ($catalogFormFilter->getDescription()){
+        if ($tripFormFilter->getDescription()){
             $qb
                 ->andWhere('entity.description LIKE :description')
-                ->setParameter('description', "%{$catalogFormFilter->getDescription()}%");
+                ->setParameter('description', "%{$tripFormFilter->getDescription()}%");
         }
 
-        if (!is_null($catalogFormFilter->getAvailable())){
-            $qb
-                ->andWhere($qb->expr()->eq('entity.available', ':available'))
-                ->setParameter('available', $catalogFormFilter->getAvailable());
-        }
-
-        if ($catalogFormFilter->getPrice()){
+        if ($tripFormFilter->getPrice()){
             $qb
                 ->andWhere('entity.price = :price')
-                ->setParameter('price', $catalogFormFilter->getPrice());
+                ->setParameter('price', $tripFormFilter->getPrice());
         }
 
-        if ($catalogFormFilter->getOrganizer()){
+        if ($tripFormFilter->getTraveler()){
             $qb
-                ->andWhere($qb->expr()->eq('entity.organizer', ':organizer'))
-                ->setParameter('organizer', $catalogFormFilter->getOrganizer());
+                ->andWhere($qb->expr()->eq('entity.traveler', ':traveler'))
+                ->setParameter('traveler', $tripFormFilter->getTraveler());
         }
 
         return $qb

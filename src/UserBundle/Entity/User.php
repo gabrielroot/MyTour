@@ -54,6 +54,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, IAudit
     #[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'users')]
     private Company $company;
 
+    protected $type;
+
     public function __construct()
     {
         $this->roles = [RoleEnum::ROLE_USER->name];

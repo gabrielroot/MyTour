@@ -3,6 +3,9 @@
 namespace MyTour\CoreBundle\Utils;
 
 use MyTour\CoreBundle\Entity\Company;
+use MyTour\UserBundle\Entity\Admin;
+use MyTour\UserBundle\Entity\Organizer;
+use MyTour\UserBundle\Entity\Traveler;
 use MyTour\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -27,7 +30,7 @@ class GlobalSession
         self::getSession()->set($name, $value);
     }
 
-    public static function getLoggedInUser(): ?User
+    public static function getLoggedInUser(): User|Organizer|Traveler|Admin
     {
         return self::getSession()->get('loggedInUser');
     }

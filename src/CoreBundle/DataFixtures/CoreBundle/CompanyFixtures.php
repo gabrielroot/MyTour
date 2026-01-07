@@ -2,10 +2,8 @@
 
 namespace MyTour\CoreBundle\DataFixtures\CoreBundle;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use MyTour\CoreBundle\DataFixtures\BaseFixtures;
-use MyTour\CoreBundle\DataFixtures\UserBundle\UserFixtures;
 use MyTour\CoreBundle\Entity\Company;
 use MyTour\CoreBundle\Service\CompanyService;
 

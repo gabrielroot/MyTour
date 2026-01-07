@@ -50,7 +50,9 @@ class UserService
             $user->setRoles([RoleEnum::ROLE_TRAVELER->name]);
         }
 
-        $user->setCompany($this->companyRepository->find(GlobalSession::getCurrentCompany()->getId()));
+        if (GlobalSession::getCurrentCompany()) {
+            $user->setCompany($this->companyRepository->find(GlobalSession::getCurrentCompany()->getId()));
+        }
 
         $this->userRepository->save(entity: $user, flush: $flush);
     }

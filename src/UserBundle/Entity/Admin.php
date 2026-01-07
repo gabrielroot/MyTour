@@ -14,4 +14,9 @@ class Admin extends User implements IAudit
     {
         parent::__construct();
     }
+
+    public function getType(): string
+    {
+        return self::class;
+    }
 }

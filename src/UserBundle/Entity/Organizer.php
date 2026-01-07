@@ -33,4 +33,8 @@ class Organizer extends User implements IAudit
         return $this;
     }
 
+    public function getType(): string
+    {
+        return self::class;
+    }
 }

@@ -2,8 +2,11 @@
 
 namespace MyTour\CoreBundle\DataFixtures;
 
+use Cassandra\Collection;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
+use MyTour\CoreBundle\Entity\Company;
 use MyTour\CoreBundle\Interface\IAudit;
 use MyTour\CoreBundle\Utils\Enum\RoleEnum;
 
