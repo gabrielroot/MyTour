@@ -34,11 +34,7 @@ class TripRepository extends BaseRepository
     {
         $qb = $this->findByAbstractFilter($tripFormFilter);
 
-        $qb->join('entity.traveler', 'traveler');
-
-        $qb
-            ->andWhere('traveler.company = :currentCompany')
-            ->setParameter('currentCompany', GlobalSession::getCurrentCompany());
+        $qb->leftJoin('entity.traveler', 'traveler');
 
         if ($tripFormFilter->getTitle()){
             $qb

@@ -7,12 +7,10 @@ namespace MyTour\ExcursionBundle\Controller;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use MyTour\CoreBundle\Controller\AbstractController;
-use MyTour\ExcursionBundle\Entity\Catalog;
+use MyTour\ExcursionBundle\Entity\Trip;
 use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
-use MyTour\ExcursionBundle\Form\CatalogType;
-use MyTour\ExcursionBundle\Form\Filter\CatalogFilterType;
+use MyTour\ExcursionBundle\Form\TripType;
 use MyTour\ExcursionBundle\Form\Filter\TripFilterType;
-use MyTour\ExcursionBundle\Service\CatalogService;
 use MyTour\ExcursionBundle\Service\TripService;
 use MyTour\UserBundle\Repository\OrganizerRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +36,7 @@ class TripController extends AbstractController
             $tripFilter->getPerPage()
         );
 
-        return $this->render('@ExcursionBundle/Catalog/index.html.twig', [
+        return $this->render('@ExcursionBundle/Trip/index.html.twig', [
             'entities' => $pagination,
             'form' => $form->createView(),
         ]);
@@ -47,68 +45,68 @@ class TripController extends AbstractController
     #[Route('/create', name: 'create')]
     public function create(
         Request $request,
-        CatalogService $catalogService,
+        TripService $tripService,
         OrganizerRepository $organizerRepository): Response
     {
-        $catalog = new Catalog();
-        $form = $this->createForm(CatalogType::class, $catalog);
+        $trip = new Trip();
+        $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $catalogService->createCatalog($catalog);
-                $this->addSuccessMessage("O catálogo \"{$catalog->getTitle()}\", agora faz parte do sistema!");
-                return $this->redirectToRoute('catalog_index');
+                $tripService->createTrip($trip);
+                $this->addSuccessMessage("A viagem \"{$trip->getTitle()}\", agora faz parte do sistema!");
+                return $this->redirectToRoute('trip_index');
             } catch (Exception $exception) {
                 $this->addErrorMessage($exception->getMessage());
             }
         }
 
-        return $this->render('@ExcursionBundle/Catalog/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('@ExcursionBundle/Trip/create.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/update/{catalog}', name: 'update')]
-    public function update(Request $request, CatalogService $catalogService, Catalog $catalog): Response
+    #[Route('/update/{trip}', name: 'update')]
+    public function update(Request $request, TripService $tripService, Trip $trip): Response
     {
-        $form = $this->createForm(CatalogType::class, $catalog);
+        $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $catalogService->updateCatalog($catalog);
-                $this->addSuccessMessage("O catálogo \"{$catalog->getTitle()}\", foi editado com sucesso!");
-                return $this->redirectToRoute('catalog_index');
+                $tripService->updateTrip($trip);
+                $this->addSuccessMessage("A viagem \"{$trip->getTitle()}\", foi editado com sucesso!");
+                return $this->redirectToRoute('trip_index');
             } catch (Exception $exception) {
                 $this->addErrorMessage($exception->getMessage());
             }
         }
 
-        return $this->render('@ExcursionBundle/Catalog/update.html.twig', ['form' => $form->createView()]);
+        return $this->render('@ExcursionBundle/Trip/update.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/delete/{catalog}', name: 'delete')]
-    public function delete(CatalogService $catalogService, Catalog $catalog, Request $request): Response
+    #[Route('/delete/{trip}', name: 'delete')]
+    public function delete(TripService $tripService, Trip $trip, Request $request): Response
     {
         try {
-            $catalogService->deleteCatalog($catalog);
-            $this->addSuccessMessage("O catálogo foi removido do sistema!");
+            $tripService->deleteTrip($trip);
+            $this->addSuccessMessage("A viagem foi removido do sistema!");
         } catch (Exception $exception) {
             $this->addErrorMessage($exception->getMessage());
         }
 
-        return $this->redirectToReferer($request, $this->generateUrl('catalog_index'));
+        return $this->redirectToReferer($request, $this->generateUrl('trip_index'));
     }
 
-    #[Route('/reactivate/{catalog_id}', name: 'reactivate')]
-    public function reactivate(CatalogService $catalogService, int $catalog_id, Request $request): Response
+    #[Route('/reactivate/{trip_id}', name: 'reactivate')]
+    public function reactivate(TripService $tripService, int $trip_id, Request $request): Response
     {
         try {
-            $catalogService->reactivateCatalog($catalog_id);
-            $this->addSuccessMessage("O catálogo foi reativado!");
+            $tripService->reactivateTrip($trip_id);
+            $this->addSuccessMessage("A viagem foi reativado!");
         } catch (Exception $exception) {
             $this->addErrorMessage($exception->getMessage());
         }
 
-        return $this->redirectToReferer($request, $this->generateUrl('catalog_index'));
+        return $this->redirectToReferer($request, $this->generateUrl('trip_index'));
     }
 }

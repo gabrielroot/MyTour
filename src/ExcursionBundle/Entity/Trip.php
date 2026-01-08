@@ -2,6 +2,7 @@
 
 namespace MyTour\ExcursionBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use MyTour\CoreBundle\Interface\IAudit;
 use MyTour\CoreBundle\Utils\Trait\AuditTrait;
 use MyTour\ExcursionBundle\Repository\CatalogRepository;
 use MyTour\ExcursionBundle\Repository\TripRepository;
@@ -9,7 +10,7 @@ use MyTour\UserBundle\Entity\Traveler;
 
 #[ORM\Entity(repositoryClass: TripRepository::class)]
 #[ORM\Table(name: 'trips')]
-class Trip
+class Trip implements IAudit
 {
     use AuditTrait;
 
@@ -37,11 +38,12 @@ class Trip
     private float $price;
 
     #[ORM\ManyToOne(targetEntity: Traveler::class, inversedBy: 'trips')]
-    private Traveler $traveler;
+    private Traveler $traveler;//TODO: N to N relationship
+
+    #[ORM\ManyToOne(targetEntity: Catalog::class, inversedBy: 'trips')]
+    private Catalog $catalog;
 
     public function __construct() {
-        $this->dateStart = new \DateTime();
-        $this->dateEnd = new \DateTime();
     }
 
     public function getTitle(): string
@@ -118,6 +120,28 @@ class Trip
     public function setTraveler(Traveler $traveler): Trip
     {
         $this->traveler = $traveler;
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): Trip
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getCatalog(): Catalog
+    {
+        return $this->catalog;
+    }
+
+    public function setCatalog(Catalog $catalog): Trip
+    {
+        $this->catalog = $catalog;
         return $this;
     }
 }

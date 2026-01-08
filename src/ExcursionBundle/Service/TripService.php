@@ -4,9 +4,8 @@ namespace MyTour\ExcursionBundle\Service;
 
 use Exception;
 use MyTour\CoreBundle\Utils\GlobalSession;
-use MyTour\ExcursionBundle\Entity\Catalog;
+use MyTour\ExcursionBundle\Entity\Trip;
 use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
-use MyTour\ExcursionBundle\Repository\CatalogRepository;
 use MyTour\ExcursionBundle\Repository\TripRepository;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Repository\OrganizerRepository;
@@ -15,47 +14,46 @@ use MyTour\UserBundle\Repository\TravelerRepository;
 class TripService
 {
     public function __construct(
-        private readonly TripRepository $tripRepository,
-        private readonly TravelerRepository $travelerRepository)
+        private readonly TripRepository     $tripRepository,
+        private readonly TravelerRepository $travelerRepository,
+        private readonly OrganizerRepository $organizerRepository)
     {
 
     }
 
 
     /**
-     * @param TripFormFilter $catalogFormFilter
+     * @param TripFormFilter $tripFormFilter
      * @return mixed
      */
-    public function findByFilter(TripFormFilter $catalogFormFilter): mixed
+    public function findByFilter(TripFormFilter $tripFormFilter): mixed
     {
-
-        return $this->tripRepository->findByFilter($catalogFormFilter);
+        return $this->tripRepository->findByFilter($tripFormFilter);
     }
 
-    public function createCatalog(Catalog $catalog, bool $flush = true): void
+    public function createTrip(Trip $trip, bool $flush = true): void
     {
-        if(!$organizer = $this->travelerRepository->find(GlobalSession::getLoggedInUser()->getId())) {
+        if(!$this->organizerRepository->find(GlobalSession::getLoggedInUser()->getId())) {
             throw new Exception("Apenas organizadores podem criar catálogos.");
         }
 
-        $catalog->setOrganizer($organizer);
-        $this->tripRepository->save(entity: $catalog, flush: $flush);
+        $this->tripRepository->save(entity: $trip, flush: $flush);
     }
 
-    public function updateCatalog(Catalog $catalog, bool $flush = true): void
+    public function updateTrip(Trip $trip, bool $flush = true): void
     {
-        $this->tripRepository->save(entity: $catalog, flush: $flush);
+        $this->tripRepository->save(entity: $trip, flush: $flush);
     }
 
-    public function deleteCatalog(Catalog $catalog, bool $flush = true): void
+    public function deleteTrip(Trip $trip, bool $flush = true): void
     {
-        $this->tripRepository->deleteNow($catalog, $flush);
+        $this->tripRepository->deleteNow($trip, $flush);
     }
 
     /**
      * @throws Exception
      */
-    public function reactivateCatalog(int $id, bool $flush = true): void
+    public function reactivateTrip(int $id, bool $flush = true): void
     {
         $userFound = $this->tripRepository->find($id, onlyActive: false);
 

@@ -3,7 +3,7 @@
 namespace MyTour\ExcursionBundle\Form\Filter;
 
 use MyTour\CoreBundle\Form\Filter\AbstractFormType;
-use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
+use MyTour\ExcursionBundle\Entity\Filter\CatalogFormFilter;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Repository\OrganizerRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -61,7 +61,7 @@ class CatalogFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => TripFormFilter::class
+            'data_class' => CatalogFormFilter::class
         ]);
     }
 

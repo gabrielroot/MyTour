@@ -2,6 +2,8 @@
 
 namespace MyTour\ExcursionBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use MyTour\CoreBundle\Interface\IAudit;
 use MyTour\CoreBundle\Utils\Trait\AuditTrait;
 use MyTour\ExcursionBundle\Repository\CatalogRepository;
@@ -34,8 +36,12 @@ class Catalog implements IAudit
     #[ORM\ManyToOne(targetEntity: Organizer::class, inversedBy: 'catalogs')]
     private Organizer $organizer;
 
+    #[ORM\OneToMany(targetEntity: Trip::class, mappedBy: 'traveler')]
+    private Collection $trips;
+
     public function __construct() {
         $this->available = true;
+        $this->trips = new ArrayCollection();
     }
 
     public function getTitle(): string
@@ -101,6 +107,17 @@ class Catalog implements IAudit
     public function setOrganizer(Organizer $organizer): Catalog
     {
         $this->organizer = $organizer;
+        return $this;
+    }
+
+    public function getTrips(): Collection
+    {
+        return $this->trips;
+    }
+
+    public function setTrips(Collection $trips): Catalog
+    {
+        $this->trips = $trips;
         return $this;
     }
 }

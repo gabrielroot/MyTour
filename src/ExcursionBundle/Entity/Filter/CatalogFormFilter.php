@@ -4,6 +4,7 @@ namespace MyTour\ExcursionBundle\Entity\Filter;
 
 use MyTour\CoreBundle\Entity\Filter\AbstractFormFilter;
 use MyTour\UserBundle\Entity\Organizer;
+use MyTour\UserBundle\Entity\Traveler;
 
 class CatalogFormFilter extends AbstractFormFilter
 {
@@ -16,6 +17,12 @@ class CatalogFormFilter extends AbstractFormFilter
     private ?bool $available = null;
 
     private ?float $price = null;
+
+    private ?int $capacity = null;
+
+    private ?\DateTime $dateStart = null;
+
+    private ?\DateTime $dateEnd = null;
 
     public function getTitle(): ?string
     {
@@ -69,6 +76,39 @@ class CatalogFormFilter extends AbstractFormFilter
     public function setPrice(?float $price): CatalogFormFilter
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getCapacity(): ?int
+    {
+        return $this->capacity;
+    }
+
+    public function setCapacity(?int $capacity): CatalogFormFilter
+    {
+        $this->capacity = $capacity;
+        return $this;
+    }
+
+    public function getDateStart(): ?\DateTime
+    {
+        return $this->dateStart;
+    }
+
+    public function setDateStart(?\DateTime $dateStart): CatalogFormFilter
+    {
+        $this->dateStart = $dateStart;
+        return $this;
+    }
+
+    public function getDateEnd(): ?\DateTime
+    {
+        return $this->dateEnd;
+    }
+
+    public function setDateEnd(?\DateTime $dateEnd): CatalogFormFilter
+    {
+        $this->dateEnd = $dateEnd;
         return $this;
     }
 

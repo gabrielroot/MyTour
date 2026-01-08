@@ -7,7 +7,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use MyTour\CoreBundle\Repository\BaseRepository;
 use MyTour\CoreBundle\Utils\GlobalSession;
 use MyTour\ExcursionBundle\Entity\Catalog;
-use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
+use MyTour\ExcursionBundle\Entity\Filter\CatalogFormFilter;
 use MyTour\UserBundle\Entity\User;
 
 
@@ -27,10 +27,10 @@ class CatalogRepository extends BaseRepository
     }
 
     /**
-     * @param TripFormFilter $catalogFormFilter
+     * @param CatalogFormFilter $catalogFormFilter
      * @return mixed
      */
-    public function findByFilter(TripFormFilter $catalogFormFilter)
+    public function findByFilter(CatalogFormFilter $catalogFormFilter)
     {
         $qb = $this->findByAbstractFilter($catalogFormFilter);
 

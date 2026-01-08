@@ -8,7 +8,7 @@ use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use MyTour\CoreBundle\Controller\AbstractController;
 use MyTour\ExcursionBundle\Entity\Catalog;
-use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
+use MyTour\ExcursionBundle\Entity\Filter\CatalogFormFilter;
 use MyTour\ExcursionBundle\Form\CatalogType;
 use MyTour\ExcursionBundle\Form\Filter\CatalogFilterType;
 use MyTour\ExcursionBundle\Service\CatalogService;
@@ -26,7 +26,7 @@ class CatalogController extends AbstractController
         CatalogService     $catalogService,
         PaginatorInterface $paginator): Response
     {
-        $catalogFilter = new TripFormFilter();
+        $catalogFilter = new CatalogFormFilter();
         $form = $this->createForm(CatalogFilterType::class, $catalogFilter, ['method' => 'GET']);
         $form->handleRequest($request);
 

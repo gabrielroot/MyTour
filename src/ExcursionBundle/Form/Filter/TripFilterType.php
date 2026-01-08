@@ -4,6 +4,7 @@ namespace MyTour\ExcursionBundle\Form\Filter;
 
 use MyTour\CoreBundle\Form\Custom\DateTimePickerType;
 use MyTour\CoreBundle\Form\Filter\AbstractFormType;
+use MyTour\ExcursionBundle\Entity\Filter\CatalogFormFilter;
 use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Entity\Traveler;
@@ -51,7 +52,7 @@ class TripFilterType extends AbstractType
                 'label_attr' => ['class' => 'mt-1'],
                 'attr' => [
                     'class' => 'flatpickr_timed flatpickr-input',
-                    'placeholder' => 'A viagem se termina em...',
+                    'placeholder' => 'A viagem termina em...',
                     'autocomplete' => 'off'],
                 'required' => false
             ])

@@ -5,7 +5,7 @@ namespace MyTour\ExcursionBundle\Service;
 use Exception;
 use MyTour\CoreBundle\Utils\GlobalSession;
 use MyTour\ExcursionBundle\Entity\Catalog;
-use MyTour\ExcursionBundle\Entity\Filter\TripFormFilter;
+use MyTour\ExcursionBundle\Entity\Filter\CatalogFormFilter;
 use MyTour\ExcursionBundle\Repository\CatalogRepository;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Repository\OrganizerRepository;
@@ -21,10 +21,10 @@ class CatalogService
 
 
     /**
-     * @param TripFormFilter $catalogFormFilter
+     * @param CatalogFormFilter $catalogFormFilter
      * @return mixed
      */
-    public function findByFilter(TripFormFilter $catalogFormFilter): mixed
+    public function findByFilter(CatalogFormFilter $catalogFormFilter): mixed
     {
 
         return $this->catalogRepository->findByFilter($catalogFormFilter);
