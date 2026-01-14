@@ -15,7 +15,6 @@ class TripService
 {
     public function __construct(
         private readonly TripRepository     $tripRepository,
-        private readonly TravelerRepository $travelerRepository,
         private readonly OrganizerRepository $organizerRepository)
     {
 
@@ -34,7 +33,7 @@ class TripService
     public function createTrip(Trip $trip, bool $flush = true): void
     {
         if(!$this->organizerRepository->find(GlobalSession::getLoggedInUser()->getId())) {
-            throw new Exception("Apenas organizadores podem criar catálogos.");
+            throw new Exception("Apenas organizadores podem criar viagens.");
         }
 
         $this->tripRepository->save(entity: $trip, flush: $flush);

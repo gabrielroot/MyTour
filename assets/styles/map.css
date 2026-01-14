@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+#map {
+    height: 170px;
+    border-radius: 10px 10px 0 0;
+}
+
+.coords {
+    padding: 6px 12px;
+    background: #444444;
+    color: #0f0;
+    font-family: monospace;
+    border-radius: 0 0 10px 10px;
+}

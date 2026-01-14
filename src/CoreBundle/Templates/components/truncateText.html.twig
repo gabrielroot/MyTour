@@ -1,0 +1,16 @@
+{#Vars:
+    text: Text to be displayed
+    length: Length to truncate
+#}
+
+{% set isTextTooLong = text|length > length %}
+
+<span
+    {% if isTextTooLong %}
+        data-bs-toggle="tooltip"
+        data-bs-original-title=""
+        title="{{ text }}"
+    {% endif %}
+>
+    {{ isTextTooLong ? text|slice(0, length) ~ '...' : text }}
+</span>

@@ -85,7 +85,7 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $companyService->updateCompany($company);
-                $this->addSuccessMessage("A empresa \"{$company->getFantasyName()}\", foi editado com sucesso!");
+                $this->addSuccessMessage("A empresa \"{$company->getFantasyName()}\", foi editada com sucesso!");
             } catch (Exception $exception) {
                 $this->addErrorMessage($exception->getMessage());
             }

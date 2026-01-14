@@ -54,6 +54,18 @@ class TripRepository extends BaseRepository
                 ->setParameter('price', $tripFormFilter->getPrice());
         }
 
+        if ($tripFormFilter->getDateStart()) {
+            $qb
+                ->where('entity.dateStart = :dateStart')
+                ->setParameter('dateStart', $tripFormFilter->getDateStart());
+        }
+
+        if ($tripFormFilter->getDateEnd()) {
+            $qb
+                ->where('entity.dateEnd = :dateEnd')
+                ->setParameter('dateEnd', $tripFormFilter->getDateEnd());
+        }
+
         if ($tripFormFilter->getTraveler()){
             $qb
                 ->andWhere($qb->expr()->eq('entity.traveler', ':traveler'))

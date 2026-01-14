@@ -74,7 +74,7 @@ class TripController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $tripService->updateTrip($trip);
-                $this->addSuccessMessage("A viagem \"{$trip->getTitle()}\", foi editado com sucesso!");
+                $this->addSuccessMessage("A viagem \"{$trip->getTitle()}\", foi editada com sucesso!");
                 return $this->redirectToRoute('trip_index');
             } catch (Exception $exception) {
                 $this->addErrorMessage($exception->getMessage());
@@ -89,7 +89,7 @@ class TripController extends AbstractController
     {
         try {
             $tripService->deleteTrip($trip);
-            $this->addSuccessMessage("A viagem foi removido do sistema!");
+            $this->addSuccessMessage("A viagem foi removida do sistema!");
         } catch (Exception $exception) {
             $this->addErrorMessage($exception->getMessage());
         }
@@ -102,7 +102,7 @@ class TripController extends AbstractController
     {
         try {
             $tripService->reactivateTrip($trip_id);
-            $this->addSuccessMessage("A viagem foi reativado!");
+            $this->addSuccessMessage("A viagem foi reativada!");
         } catch (Exception $exception) {
             $this->addErrorMessage($exception->getMessage());
         }

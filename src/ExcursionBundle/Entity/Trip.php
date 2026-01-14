@@ -1,6 +1,8 @@
 <?php
 
 namespace MyTour\ExcursionBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use MyTour\CoreBundle\Interface\IAudit;
 use MyTour\CoreBundle\Utils\Trait\AuditTrait;
@@ -23,7 +25,7 @@ class Trip implements IAudit
     private string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private string $description;
+    private ?string $description;
 
     #[ORM\Column(type: 'integer')]
     private int $capacity;
@@ -43,7 +45,11 @@ class Trip implements IAudit
     #[ORM\ManyToOne(targetEntity: Catalog::class, inversedBy: 'trips')]
     private Catalog $catalog;
 
+    #[ORM\OneToMany(targetEntity: Checkpoint::class, mappedBy: 'checkpoints')]
+    private Collection $checkpoints;
+
     public function __construct() {
+        $this->checkpoints = new ArrayCollection();
     }
 
     public function getTitle(): string
@@ -57,7 +63,7 @@ class Trip implements IAudit
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -142,6 +148,17 @@ class Trip implements IAudit
     public function setCatalog(Catalog $catalog): Trip
     {
         $this->catalog = $catalog;
+        return $this;
+    }
+
+    public function getCheckpoints(): Collection
+    {
+        return $this->checkpoints;
+    }
+
+    public function setCheckpoints(Collection $checkpoints): Trip
+    {
+        $this->checkpoints = $checkpoints;
         return $this;
     }
 }

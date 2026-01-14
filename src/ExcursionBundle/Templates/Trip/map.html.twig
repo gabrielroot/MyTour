@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Leaflet + OpenStreetMap</title>
+
+    <!-- Leaflet CSS -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('styles/map.css') }}" />
+</head>
+<body>
+
+<div id="map"></div>
+<div class="coords" id="coords">
+    Arraste o mapa…
+</div>
+
+<input
+        type="text"
+        id="search"
+        placeholder="Digite uma cidade..."
+        style="width:100%; padding:10px; font-size:16px"
+/>
+<button onclick="searchLocation()">Buscar</button>
+
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // Coordenadas iniciais
+    const initialLatLng = [-23.55052, -46.633308] // São Paulo
+
+    // Cria o mapa
+    const map = L.map('map').setView(initialLatLng, 15)
+
+    // Tile layer OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map)
+
+    // Marcador central
+    const marker = L.marker(initialLatLng).addTo(map)
+
+    // Atualiza coords quando o mapa parar de mover
+    map.on('moveend', () => {
+        const center = map.getCenter()
+
+        marker.setLatLng(center)
+
+        document.getElementById('coords').innerText =
+            `Lat: ${center.lat.toFixed(6)} | Lng: ${center.lng.toFixed(6)}`
+    })
+
+    async function searchLocation() {
+        const query = document.getElementById('search').value
+        if (!query) return
+
+        const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}`
+
+        const response = await fetch(url)
+        const data = await response.json()
+
+        if (!data.length) {
+            alert('Local não encontrado')
+            return
+        }
+
+        const { lat, lon } = data[0]
+
+        map.setView([lat, lon], 13)
+        marker.setLatLng([lat, lon])
+    }
+</script>
+
+</body>
+</html>

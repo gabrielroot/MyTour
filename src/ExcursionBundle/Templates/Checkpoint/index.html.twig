@@ -1,0 +1,239 @@
+{% extends '@CoreBundle/base_template/__base_template.html.twig' %}
+
+{% set page_title = 'Paradas' %}
+
+{% block body %}
+    <style>
+        .td-preview {
+            cursor: zoom-in;
+        }
+
+        #map-preview {
+            cursor: zoom-in;
+            border: none;
+            border-radius: 4px;
+            position: absolute;
+            opacity: 0;
+            transition:
+                    width .2s ease-in-out,
+                    height .2s ease-in-out,
+                    position .2s ease-in-out .3s
+        ;
+        }
+
+        .td-preview:active #map-preview {
+            cursor: zoom-in;
+            position: absolute;
+            opacity: 1;
+            margin: -100px -100px;
+            width: 500px;
+            height: 250px;
+            /*transform: scale(4.00);*/
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition:
+                    position 1ms ease-in-out,
+                    all 0.2s ease-in-out .2s;
+        }
+    </style>
+
+    <!-- partial -->
+        {{ include('@CoreBundle/components/title_breadcrumb.html.twig', {
+                'title': page_title,
+                'links': [
+                    {'path': path('checkpoint_index'), 'name': 'Paradas'},
+                ],
+                'current_name': 'Listagem'
+            })
+        }}
+        <div class=" grid-margin stretch-cards">
+            <!-- Filter Form -->
+            <div class="card mb-3 border rounded-top">
+                {{ form_start(form, {'attr': {}, 'method': 'get'}) }}
+                  <div class="card-header d-flex justify-content-between p-2 mb-2">
+                      <div class="d-flex align-items-center">
+                          <div class="ms-2 d-flex align-items-center">
+                              <span class="me-1">Exibindo até</span>
+                              {{ form_row(form.perPage, {'attr': {'style': 'margin-bottom: -15px'}}) }}
+                              <span class="ms-1">itens de</span>
+                          </div>
+                          <span class="mx-2 p-2 badge badge-primary">{{ entities.totalItemCount}}</span>
+                      </div>
+                    <div class="d-flex align-content-center">
+                        <a
+                          href="{{ path('checkpoint_create') }}"
+                          class="btn btn-sm btn-primary d-flex align-content-center"
+                          style="margin-top: -25px; height: 40px"
+                        >
+                          <p class="m-0 text-white">Novo item</p>
+                          <i class="mdi mdi-plus fs-5 text-white"></i>
+                        </a>
+                    </div>
+                  </div>
+                  <div class="card-body p-3">
+                      <div class="row">
+                        <div class="col-sm-6 col-md-4">
+                            {{ form_row(form.title) }}
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            {{ form_row(form.description) }}
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            {{ form_row(form.trip) }}
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                              {{ form_row(form.visitedDateTime) }}
+                          </div>
+                          <div class="col-sm-6 col-md-4">
+                              {{ form_row(form.estimatedDateTime) }}
+                          </div>
+                      </div>
+
+                      {{ include('@CoreBundle/components/audit_extra_filters.html.twig', {'form': form}) }}
+
+                      {{ include('@CoreBundle/components/form-filter-actions.html.twig', {'form': form}) }}
+                  </div>
+                    {{ form_widget(form._token) }}
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+            <!-- Form end -->
+
+            {{ include('@CoreBundle/components/flashMessages.html.twig') }}
+
+            <div class="card rounded-bottom">
+              <div class="card-body p-3 table-responsive">
+                <table class="table table-scheckpointed">
+                  <thead>
+                    <tr >
+                      <th>
+                          <div class="d-flex">
+                              {{ knp_pagination_sortable(entities, 'Cód.', 'entity.id') }}
+                          </div>
+                      </th>
+                      <th>
+                          <div class="d-flex">
+                            {{ knp_pagination_sortable(entities, 'Título', 'entity.title') }}
+                          </div>
+                      </th>
+                      <th>
+                          <div class="d-flex">
+                            {{ knp_pagination_sortable(entities, 'Descrição', 'entity.description') }}
+                          </div>
+                      </th>
+                      <th>
+                          <div class="d-flex">
+                            {{ knp_pagination_sortable(entities, 'Local', 'entity.location') }}
+                          </div>
+                      </th>
+                      <th>
+                          <div class="d-flex">
+                            {{ knp_pagination_sortable(entities, 'Datas', 'entity.estimatedDateTime') }}
+                          </div>
+                      </th>
+                      <th>Status</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                    <tbody>
+                    {% for entity in entities %}
+                      <tr>
+                          <td>#{{ entity.id }}</td>
+                          <td>
+                              <p>{{ entity.title }}</p>
+                              <strong class="me-1">Viagem:</strong>
+                              <a href="{{ path('trip_update', {'trip': entity.trip.id }) }}" target="_blank">
+                                  {{ entity.trip.title }}
+                                  <i class="fa fa-external-link" style="font-size: 10px"></i>
+                              </a>
+                          </td>
+                          <td>
+                              {{ include('@CoreBundle/components/truncateText.html.twig', {
+                                  text: entity.description,
+                                  length: 50
+                              }) }}
+                              {{ entity.description | length == 0 ? '-' : ''  }}
+                          </td>
+                          <td class="td-preview" title="Clique e segure e arraste para navegar no mapa" >
+                              <iframe
+                                  id="map-preview"
+                                  src="https://www.google.com/maps?q={{ entity.latitude }},{{ entity.longitude }}&z=14&output=embed"
+                                  width="50px"
+                                  height="50px"
+                                  loading="lazy">
+                              </iframe>
+                              <span>{{ entity.location }}</span>
+                          </td>
+                          <td>
+                              <div class="d-flex font-monospace" style="font-size: 10px">
+                                  <div class="d-flex flex-column me-1">
+                                      <span class="fw-bold text-black">Início:</span>
+                                      <span class="fw-bold text-black">Término:</span>
+                                  </div>
+                                  <div class="d-flex flex-column">
+                                      <span class="text-black text-nowrap">{{ entity.estimatedDateTime | date('d/m/y - H:i') }}</span>
+                                      <span class="text-black text-nowrap">{{ entity.visitedDateTime | date('d/m/y - H:i') }}</span>
+                                  </div>
+                              </div>
+                          </td>
+                          <td>{{ include('@CoreBundle/pages/audit-status.html.twig', {'entity': entity})  }}</td>
+                          <td>
+                              <div class="dropdown">
+                                  <button
+                                    type="button"
+                                    class="btn btn-outline-primary dropdown-toggle"
+                                    id="dropdown-table-actions"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                  >
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                  </button>
+                                  <div class="dropdown-menu" aria-labelledby="dropdown-table-actions" style="">
+                                      <h6 class="dropdown-header">Ações</h6>
+
+                                      {% if entity.active %}
+                                          <a
+                                              class="dropdown-item"
+                                              href="{{ path('checkpoint_update', {'checkpoint': entity.id})
+                                          }}">
+                                              Editar
+                                          </a>
+                                      {% endif %}
+
+                                      <div class="dropdown-divider"></div>
+
+                                      {% if entity.isActive() %}
+                                          <a
+                                              class="dropdown-item text-danger confirm-action"
+                                              data-title="Deletar?"
+                                              data-message="Deseja realmente deletar esse catálogo?"
+                                              data-url="{{path('checkpoint_delete', {'checkpoint': entity.id})}}"
+                                              href="#"
+                                          >
+                                              Deletar
+                                          </a>
+                                      {% else %}
+                                          <a
+                                              class="dropdown-item text-success"
+                                              href="{{ path('checkpoint_reactivate', {'checkpoint_id': entity.id}) }}"
+                                          >
+                                              Reativar
+                                          </a>
+                                      {% endif %}
+                                  </div>
+                              </div>
+                          </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="mt-3">
+                {{ knp_pagination_render(entities) }}
+            </div>
+    </div>
+    <!-- main-panel ends -->
+{% endblock %}

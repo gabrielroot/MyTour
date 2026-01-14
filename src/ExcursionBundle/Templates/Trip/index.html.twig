@@ -1,6 +1,6 @@
 {% extends '@CoreBundle/base_template/__base_template.html.twig' %}
 
-{% set page_title = 'Catálogos' %}
+{% set page_title = 'Viagens' %}
 
 {% block body %}
     <!-- partial -->
@@ -13,6 +13,7 @@
             })
         }}
         <div class=" grid-margin stretch-cards">
+            <!-- Filter Form -->
             <div class="card mb-3 border rounded-top">
                 {{ form_start(form, {'attr': {}, 'method': 'get'}) }}
                   <div class="card-header d-flex justify-content-between p-2 mb-2">
@@ -67,6 +68,8 @@
                     {{ form_widget(form._token) }}
                 {{ form_end(form, {'render_rest': false}) }}
             </div>
+            <!-- Form end -->
+
             {{ include('@CoreBundle/components/flashMessages.html.twig') }}
 
             <div class="card rounded-bottom">
@@ -94,7 +97,11 @@
                             {{ knp_pagination_sortable(entities, 'Preço', 'entity.price') }}
                           </div>
                       </th>
-                      <th>Disponível?</th>
+                      <th>
+                          <div class="d-flex">
+                            {{ knp_pagination_sortable(entities, 'Período', 'entity.dateStart') }}
+                          </div>
+                      </th>
                       <th>Status</th>
                       <th>Ações</th>
                     </tr>
@@ -102,12 +109,27 @@
                   <tbody>
                     {% for entity in entities %}
                       <tr>
-                          <td>{{ entity.id }}</td>
+                          <td>#{{ entity.id }}</td>
                           <td>{{ entity.title }}</td>
-                          <td>{{ entity.description }}</td>
+                          <td>
+                              {{ include('@CoreBundle/components/truncateText.html.twig', {
+                                  text: entity.description,
+                                  length: 50
+                              }) }}
+                              {{ entity.description | length == 0 ? '-' : ''  }}
+                          </td>
                           <td>{{ entity.price }}</td>
                           <td>
-                            <h1>-</h1>
+                              <div class="d-flex font-monospace" style="font-size: 10px">
+                                  <div class="d-flex flex-column me-1">
+                                      <span class="fw-bold text-black">Início:</span>
+                                      <span class="fw-bold text-black">Término:</span>
+                                  </div>
+                                  <div class="d-flex flex-column">
+                                      <span class="text-black text-nowrap">{{ entity.dateStart | date('d/m/y - H:i') }}</span>
+                                      <span class="text-black text-nowrap">{{ entity.dateEnd | date('d/m/y - H:i') }}</span>
+                                  </div>
+                              </div>
                           </td>
                           <td>{{ include('@CoreBundle/pages/audit-status.html.twig', {'entity': entity})  }}</td>
                           <td>
@@ -128,9 +150,16 @@
                                       {% if entity.active %}
                                           <a
                                               class="dropdown-item"
-                                              href="{{ path('trip_update', {'trip': entity.id})
-                                          }}">
+                                              href="{{ path('trip_update', {'trip': entity.id}) }}">
                                               Editar
+                                          </a>
+
+                                          <a
+                                              class="dropdown-item"
+                                              href="{{ path('checkpoint_from_trip', {'trip': entity.id}) }}"
+                                              target="_blank"
+                                          >
+                                              Paradas
                                           </a>
                                       {% endif %}
 
@@ -168,5 +197,4 @@
                 {{ knp_pagination_render(entities) }}
             </div>
     </div>
-    <!-- main-panel ends -->
 {% endblock %}

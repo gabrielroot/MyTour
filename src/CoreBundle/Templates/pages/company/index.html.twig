@@ -13,6 +13,7 @@
             })
         }}
         <div class=" grid-margin stretch-cards">
+            <!-- Filter Form -->
             <div class="card mb-3 border rounded-top">
                 {{ form_start(form, {'attr': {}, 'method': 'get'}) }}
                   <div class="card-header d-flex justify-content-between p-2 mb-2">
@@ -56,6 +57,8 @@
                     {{ form_widget(form._token) }}
                 {{ form_end(form, {'render_rest': false}) }}
             </div>
+            <!-- Form end -->
+
             {{ include('@CoreBundle/components/flashMessages.html.twig') }}
 
             <div class="card rounded-bottom">

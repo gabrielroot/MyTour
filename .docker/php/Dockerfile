@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-buster
+FROM php:8.2-fpm
 ARG TIMEZONE
 
 COPY php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
@@ -41,11 +41,16 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www/symfony
 
-RUN chown www:www-data -R /var/www/symfony
-RUN chmod 755 -R /var/www/symfony
-RUN chmod g+s -R  /var/www/symfony
+# Garante que o vendor exista e seja gravável
+RUN mkdir -p /var/www/symfony/var/cache \
+    /var/www/symfony/var/log \
+    /var/www/symfony/vendor \
+    && chown -R www:www /var/www/symfony \
+    && chmod -R 775 /var/www/symfony/var
 
 # Change current user to www
 USER www
+
+#RUN composer install --no-interaction --prefer-dist
 
 WORKDIR /var/www/symfony

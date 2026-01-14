@@ -2,6 +2,7 @@
 
 namespace MyTour\ExcursionBundle\Entity\Filter;
 
+use Doctrine\Common\Collections\Collection;
 use MyTour\CoreBundle\Entity\Filter\AbstractFormFilter;
 use MyTour\UserBundle\Entity\Organizer;
 use MyTour\UserBundle\Entity\Traveler;
@@ -23,6 +24,8 @@ class TripFormFilter extends AbstractFormFilter
     private ?float $dateStart = null;
 
     private ?float $dateEnd = null;
+
+    private ?Collection $checkpoints = null;
 
     public function getTitle(): ?string
     {
@@ -112,4 +115,14 @@ class TripFormFilter extends AbstractFormFilter
         return $this;
     }
 
+    public function getCheckpoints(): Collection
+    {
+        return $this->checkpoints;
+    }
+
+    public function setCheckpoints(?Collection $checkpoints): TripFormFilter
+    {
+        $this->checkpoints = $checkpoints;
+        return $this;
+    }
 }
