@@ -62,5 +62,4 @@ USER www
 RUN composer install --no-interaction --prefer-dist
 
 RUN php bin/console cache:clear --no-warmup \
-    && php bin/console cache:warmup \
-    && php bin/console database:migrations:migrate \
+    && php bin/console database:migrations:migrate --no-interaction
