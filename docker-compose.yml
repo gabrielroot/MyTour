@@ -17,6 +17,7 @@ services:
             context: .docker/nginx
         volumes:
             - ./:/var/www/symfony:rw,delegated
+            - ./:/var/www/symfony
         ports:
             - 8081:80
         networks:
