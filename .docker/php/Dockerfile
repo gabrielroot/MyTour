@@ -46,6 +46,7 @@ COPY --chown=www:www . /var/www/symfony
 # Garante que o vendor exista e seja gravável
 
 RUN mkdir -p /var/www/symfony
+WORKDIR /var/www/symfony
 
 COPY . .
 
@@ -59,5 +60,3 @@ RUN mkdir -p /var/www/symfony/var/cache \
 USER www
 
 #RUN composer install --no-interaction --prefer-dist
-
-WORKDIR /var/www/symfony
