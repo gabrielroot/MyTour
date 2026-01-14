@@ -2,6 +2,8 @@ FROM php:8.2-fpm
 ARG TIMEZONE
 
 COPY php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
+COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 
 RUN apt-get update && apt-get install -y \
     gnupg \
