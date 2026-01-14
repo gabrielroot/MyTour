@@ -52,7 +52,8 @@ RUN mkdir -p /var/www/symfony/var/cache \
     /var/www/symfony/var/log \
     /var/www/symfony/vendor \
     && chown -R www:www /var/www/symfony \
-    && chmod -R 775 /var/www/symfony/var
+    && chmod -R 775 /var/www/symfony/var \
+    && chmod -R 775 /var/www/symfony/public
 
 # Change current user to www
 USER www
