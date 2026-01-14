@@ -39,7 +39,13 @@
                             {{ form_widget(form._token) }}
                             <div class="form-group">
                                 <div class="form-row">
+                                    {{ form_row(form.name) }}
+                                </div>
+                                <div class="form-row">
                                     {{ form_row(form.username) }}
+                                </div>
+                                <div class="form-row">
+                                    {{ form_row(form.birthday) }}
                                 </div>
                                 <div class="form-row">
                                     {{ form_row(form.plainPassword) }}
@@ -67,5 +73,12 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
+<script src="{{ asset('template_assets/vendors/js/vendor.bundle.base.js') }}"></script>
+<!-- endinject -->
+
+<!-- inject:js -->
+<script src="{{ asset('template_assets/vendors/select2/select2.min.js') }}"></script>
+
+{% block importmap %}{{ importmap('app') }}{% endblock %}
 </body>
 </html>

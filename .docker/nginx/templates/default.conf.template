@@ -1,42 +1,21 @@
 server {
     listen 80;
-    server_name ${NGINX_BACKEND_DOMAIN};
+    server_name _;
     root /var/www/symfony/public;
 
+    index index.php;
+
     location / {
-        try_files $uri $uri/ /index.php$is_args$args;
+        try_files $uri /index.php$is_args$args;
     }
 
     location ~ ^/index\.php(/|$) {
-        if ($request_method = 'OPTIONS') {
-            add_header 'Access-Control-Allow-Origin' '*' always;
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, DELETE, OPTIONS' always;
-            add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
-            add_header 'Access-Control-Max-Age' 1728000 always;
-            add_header 'Content-Type' 'text/plain; charset=utf-8' always;
-            add_header 'Content-Length' 0 always;
-            return 204;
-        }
-        add_header 'Access-Control-Allow-Origin' '*' always;
-        add_header 'Access-Control-Allow-Methods' 'GET, POST, DELETE, OPTIONS' always;
-        add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
-        add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range' always;
-
         fastcgi_pass app:9000;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
-
-        # prefer fastcgi.conf (defines SCRIPT_FILENAME) or set explicitly:
         include fastcgi.conf;
-        fastcgi_param DOCUMENT_ROOT $document_root;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-
-        internal;
     }
 
     location ~ \.php$ {
         return 404;
     }
-
-    error_log /dev/stdout info;
-    access_log /var/log/nginx/project_access.log;
 }

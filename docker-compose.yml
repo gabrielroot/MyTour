@@ -8,6 +8,7 @@ services:
                 TIMEZONE: ${TIMEZONE}
         volumes:
           - ./:/var/www/symfony:rw,delegated
+          - ./public:/var/www/symfony/public:rw
         networks:
             - symfony_app
 
@@ -16,6 +17,7 @@ services:
             context: .docker/nginx
         volumes:
             - ./:/var/www/symfony:rw,delegated
+            - ./public:/var/www/symfony/public:ro
         ports:
             - 80:80
         networks:

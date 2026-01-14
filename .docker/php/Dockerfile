@@ -48,8 +48,6 @@ COPY --chown=www:www . /var/www/symfony
 RUN mkdir -p /var/www/symfony
 WORKDIR /var/www/symfony
 
-COPY . .
-
 RUN mkdir -p /var/www/symfony/var/cache \
     /var/www/symfony/var/log \
     /var/www/symfony/vendor \

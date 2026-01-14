@@ -2,6 +2,7 @@
 
 namespace MyTour\UserBundle\Form;
 
+use MyTour\CoreBundle\Form\Custom\DateTimePickerType;
 use MyTour\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -25,6 +26,27 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Por favor, informe seu nome de usuário.',
+                    ])
+                ]
+            ])
+            ->add('birthday', DateTimePickerType::class, [
+                'label' => 'Data de nascimento:',
+                'label_attr' => ['class' => 'mt-1'],
+                'attr' => [
+                    'class' => 'flatpickr flatpickr-input',
+                    'placeholder' => 'Informe sua data de nascimento',
+                    'autocomplete' => 'off'],
+                'required' => false
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Nome',
+                'attr' => [
+                    'placeholder' => 'Seu nome',
+                    'class' => 'form-control form-control-lg',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Por favor, informe seu nome.',
                     ])
                 ]
             ])
