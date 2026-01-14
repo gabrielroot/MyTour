@@ -60,6 +60,3 @@ RUN mkdir -p /var/www/symfony/var/cache \
 USER www
 
 RUN composer install --no-interaction --prefer-dist
-
-RUN php bin/console cache:clear --no-warmup \
-    && php bin/console database:migrations:migrate --no-interaction
