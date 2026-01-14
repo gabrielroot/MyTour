@@ -27,6 +27,19 @@ services:
     networks:
       - symfony_app
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db
+    volumes:
+      - .docker/phpmyadmin/theme/blueberry:/var/www/html/themes/blueberry
+    depends_on:
+      - db
+    networks:
+      - symfony_app
+
 volumes:
   symfony_app_var:
   symfony_app_vendor:
