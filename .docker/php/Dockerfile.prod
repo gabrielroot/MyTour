@@ -59,4 +59,8 @@ RUN mkdir -p /var/www/symfony/var/cache \
 # Change current user to www
 USER www
 
-#RUN composer install --no-interaction --prefer-dist
+RUN composer install --no-interaction --prefer-dist
+
+RUN php bin/console cache:clear --no-warmup \
+    && php bin/console cache:warmup \
+    && php bin/console database:migrations:migrate \
