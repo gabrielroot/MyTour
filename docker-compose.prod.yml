@@ -9,6 +9,8 @@ services:
     ports:
       - "9000:9000"
     restart: unless-stopped
+    volumes:
+      - public_assets:/var/www/symfony/public
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9000/health || exit 1"]
       interval: 30s
@@ -24,6 +26,8 @@ services:
     ports:
       - "8081:80"
     restart: unless-stopped
+    volumes:
+        - public_assets:/var/www/symfony/public:ro
     networks:
       - symfony_app
 
@@ -58,6 +62,7 @@ volumes:
   symfony_app_var:
   symfony_app_vendor:
   db_app:
-
+  public_assets:
+    driver: local
 networks:
   symfony_app:
