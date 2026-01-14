@@ -8,7 +8,6 @@ services:
                 TIMEZONE: ${TIMEZONE}
         volumes:
           - ./:/var/www/symfony:rw,delegated
-          - ./:/var/www/symfony
         networks:
             - symfony_app
 
@@ -17,9 +16,8 @@ services:
             context: .docker/nginx
         volumes:
             - ./:/var/www/symfony:rw,delegated
-            - ./:/var/www/symfony
         ports:
-            - 8081:80
+            - 80:80
         networks:
             - symfony_app
         env_file:
@@ -42,7 +40,7 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:5.2.1
         ports:
-            - 8082:80
+            - 8080:80
         environment:
             - PMA_HOST=db
         volumes:

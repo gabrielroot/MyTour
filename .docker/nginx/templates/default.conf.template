@@ -21,14 +21,18 @@ server {
         add_header 'Access-Control-Allow-Methods' 'GET, POST, DELETE, OPTIONS' always;
         add_header 'Access-Control-Allow-Headers' 'Authorization,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
         add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range' always;
-        
+
         fastcgi_pass app:9000;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        # prefer fastcgi.conf (defines SCRIPT_FILENAME) or set explicitly:
+        include fastcgi.conf;
+        fastcgi_param DOCUMENT_ROOT $document_root;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
         internal;
     }
+
     location ~ \.php$ {
         return 404;
     }

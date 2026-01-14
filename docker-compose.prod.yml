@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+    environment:
+      - APP_ENV=prod
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - symfony_app
+
+  nginx:
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile.prod
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+    networks:
+      - symfony_app
+
+volumes:
+  symfony_app_var:
+  symfony_app_vendor:
+  db_app:
+
+networks:
+  symfony_app:
