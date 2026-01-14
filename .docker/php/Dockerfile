@@ -44,6 +44,11 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 COPY --chown=www:www . /var/www/symfony
 
 # Garante que o vendor exista e seja gravável
+
+RUN mkdir -p /var/www/symfony
+
+COPY . .
+
 RUN mkdir -p /var/www/symfony/var/cache \
     /var/www/symfony/var/log \
     /var/www/symfony/vendor \
