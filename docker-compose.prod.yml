@@ -27,6 +27,20 @@ services:
     networks:
       - symfony_app
 
+  db:
+    image: mysql:8.0.33
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mytour
+      - MYSQL_ROOT_HOST=%
+    volumes:
+      - .docker/mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - symfony_app
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
     ports:
