@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: .docker/php/Dockerfile
+      dockerfile: .docker/php/Dockerfile.prod
     environment:
       - APP_ENV=prod
     ports:
