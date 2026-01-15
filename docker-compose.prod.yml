@@ -10,8 +10,9 @@ services:
       - "9000:9000"
     restart: unless-stopped
     volumes:
-      - ./:/var/www/symfony:rw,delegated
-      - ./public:/var/www/symfony/public:rw
+      - symfony_var:/var/www/symfony/var
+#      - ./:/var/www/symfony:rw,delegated
+#      - ./public:/var/www/symfony/public:rw
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9000/health || exit 1"]
       interval: 30s
