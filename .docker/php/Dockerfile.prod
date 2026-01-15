@@ -54,9 +54,10 @@ RUN mkdir -p /var/www/symfony/var/cache \
     && chown -R www:www /var/www/symfony \
     && chmod -R 775 /var/www/symfony/var
 
-# Change current user to www
-USER www
 
 RUN composer install --no-interaction --prefer-dist
 
 RUN php bin/console asset-map:compile
+
+# Change current user to www
+USER www
