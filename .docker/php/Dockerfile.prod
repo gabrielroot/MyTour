@@ -48,8 +48,6 @@ COPY --chown=www:www . /var/www/symfony
 RUN mkdir -p /var/www/symfony
 WORKDIR /var/www/symfony
 
-COPY . .
-
 RUN mkdir -p /var/www/symfony/var/cache \
     /var/www/symfony/var/log \
     /var/www/symfony/vendor \
@@ -60,3 +58,5 @@ RUN mkdir -p /var/www/symfony/var/cache \
 USER www
 
 RUN composer install --no-interaction --prefer-dist
+
+RUN php bin/console asset-map:compile
