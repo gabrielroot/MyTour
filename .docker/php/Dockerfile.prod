@@ -54,7 +54,7 @@ COPY --chown=www:www . /var/www/symfony
 WORKDIR /var/www/symfony
 
 # Ensure runtime dirs exist with correct permissions
-RUN mkdir -p var/cache var/log vendor public/build \
+RUN mkdir -p var/cache/prod var/log vendor public/build \
     && chown -R www:www /var/www/symfony \
     && chmod -R 777 var
 
@@ -74,15 +74,18 @@ RUN yarn install --frozen-lockfile || yarn install \
 COPY .docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Final permission fix
+# Final permission fix - ensure var is world-writable
 RUN chown -R www:www /var/www/symfony \
-    && chmod -R 777 var
+    && chmod -R 777 var \
+    && chmod -R 777 /tmp
 
-# Warm up cache
+# Warm up cache as www user
+USER www
 RUN APP_ENV=prod php bin/console cache:clear --no-warmup --env=prod || true
 RUN APP_ENV=prod php bin/console cache:warmup --env=prod || true
 
-USER www
+# Switch back to root for entrypoint (it will handle permissions then exec as www-data)
+USER root
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["php-fpm"]
