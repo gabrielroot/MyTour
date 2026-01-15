@@ -18,6 +18,7 @@
     <link rel="shortcut icon" href="{{ asset('template_assets/images/favicon.png') }}" />
 
     {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
   </head>
@@ -61,7 +62,7 @@
 
     <!-- endinject -->
     {% block javascripts %}
-      {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {{ encore_entry_script_tags('app') }}
     {% endblock %}
   </body>
 </html>

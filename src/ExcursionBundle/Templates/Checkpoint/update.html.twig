@@ -4,8 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('styles/map.css') }}" />
+    {{ encore_entry_link_tags('map') }}
 {% endblock %}
 
 {% block body %}
@@ -46,5 +45,5 @@
     <script>
         window.searchAddressEndpoint = "{{ path('map_search_address') }}";
     </script>
-    <script src="{{ asset('scripts/checkpoint.js') }}" type="module"></script>
+    {{ encore_entry_script_tags('checkpoint') }}
 {% endblock %}

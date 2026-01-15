@@ -1,22 +1,19 @@
 /*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
+ * Main JavaScript file - bundled by Webpack Encore
  */
 "use strict";
 
+// CSS imports
 import './styles/app.css';
-
 import 'flatpickr/dist/flatpickr.min.css';
-
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import '@fortawesome/fontawesome-free/js/all.min.js';
 
-import flatpickr from "flatpickr"
+// JS imports
+import $ from 'jquery';
+import flatpickr from "flatpickr";
 import { Portuguese } from 'flatpickr/dist/l10n/pt.js';
-
 import Swal from 'sweetalert2';
+import '@fortawesome/fontawesome-free/js/all.min.js';
 
 $(function(){
     initSidebarMenuActive()

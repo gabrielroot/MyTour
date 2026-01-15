@@ -1,25 +1,26 @@
-version: "3.8"
 services:
   app:
     build:
       context: .
       dockerfile: .docker/php/Dockerfile.prod
+      args:
+        TIMEZONE: America/Sao_Paulo
     environment:
       - APP_ENV=prod
-    ports:
-      - "9000:9000"
+      - APP_DEBUG=0
     restart: unless-stopped
     volumes:
       - symfony_app_var:/var/www/symfony/var
-#      - ./:/var/www/symfony:rw,delegated
-#      - ./public:/var/www/symfony/public:rw
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9000/health || exit 1"]
+      test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
     networks:
       - symfony_app
+    depends_on:
+      - db
 
   nginx:
     build:
@@ -28,43 +29,27 @@ services:
     ports:
       - "8081:80"
     restart: unless-stopped
-    volumes:
-      - ./:/var/www/symfony:rw,delegated
-      - ./public:/var/www/symfony/public:ro
     networks:
       - symfony_app
+    depends_on:
+      - app
 
   db:
     image: mysql:8.0.33
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=mytour
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-mytour}
       - MYSQL_ROOT_HOST=%
     volumes:
-      - .docker/mysql/data:/var/lib/mysql
-    ports:
-      - 3306:3306
-    networks:
-      - symfony_app
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.2.1
-    ports:
-      - 8082:80
-    environment:
-      - PMA_HOST=db
-    volumes:
-      - .docker/phpmyadmin/theme/blueberry:/var/www/html/themes/blueberry
-    depends_on:
-      - db
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
     networks:
       - symfony_app
 
 volumes:
   symfony_app_var:
-  symfony_app_vendor:
-  db_app:
+  db_data:
 
 networks:
   symfony_app:
