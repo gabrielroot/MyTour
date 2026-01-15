@@ -10,7 +10,7 @@ services:
       - "9000:9000"
     restart: unless-stopped
     volumes:
-      - symfony_var:/var/www/symfony/var
+      - symfony_app_var:/var/www/symfony/var
 #      - ./:/var/www/symfony:rw,delegated
 #      - ./public:/var/www/symfony/public:rw
     healthcheck:
