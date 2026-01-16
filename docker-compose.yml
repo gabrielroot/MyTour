@@ -2,12 +2,13 @@ services:
     app:
         build:
             context: .docker/php
+            dockerfile: Dockerfile.dev
             args:
                 TIMEZONE: ${TIMEZONE:-America/Sao_Paulo}
         volumes:
           - ./:/var/www/symfony:rw,delegated
-          - /var/www/symfony/var
-          - /var/www/symfony/vendor
+          - symfony_app_var:/var/www/symfony/var
+          - vendor:/var/www/symfony/vendor
         networks:
             - symfony_app
         depends_on:
@@ -20,7 +21,7 @@ services:
             - ./:/var/www/symfony:ro,delegated
             - ./public:/var/www/symfony/public:ro
         ports:
-            - "80:80"
+            - "8081:80"
         networks:
             - symfony_app
         depends_on:
@@ -33,7 +34,10 @@ services:
         working_dir: /var/www/symfony
         volumes:
           - ./:/var/www/symfony:rw,delegated
-        command: sh -c "yarn install && yarn encore dev --watch"
+          - node_modules:/var/www/symfony/node_modules
+        environment:
+          - CHOKIDAR_USEPOLLING=true
+        command: sh -c "yarn install --frozen-lockfile && yarn encore dev --watch"
         networks:
           - symfony_app
 
@@ -66,3 +70,9 @@ services:
 
 networks:
     symfony_app:
+
+volumes:
+    symfony_app_var:
+    db_data:
+    node_modules:
+    vendor:
