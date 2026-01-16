@@ -29,3 +29,7 @@ thead th a[class="sortable"], thead th a[class="asc"], thead th a[class="desc"] 
 thead th a span {
     margin-right: 4px !important;
 }
+
+.select2-selection__rendered {
+    line-height: 15px !important;
+}

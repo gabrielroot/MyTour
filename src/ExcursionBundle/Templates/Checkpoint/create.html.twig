@@ -4,6 +4,14 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {# Leaflet CSS (needed for proper map styling) #}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="" crossorigin="" />
+
+{#    #}{# Ensure map height is applied with higher specificity than other styles (quick fix) #}
+{#    <style>#}
+{#        .map-box #map { height: 170px !important; border-radius: 10px 10px 0 0; }#}
+{#    </style>#}
+
     {{ encore_entry_link_tags('map') }}
 {% endblock %}
 

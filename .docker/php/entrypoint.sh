@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+yarn build
+
 # Fix permissions for var/ directory (cache, logs, sessions)
 # Run as root if possible, otherwise just ensure dirs exist
 if [ -d /var/www/symfony/var ]; then
@@ -10,6 +12,10 @@ fi
 # Ensure cache directory exists and is writable
 mkdir -p /var/www/symfony/var/cache/prod 2>/dev/null || true
 chmod -R 777 /var/www/symfony/var/cache 2>/dev/null || true
+
+# Clear and rebuild cache on container start (fixes stale cache from volume)
+rm -rf /var/www/symfony/var/cache/* 2>/dev/null || true
+cd /var/www/symfony && APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup 2>/dev/null || true
 
 # Fix permissions for public/ directory (assets)
 if [ -d /var/www/symfony/public ]; then

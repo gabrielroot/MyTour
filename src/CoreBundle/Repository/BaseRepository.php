@@ -81,8 +81,8 @@ abstract class BaseRepository extends ServiceEntityRepository
     public function findBy(
         array $criteria,
         array $orderBy = null,
-        ?int $limit = null,
-        ?int $offset = 0,
+        $limit = null,
+        $offset = null,
         bool $onlyActive = true): array
     {
         $qb = $this->newCriteriaActiveQb(onlyActive: $onlyActive);

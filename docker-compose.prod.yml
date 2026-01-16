@@ -10,6 +10,7 @@ services:
       - APP_DEBUG=0
     restart: unless-stopped
     volumes:
+      - ./public:/var/www/symfony/public
       - symfony_app_var:/var/www/symfony/var
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
@@ -29,6 +30,8 @@ services:
     ports:
       - "8081:80"
     restart: unless-stopped
+    volumes:
+      - ./public:/var/www/symfony/public
     networks:
       - symfony_app
     depends_on:

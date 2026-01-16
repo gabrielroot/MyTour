@@ -7,9 +7,13 @@
 import './styles/app.css';
 import 'flatpickr/dist/flatpickr.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'select2/dist/css/select2.min.css';
 
 // JS imports
 import $ from 'jquery';
+// expose jQuery as global for plugins that expect window.jQuery / window.$
+window.$ = window.jQuery = $;
+import 'select2/dist/js/select2.full.js';
 import flatpickr from "flatpickr";
 import { Portuguese } from 'flatpickr/dist/l10n/pt.js';
 import Swal from 'sweetalert2';

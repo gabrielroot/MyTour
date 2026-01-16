@@ -68,4 +68,7 @@ async function searchLocation(value) {
 
     map.setView([lat, lon], 13)
     marker.setLatLng([lat, lon])
+
+    // ensure the map redraws correctly after setView
+    setTimeout(() => { try { map.invalidateSize(); } catch (e) {} }, 100)
 }

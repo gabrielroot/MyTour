@@ -68,9 +68,12 @@ RUN composer install \
     --no-dev \
     --optimize-autoloader
 
+# Fix: Create missing views directory for doctrine-migrations-bundle
+RUN mkdir -p /var/www/symfony/vendor/doctrine/doctrine-migrations-bundle/Resources/views
+
 # Install JS dependencies and build assets
 RUN yarn install --frozen-lockfile || yarn install \
-    && yarn encore production || yarn build || true
+    && yarn encore production || true
 
 # Copy entrypoint script
 COPY .docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
@@ -81,10 +84,9 @@ RUN chown -R www:www /var/www/symfony \
     && chmod -R 777 var \
     && chmod -R 777 /tmp
 
-# Warm up cache as www user
+# Clear and warmup cache as www user
 USER www
-RUN APP_ENV=prod php bin/console cache:clear --no-warmup --env=prod || true
-RUN APP_ENV=prod php bin/console cache:warmup --env=prod || true
+RUN rm -rf var/cache/*
 
 # Switch back to root for entrypoint (it will handle permissions then exec as www-data)
 USER root
