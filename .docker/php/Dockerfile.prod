@@ -58,13 +58,15 @@ RUN mkdir -p var/cache/prod var/log vendor public/build \
     && chown -R www:www /var/www/symfony \
     && chmod -R 777 var
 
-# Install PHP dependencies (no-dev for prod, no-scripts to avoid dev-only errors)
+# Remove composer.lock to force fresh install with updated packages
+RUN rm -f composer.lock
+
+# Install PHP dependencies (no-dev for prod)
 RUN composer install \
     --no-interaction \
     --prefer-dist \
     --no-dev \
-    --optimize-autoloader \
-    --no-scripts
+    --optimize-autoloader
 
 # Install JS dependencies and build assets
 RUN yarn install --frozen-lockfile || yarn install \
