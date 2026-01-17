@@ -92,4 +92,7 @@ RUN rm -rf var/cache/*
 USER root
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+EXPOSE 8081
+
 CMD ["php-fpm"]
