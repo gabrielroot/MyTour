@@ -14,4 +14,3 @@ RUN echo "upstream php-upstream { server app:9000; }" > /etc/nginx/conf.d/upstre
 RUN chown -R nginx:nginx /var/www/symfony/public
 
 EXPOSE 80
-EXPOSE 443
