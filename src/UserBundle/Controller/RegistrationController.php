@@ -4,6 +4,7 @@ namespace MyTour\UserBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use MyTour\CoreBundle\Repository\CompanyRepository;
+use MyTour\UserBundle\Entity\Traveler;
 use MyTour\UserBundle\Entity\User;
 use MyTour\UserBundle\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,8 +26,8 @@ class RegistrationController extends AbstractController
         CompanyRepository $companyRepository,
         EntityManagerInterface $entityManager): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $traveler = new Traveler();
+        $form = $this->createForm(RegistrationFormType::class, $traveler);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -34,14 +35,14 @@ class RegistrationController extends AbstractController
             $plainPassword = $form->get('plainPassword')->getData();
 
             // encode the plain password
-            $user
+            $traveler
                 ->setCompany($companyRepository->findOneBy([]))
-                ->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+                ->setPassword($userPasswordHasher->hashPassword($traveler, $plainPassword));
 
-            $entityManager->persist($user);
+            $entityManager->persist($traveler);
             $entityManager->flush();
 
-            return $security->login($user, 'form_login', 'main');
+            return $security->login($traveler, 'form_login', 'main');
         }
 
         return $this->render('@UserBundle/User/registration/register.html.twig', [

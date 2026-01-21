@@ -1,9 +1,12 @@
 # Git
 .git
 .gitignore
+.gitattributes
 
 # Docker (avoid recursive copy)
-.docker/mysql/data
+.docker/mysql
+docker-compose*.yml
+Dockerfile*
 
 # Dependencies (will be installed during build)
 vendor
@@ -12,12 +15,14 @@ node_modules
 # Cache and logs (will be created during build)
 var/cache
 var/log
+var/sessions
 
 # IDE
 .idea
 .vscode
 *.swp
 *.swo
+.editorconfig
 
 # OS
 .DS_Store
@@ -25,17 +30,19 @@ Thumbs.db
 
 # Tests
 tests
-phpunit.xml.dist
+phpunit.xml*
+.phpunit*
 
 # Documentation
 README.md
+CHANGELOG.md
 LICENSE
 docs
 
-# Local env files
-.env.local
-.env.*.local
-
-# Build artifacts that should be rebuilt
+# Build artifacts (will be recreated)
 public/build
 
+# Dev files
+.env.local
+.env.*.local
+*.log

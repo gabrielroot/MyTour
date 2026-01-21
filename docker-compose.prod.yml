@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: .docker/php/Dockerfile.prod
+      target: production
       args:
         TIMEZONE: America/Sao_Paulo
     environment:

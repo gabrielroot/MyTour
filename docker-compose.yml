@@ -1,78 +1,72 @@
 services:
-    app:
-        build:
-            context: .docker/php
-            dockerfile: Dockerfile.dev
-            args:
-                TIMEZONE: ${TIMEZONE:-America/Sao_Paulo}
-        volumes:
-          - ./:/var/www/symfony:rw,delegated
-          - symfony_app_var:/var/www/symfony/var
-          - vendor:/var/www/symfony/vendor
-        networks:
-            - symfony_app
-        depends_on:
-          - db
+  app:
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+      args:
+        TIMEZONE: America/Sao_Paulo
+    environment:
+      - APP_ENV=prod
+      - APP_DEBUG=0
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/symfony:rw,delegated
+      - ./public:/var/www/symfony/public:rw
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - symfony_app
+    depends_on:
+      - db
 
-    nginx:
-        build:
-            context: .docker/nginx
-        volumes:
-            - ./:/var/www/symfony:ro,delegated
-            - ./public:/var/www/symfony/public:ro
-        ports:
-            - "8081:80"
-        networks:
-            - symfony_app
-        depends_on:
-          - app
-        env_file:
-            - .docker/.env.nginx.local
+  nginx:
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/symfony:rw,delegated
+      - ./public:/var/www/symfony/public:ro
+    networks:
+      - symfony_app
+    depends_on:
+      - app
 
-    node:
-        image: node:20-alpine
-        working_dir: /var/www/symfony
-        volumes:
-          - ./:/var/www/symfony:rw,delegated
-          - node_modules:/var/www/symfony/node_modules
-        environment:
-          - CHOKIDAR_USEPOLLING=true
-        command: sh -c "yarn install --frozen-lockfile && yarn encore dev --watch"
-        networks:
-          - symfony_app
+  db:
+    image: mysql:8.0.33
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-mytour}
+      - MYSQL_ROOT_HOST=%
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - symfony_app
 
-    db:
-        image: mysql:8.0.33
-        command: --default-authentication-plugin=mysql_native_password
-        environment:
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
-            - MYSQL_DATABASE=${MYSQL_DATABASE:-mytour}
-            - MYSQL_ROOT_HOST=%
-        volumes:
-            - ./.docker/mysql/data:/var/lib/mysql
-        ports:
-            - "3306:3306"
-        networks:
-            - symfony_app
-
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin:5.2.1
-        ports:
-            - "8080:80"
-        environment:
-            - PMA_HOST=db
-        volumes:
-            - ./.docker/phpmyadmin/theme/blueberry:/var/www/html/themes/blueberry
-        depends_on:
-          - db
-        networks:
-            - symfony_app
-
-networks:
-    symfony_app:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    ports:
+      - 8082:80
+    environment:
+      - PMA_HOST=db
+    volumes:
+      - ./.docker/phpmyadmin/theme/blueberry:/var/www/html/themes/blueberry
+    depends_on:
+      - db
+    networks:
+      - symfony_app
 
 volumes:
-    symfony_app_var:
-    db_data:
-    node_modules:
-    vendor:
+  symfony_app_var:
+  db_data:
+
+networks:
+  symfony_app:

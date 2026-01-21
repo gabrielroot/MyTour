@@ -1,5 +1,5 @@
 FROM php:8.2-fpm
-ARG TIMEZONE=America/Sao_Paulo
+ARG TIMEZONE=UTC
 
 COPY php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y \
     libxslt1-dev \
     acl \
     curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo 'alias sf="php bin/console"' >> ~/.bashrc
+    libfcgi-bin \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install pdo pdo_mysql zip xsl gd intl opcache exif mbstring
@@ -41,23 +41,48 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && npm install -g yarn \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy healthcheck script
+COPY php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
+RUN chmod +x /usr/local/bin/php-fpm-healthcheck
+
 # Create non-root user
 RUN groupadd -g 1000 www \
     && useradd -u 1000 -ms /bin/bash -g www www
 
+# Copy application code
+#COPY --chown=www:www . /var/www/symfony
 WORKDIR /var/www/symfony
 
 # Ensure runtime dirs exist with correct permissions
-RUN mkdir -p /var/www/symfony/var/cache \
-    /var/www/symfony/var/log \
-    /var/www/symfony/vendor \
-    /var/www/symfony/public/build \
+RUN mkdir -p var/cache/dev var/log vendor public/build \
     && chown -R www:www /var/www/symfony \
-    && chmod -R 777 /var/www/symfony/var
+    && chmod -R 777 var
 
-# Install PHP dependencies (no-dev for prod, no-scripts to avoid dev-only errors)
-RUN composer install \
-    --no-interaction
+# Remove composer.lock to force fresh install with updated packages
+RUN rm -f composer.lock
 
-# Change current user to www
+# Fix: Create missing views directory for doctrine-migrations-bundle
+RUN mkdir -p /var/www/symfony/vendor/doctrine/doctrine-migrations-bundle/Resources/views
+
+# Install JS dependencies and build assets
+RUN yarn install --frozen-lockfile || yarn install \
+    && yarn encore dev || true
+
+# Copy entrypoint script
+COPY entrypoint.dev.sh /usr/local/bin/entrypoint.dev.sh
+RUN #chmod +x /usr/local/bin/entrypoint.dev.sh
+
+# Final permission fix - ensure var is world-writable
+RUN chown -R www:www /var/www/symfony \
+    && chmod -R 777 var \
+    && chmod -R 777 /tmp
+
+# Clear and warmup cache as www user
 USER www
+RUN rm -rf var/cache/*
+
+# Switch back to root for entrypoint (it will handle permissions then exec as www-data)
+USER root
+
+#ENTRYPOINT ["entrypoint.dev.sh"]
+CMD ["php-fpm"]

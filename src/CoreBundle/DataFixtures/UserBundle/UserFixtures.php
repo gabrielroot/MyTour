@@ -76,7 +76,7 @@ class UserFixtures extends BaseFixtures implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             CompanyFixtures::class,
