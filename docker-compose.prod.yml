@@ -1,11 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: .docker/php/Dockerfile.prod
-      target: production
-      args:
-        TIMEZONE: America/Sao_Paulo
+    image: ghcr.io/gabrielroot/mytour:latest
     environment:
       - APP_ENV=prod
       - APP_DEBUG=0
