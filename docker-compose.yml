@@ -3,21 +3,23 @@ services:
     build:
       context: .docker/php
       dockerfile: Dockerfile
+      target: development
       args:
         TIMEZONE: America/Sao_Paulo
     environment:
-      - APP_ENV=prod
-      - APP_DEBUG=0
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - HOST_UID=${HOST_UID:-1000}
+      - HOST_GID=${HOST_GID:-1000}
     restart: unless-stopped
     volumes:
-      - ./:/var/www/symfony:rw,delegated
-      - ./public:/var/www/symfony/public:rw
+      - ./:/var/www/symfony:cached
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 60s
     networks:
       - symfony_app
     depends_on:
@@ -31,7 +33,7 @@ services:
       - "8081:80"
     restart: unless-stopped
     volumes:
-      - ./:/var/www/symfony:rw,delegated
+      - ./:/var/www/symfony:cached
       - ./public:/var/www/symfony/public:ro
     networks:
       - symfony_app
@@ -65,7 +67,6 @@ services:
       - symfony_app
 
 volumes:
-  symfony_app_var:
   db_data:
 
 networks:
