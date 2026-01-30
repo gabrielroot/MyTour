@@ -33,3 +33,11 @@ services:
         class: MyTour\CoreBundle\EventListener\AuthenticationListener
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onAuthenticationSuccess}
+
+    MyTour\UserBundle\Service\UserStatsService:
+        public: true
+        arguments:
+            $userRepository: '@MyTour\UserBundle\Repository\UserRepository'
+            $organizerRepository: '@MyTour\UserBundle\Repository\OrganizerRepository'
+            $travelerRepository: '@MyTour\UserBundle\Repository\TravelerRepository'
+            $em: '@doctrine.orm.entity_manager'

@@ -58,4 +58,12 @@ class UserRepository extends BaseRepository
             ->orderBy('entity.name', 'ASC')
             ->getQuery();
     }
+
+    public function countAllUsers(): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -34,10 +34,10 @@
             <div class="d-sm-flex justify-content-between align-items-center transaparent-tab-border {">
                 <ul class="nav nav-tabs tab-transparent" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="home-tab" data-bs-toggle="tab" href="#" role="tab" aria-selected="true">Users</a>
+                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#users-1" role="tab" aria-selected="true">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" id="business-tab" data-bs-toggle="tab" href="#business-1" role="tab" aria-selected="false">Business</a>
+                        <a class="nav-link" id="business-tab" data-bs-toggle="tab" href="#business-1" role="tab" aria-selected="false">Business</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="performance-tab" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">Performance</a>
@@ -52,7 +52,59 @@
                 </div>
             </div>
             <div class="tab-content tab-transparent-content">
-                <div class="tab-pane fade show active" id="business-1" role="tabpanel" aria-labelledby="business-tab">
+                <div class="tab-pane fade show active" id="users-1" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <span>
+                                        <i class="mdi mdi-account-multiple icon-md text-dark"></i>
+                                        <h5 class="mb-2 text-dark font-weight-normal">Total Users</h5>
+                                    </span>
+                                    <h2 class="mb-4 text-dark font-weight-bold">{{ userCount }}</h2>
+                                    <p class="mt-4 mb-0">All users</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <span>
+                                        <i class="mdi mdi-account-star icon-md text-dark"></i>
+                                        <h5 class="mb-2 text-dark font-weight-normal">Organizers</h5>
+                                    </span>
+                                    <h2 class="mb-4 text-dark font-weight-bold">{{ organizerCount }}</h2>
+                                    <p class="mt-4 mb-0">Organizer users</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <span>
+                                        <i class="mdi mdi-airplane icon-md text-dark"></i>
+                                        <h5 class="mb-2 text-dark font-weight-normal">Travelers</h5>
+                                    </span>
+                                    <h2 class="mb-4 text-dark font-weight-bold">{{ travelerCount }}</h2>
+                                    <p class="mt-4 mb-0">Traveler users</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <span>
+                                        <i class="mdi mdi-account-key icon-md text-dark"></i>
+                                        <h5 class="mb-2 text-dark font-weight-normal">Admins</h5>
+                                    </span>
+                                    <h2 class="mb-4 text-dark font-weight-bold">{{ adminCount }}</h2>
+                                    <p class="mt-4 mb-0">Admin users</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="business-1" role="tabpanel" aria-labelledby="business-tab">
                     <div class="row">
                         <div class="col-xl-3 col-lg-6 col-sm-6 grid-margin stretch-card">
                             <div class="card">
@@ -320,6 +372,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="tab-pane fade" id="performance" role="tabpanel" aria-labelledby="performance-tab">
+                    <!-- Performance content here -->
+                </div>
+                <div class="tab-pane fade" id="conversion" role="tabpanel" aria-labelledby="conversion-tab">
+                    <!-- Conversion content here -->
                 </div>
             </div>
         </div>

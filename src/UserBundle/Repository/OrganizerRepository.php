@@ -23,4 +23,12 @@ class OrganizerRepository extends BaseRepository
     {
         parent::__construct($registry, Organizer::class);
     }
+
+    public function countAllOrganizers(): int
+    {
+        return (int) $this->createQueryBuilder('o')
+            ->select('COUNT(o.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

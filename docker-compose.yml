@@ -13,7 +13,7 @@ services:
       - HOST_GID=${HOST_GID:-1000}
     restart: unless-stopped
     volumes:
-      - ./:/var/www/symfony:cached
+      - ./:/var/www/symfony
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
       interval: 30s
@@ -33,7 +33,7 @@ services:
       - "8081:80"
     restart: unless-stopped
     volumes:
-      - ./:/var/www/symfony:cached
+      - ./:/var/www/symfony
       - ./public:/var/www/symfony/public:ro
     networks:
       - symfony_app

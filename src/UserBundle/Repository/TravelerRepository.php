@@ -23,4 +23,12 @@ class TravelerRepository extends BaseRepository
     {
         parent::__construct($registry, Traveler::class);
     }
+
+    public function countAllTravelers(): int
+    {
+        return (int) $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
