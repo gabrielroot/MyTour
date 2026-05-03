@@ -160,6 +160,6 @@ USER root
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-EXPOSE 8081
+EXPOSE 9000
 
 CMD ["php-fpm"]

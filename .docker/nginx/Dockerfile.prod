@@ -8,7 +8,7 @@ COPY .docker/nginx/templates /etc/nginx/templates/
 COPY public /var/www/symfony/public
 
 # Create upstream config for php-fpm
-RUN echo "upstream php-upstream { server app:8081; }" > /etc/nginx/conf.d/upstream.conf
+RUN echo "upstream php-upstream { server app:9000; }" > /etc/nginx/conf.d/upstream.conf
 
 # Ensure correct permissions
 RUN chown -R nginx:nginx /var/www/symfony/public
