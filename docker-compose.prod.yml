@@ -1,9 +1,8 @@
 services:
   app:
     image: ghcr.io/gabrielroot/mytour:latest
-    environment:
-      - APP_ENV=prod
-      - APP_DEBUG=0
+    env_file:
+      - .env
     restart: unless-stopped
     volumes:
       - ./public:/var/www/symfony/public
