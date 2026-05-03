@@ -153,7 +153,8 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Warmup cache
 USER www
-RUN APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup --no-debug 2>/dev/null || true
+
+RUN php bin/console cache:warmup --no-debug 2>/dev/null || true
 
 USER root
 
