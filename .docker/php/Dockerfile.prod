@@ -137,6 +137,7 @@ COPY --from=composer-build --chown=www:www /app/translations ./translations
 COPY --from=composer-build --chown=www:www /app/vendor ./vendor
 COPY --from=composer-build --chown=www:www /app/composer.json ./composer.json
 COPY --from=composer-build --chown=www:www /app/migrations ./migrations
+COPY --from=composer-build --chown=www:www .env.prod ./.env.prod
 
 # Copy built assets
 COPY --from=node-build --chown=www:www /app/public/build ./public/build
