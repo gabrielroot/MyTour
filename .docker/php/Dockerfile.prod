@@ -152,7 +152,7 @@ COPY .docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy nginx configuration for later use in nginx stage
-COPY /var/www/.docker/nginx/conf.d/app.conf /var/www/.docker/nginx/conf.d/app.conf
+COPY .docker/nginx/conf.d/app.conf /var/www/.docker/nginx/conf.d/app.conf
 
 # Warmup cache
 USER www
