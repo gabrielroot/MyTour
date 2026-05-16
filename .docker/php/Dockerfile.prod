@@ -138,6 +138,7 @@ COPY --from=composer-build --chown=www:www /app/vendor ./vendor
 COPY --from=composer-build --chown=www:www /app/composer.json ./composer.json
 COPY --from=composer-build --chown=www:www /app/migrations ./migrations
 COPY --from=composer-build --chown=www:www /app/.env ./.env
+COPY --from=composer-build --chown=www:www /app/.docker /var/www/.docker
 
 # Copy built assets
 COPY --from=node-build --chown=www:www /app/public/build ./public/build
@@ -151,9 +152,6 @@ RUN mkdir -p var/cache/prod var/log \
 # Copy entrypoint script
 COPY .docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# Copy nginx configuration for later use in nginx stage
-COPY .docker/nginx/conf.d/app.conf /var/www/.docker/nginx/conf.d/app.conf
 
 # Warmup cache
 USER www
