@@ -169,5 +169,5 @@ CMD ["php-fpm"]
 # nginx
 FROM nginx:alpine AS nginx
 
-COPY --from=prod /var/www/public /var/www/public
-COPY --from=prod /var/www/.docker/nginx/conf.d/app.conf /etc/nginx/conf.d/app.conf
+COPY --from=production /var/www/public /var/www/public
+COPY --from=production /var/www/.docker/nginx/conf.d/app.conf /etc/nginx/conf.d/app.conf
