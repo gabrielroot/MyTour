@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/gabrielroot/mytour:latest
+    image: ghcr.io/gabrielroot/mytour-app:latest
     env_file:
       - .env.prod
     restart: unless-stopped
@@ -16,7 +16,7 @@ services:
       - symfony_app
 
   nginx:
-    image: ghcr.io/gabrielroot/mytour:latest
+    image: ghcr.io/gabrielroot/mytour-nginx:latest
     expose:
       - "80"
     restart: unless-stopped
