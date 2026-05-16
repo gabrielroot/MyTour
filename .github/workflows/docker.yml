@@ -42,16 +42,27 @@ jobs:
             type=sha,prefix=
             type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Build and Push
+      - name: Build app image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: .docker/php/Dockerfile.prod
           target: production
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ghcr.io/gabrielroot/mytour-app:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
             TIMEZONE=America/Sao_Paulo
+
+      - name: Build nginx image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .docker/php/Dockerfile.prod
+          target: nginx
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ghcr.io/gabrielroot/mytour-nginx:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

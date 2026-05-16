@@ -32,7 +32,7 @@ fi
 sed -i "s/user = .*/user = www/g" /usr/local/etc/php-fpm.d/www.conf
 sed -i "s/group = .*/group = www/g" /usr/local/etc/php-fpm.d/www.conf
 
-cd /var/www/symfony
+cd /var/www
 
 # ============================================
 # Fix ownership of var directory

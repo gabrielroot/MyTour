@@ -125,7 +125,7 @@ RUN chmod +x /usr/local/bin/php-fpm-healthcheck
 RUN addgroup -g 1000 www \
     && adduser -u 1000 -G www -s /bin/sh -D www
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www
 
 # Copy only necessary application files from composer-build
 COPY --from=composer-build --chown=www:www /app/bin ./bin
@@ -144,7 +144,7 @@ COPY --from=node-build --chown=www:www /app/public/build ./public/build
 
 # Setup directories and permissions in single layer
 RUN mkdir -p var/cache/prod var/log \
-    && chown -R www:www /var/www/symfony \
+    && chown -R www:www /var/www \
     && chmod -R 755 var \
     && chmod -R 777 /tmp
 
@@ -152,14 +152,23 @@ RUN mkdir -p var/cache/prod var/log \
 COPY .docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Copy nginx configuration for later use in nginx stage
+COPY /var/www/.docker/nginx/conf.d/app.conf /var/www/.docker/nginx/conf.d/app.conf
+
 # Warmup cache
 USER www
-RUN APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup --no-debug 2>/dev/null || true
+RUN php bin/console cache:warmup --no-debug 2>/dev/null || true
 
 USER root
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-EXPOSE 8081
+EXPOSE 9000
 
 CMD ["php-fpm"]
+
+# nginx
+FROM nginx:alpine AS nginx
+
+COPY --from=prod /var/www/public /var/www/public
+COPY --from=prod /var/www/.docker/nginx/conf.d/app.conf /etc/nginx/conf.d/app.conf

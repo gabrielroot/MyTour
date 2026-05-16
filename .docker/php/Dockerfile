@@ -86,7 +86,7 @@ RUN echo "[xdebug]" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 COPY php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www
 
 # Create necessary directories
 RUN mkdir -p var/cache var/log vendor public/build

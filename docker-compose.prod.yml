@@ -1,13 +1,11 @@
 services:
   app:
     image: ghcr.io/gabrielroot/mytour:latest
-    environment:
-      - APP_ENV=prod
-      - APP_DEBUG=0
+    env_file:
+      - .env.prod
     restart: unless-stopped
     volumes:
-      - ./public:/var/www/symfony/public
-      - symfony_app_var:/var/www/symfony/var
+      - symfony_app_var:/var/www/var
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
       interval: 30s
@@ -18,14 +16,12 @@ services:
       - symfony_app
 
   nginx:
-    build:
-      context: .
-      dockerfile: .docker/nginx/Dockerfile.prod
+    image: ghcr.io/gabrielroot/mytour:latest
     expose:
       - "80"
+    ports:
+      - "8080:80"
     restart: unless-stopped
-    volumes:
-      - ./public:/var/www/symfony/public
     networks:
       - symfony_app
     healthcheck:
@@ -38,7 +34,6 @@ services:
 
 volumes:
   symfony_app_var:
-  db_data:
 
 networks:
   symfony_app:
