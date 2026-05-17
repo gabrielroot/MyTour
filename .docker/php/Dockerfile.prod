@@ -137,8 +137,14 @@ COPY --from=composer-build --chown=www:www /app/translations ./translations
 COPY --from=composer-build --chown=www:www /app/vendor ./vendor
 COPY --from=composer-build --chown=www:www /app/composer.json ./composer.json
 COPY --from=composer-build --chown=www:www /app/migrations ./migrations
-COPY --from=composer-build --chown=www:www /app/.env ./.env
-COPY --from=composer-build --chown=www:www /app/.docker /var/www/.docker
+#COPY --from=composer-build --chown=www:www /app/.env ./.env
+COPY --from=composer-build --chown=www:www /app/.docker ./.docker
+COPY --from=composer-build --chown=www:www /app/.docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Avoid loading the entire .env file in production, set only necessary variables
+# Then, allow overriding them via environment variables at runtime if needed
+RUN echo 'APP_ENV=prod' > /var/www/.env && echo 'APP_DEBUG=false' > /var/www/.env
 
 # Copy built assets
 COPY --from=node-build --chown=www:www /app/public/build ./public/build
@@ -148,10 +154,6 @@ RUN mkdir -p var/cache/prod var/log \
     && chown -R www:www /var/www \
     && chmod -R 755 var \
     && chmod -R 777 /tmp
-
-# Copy entrypoint script
-COPY .docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Warmup cache
 USER www

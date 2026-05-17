@@ -1,8 +1,13 @@
 services:
   app:
-    image: ghcr.io/gabrielroot/mytour-app:latest
-    env_file:
-      - .env
+#    image: ghcr.io/gabrielroot/mytour-app:latest
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile.prod
+      target: production
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: false
     restart: unless-stopped
     volumes:
       - symfony_app_var:/var/www/var
@@ -16,7 +21,11 @@ services:
       - symfony_app
 
   nginx:
-    image: ghcr.io/gabrielroot/mytour-nginx:latest
+#    image: ghcr.io/gabrielroot/mytour-nginx:latest
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile.prod
+      target: nginx
     expose:
       - "80"
     restart: unless-stopped
