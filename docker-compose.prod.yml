@@ -20,6 +20,7 @@ services:
       start_period: 40s
     networks:
       - symfony_app
+      - dokploy-network
 
   nginx:
 #    image: ghcr.io/gabrielroot/mytour-nginx:latest
@@ -45,3 +46,5 @@ volumes:
 
 networks:
   symfony_app:
+  dokploy-network:
+    external: true
