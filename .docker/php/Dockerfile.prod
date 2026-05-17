@@ -157,7 +157,7 @@ RUN mkdir -p var/cache/prod var/log \
 
 # Warmup cache
 USER www
-RUN php bin/console cache:warmup --no-debug 2>/dev/null || true
+RUN php bin/console cache:warmup --no-debug --env=prod  2>/dev/null || true
 
 USER root
 
