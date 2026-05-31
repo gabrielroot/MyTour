@@ -70,9 +70,9 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
     && printf '[PHP]\ndate.timezone = "%s"\n' "${TIMEZONE}" > /usr/local/etc/php/conf.d/tzone.ini
 
 # Copy PHP configuration files
-COPY php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
-COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-COPY www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY .docker/php/php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
+COPY .docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY .docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Xdebug configuration for development
 RUN echo "[xdebug]" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -83,7 +83,7 @@ RUN echo "[xdebug]" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && touch /var/log/xdebug.log && chmod 666 /var/log/xdebug.log
 
 # Copy healthcheck script
-COPY php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
+COPY .docker/php/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
 RUN chmod +x /usr/local/bin/php-fpm-healthcheck
 
 WORKDIR /var/www
@@ -92,7 +92,7 @@ WORKDIR /var/www
 RUN mkdir -p var/cache var/log vendor public/build
 
 # Copy entrypoint script
-COPY entrypoint.dev.sh /usr/local/bin/entrypoint.dev.sh
+COPY .docker/php/entrypoint.dev.sh /usr/local/bin/entrypoint.dev.sh
 RUN chmod +x /usr/local/bin/entrypoint.dev.sh
 
 # Environment variables for development

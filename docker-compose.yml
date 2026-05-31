@@ -1,8 +1,8 @@
 services:
   app:
     build:
-      context: .docker/php
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: .docker/php/Dockerfile
       target: development
       args:
         TIMEZONE: America/Sao_Paulo
@@ -27,8 +27,8 @@ services:
 
   nginx:
     build:
-      context: .docker/nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: .docker/php/Dockerfile
     ports:
       - "8081:80"
     restart: unless-stopped
