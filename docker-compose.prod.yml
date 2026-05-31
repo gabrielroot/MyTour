@@ -1,16 +1,12 @@
 services:
   app:
-#    image: ghcr.io/gabrielroot/mytour-app:latest
-    build:
-      context: .
-      dockerfile: .docker/php/Dockerfile.prod
-      target: production
+    image: ${IMAGE}
     environment:
       APP_ENV: prod
       APP_DEBUG: false
     restart: unless-stopped
     volumes:
-      - ./.env.local:/var/www/.env.local:ro
+      - ./.env:/var/www/.env:ro
       - symfony_app_var:/var/www/var
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
