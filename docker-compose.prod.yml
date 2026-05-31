@@ -12,7 +12,6 @@ services:
       NGINX_IMAGE: ${NGINX_IMAGE:-registry.gitlab.grwxtech.com/gabrielroot/mytour.grwxtech.com/nginx:latest}
     restart: unless-stopped
     volumes:
-      # - ./.env:/var/www/.env:ro
       - symfony_app_var:/var/www/var
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
@@ -23,6 +22,22 @@ services:
     networks:
       - symfony_app
       - dokploy-network
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+        failure_action: rollback
+        max_failure_ratio: 0.25
+        order: start-first
+      rollback_config:
+        parallelism: 3
+        delay: 5s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
 
   nginx:
     image: ${NGINX_IMAGE}
@@ -38,6 +53,22 @@ services:
       retries: 3
     depends_on:
       - app
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+        failure_action: rollback
+        max_failure_ratio: 0.25
+        order: start-first
+      rollback_config:
+        parallelism: 3
+        delay: 5s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
 
 volumes:
   symfony_app_var:
