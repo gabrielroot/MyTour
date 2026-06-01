@@ -31,15 +31,15 @@ build-push:
     - docker push $IMAGE_NAME/app:latest
     - docker push $IMAGE_NAME/nginx:$CI_COMMIT_SHORT_SHA
     - docker push $IMAGE_NAME/nginx:latest
-    - sleep 10 # Pequena pausa para garantir que as imagens estejam disponíveis no registro
+    #- sleep 10 # Pequena pausa para garantir que as imagens estejam disponíveis no registro
   only:
     - main
 
 notify-dokploy:
   stage: notify-dokploy
-  # needs:
-  #   - job: build-push
-  #     artifacts: false
+  needs:
+    - job: build-push
+      artifacts: false
   image: alpine/curl
   script:
     - |
