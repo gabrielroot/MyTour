@@ -47,6 +47,7 @@ services:
     restart: unless-stopped
     networks:
       - symfony_app
+      - dokploy-network
     healthcheck:
       test: ["CMD", "curl", "-f", "-H", "Accept: text/html", "http://localhost/login/"]
       interval: 30s
