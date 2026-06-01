@@ -40,7 +40,7 @@ services:
         delay: 5s
         max_attempts: 3
 
-  nginx:
+  mytour_nginx:
     image: ${NGINX_IMAGE}
     expose:
       - "80"
