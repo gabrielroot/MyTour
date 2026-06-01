@@ -37,9 +37,9 @@ build-push:
 
 notify-dokploy:
   stage: notify-dokploy
-  needs:
-    - job: build-push
-      artifacts: false
+  # needs:
+  #   - job: build-push
+  #     artifacts: false
   image: alpine/curl
   script:
     - |
