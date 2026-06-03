@@ -1,5 +1,9 @@
 <?php declare(strict_types=1);
 
+// https://github.com/rlerdorf/opcache-status/tree/master
+// A single-file OPcache status page for PHP 8.2+. Drop opcache.php into any directory and 
+// get a full overview of your OPcache configuration, cached scripts, and health — zero external dependencies.
+
 // Set to true to disable cache reset and script invalidation
 $readonly = false;
 
