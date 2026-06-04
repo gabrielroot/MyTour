@@ -69,11 +69,6 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
     && echo ${TIMEZONE} > /etc/timezone \
     && printf '[PHP]\ndate.timezone = "%s"\n' "${TIMEZONE}" > /usr/local/etc/php/conf.d/tzone.ini
 
-# Copy PHP configuration files
-COPY .docker/php/php.ini /usr/local/etc/php/conf.d/docker-php-config.ini
-COPY .docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-COPY .docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
-
 # Xdebug configuration for development
 RUN echo "[xdebug]" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.mode=develop,debug,coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \

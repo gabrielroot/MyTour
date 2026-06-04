@@ -47,6 +47,24 @@
       </li>
     {% endif %}
 
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      <li class="nav-item nav-category">Sistema</li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#opcache" aria-expanded="false"
+           aria-controls="opcache">
+          <span class="icon-bg"><i class="mdi mdi-database menu-icon"></i></span>
+          <span class="menu-title">Opcache</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="opcache">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ path('opcache_php71') }}">PHP 7.1</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ path('opcache_php82') }}">PHP 8.2</a></li>
+          </ul>
+        </div>
+      </li>
+    {% endif %}
+
     <li class="nav-item nav-category">Extras</li>
 
     <li class="nav-item sidebar-user-actions">
