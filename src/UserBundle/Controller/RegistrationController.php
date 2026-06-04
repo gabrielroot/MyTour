@@ -3,6 +3,7 @@
 namespace MyTour\UserBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use MyTour\CoreBundle\Entity\Company;
 use MyTour\CoreBundle\Repository\CompanyRepository;
 use MyTour\UserBundle\Entity\Traveler;
 use MyTour\UserBundle\Entity\User;

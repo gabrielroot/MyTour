@@ -53,14 +53,8 @@ class OpcacheController extends AbstractController
     #[Route(path: '/phpinfo', name: 'phpinfo')]
     public function phpinfo(): Response
     {
-        $opcacheFile = $this->getParameter('kernel.project_dir') . '/src/CoreBundle/Utils/monitoring/phpinfo.php';
-
-        if (!file_exists($opcacheFile)) {
-            throw $this->createNotFoundException('PHP Info file not found');
-        }
-
         ob_start();
-        include $opcacheFile;
+        phpinfo();
         $content = ob_get_clean();
 
         return new Response($content, 200, [

@@ -50,16 +50,17 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
       <li class="nav-item nav-category">Sistema</li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#opcache" aria-expanded="false"
-           aria-controls="opcache">
-          <span class="icon-bg"><i class="mdi mdi-database menu-icon"></i></span>
-          <span class="menu-title">Opcache</span>
+        <a class="nav-link" data-bs-toggle="collapse" href="#monitoring" aria-expanded="false"
+           aria-controls="monitoring">
+          <span class="icon-bg"><i class="mdi mdi-monitor-dashboard menu-icon"></i></span>
+          <span class="menu-title">Monitoramento</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="opcache">
+        <div class="collapse" id="monitoring">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ path('opcache_php71') }}">PHP 7.1</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{{ path('opcache_php82') }}">PHP 8.2</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ path('opcache_php71') }}">Opcache 7.1</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ path('opcache_php82') }}">Opcache 8.2</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ path('opcache_phpinfo') }}">PHP Info</a></li>
           </ul>
         </div>
       </li>
