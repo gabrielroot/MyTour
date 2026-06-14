@@ -48,12 +48,12 @@ services:
     networks:
       - symfony_app
       - dokploy-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "-H", "Accept: text/html", "http://localhost/login/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "-H", "Accept: text/html", "http://localhost/login/"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
     depends_on:
       - mytour_app
     deploy:
