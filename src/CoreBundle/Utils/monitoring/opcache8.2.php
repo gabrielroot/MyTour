@@ -11,7 +11,7 @@ if (!extension_loaded('Zend OPcache')) {
     require __DIR__ . '/data-sample.php';
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (array_key_exists('REQUEST_METHOD', $_SERVER) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$readonly && isset($_POST['clear']) && $_POST['clear'] === '1' && function_exists('opcache_reset')) {
         opcache_reset();
         header('Location: ' . $_SERVER['PHP_SELF']);
