@@ -118,6 +118,7 @@ services:
     expose:
       - 9113
     networks:
+      - symfony_app
       - monitoring
     deploy:
       replicas: 1
