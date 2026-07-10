@@ -116,7 +116,7 @@ services:
     command:
       - -nginx.scrape-uri=http://mytour_nginx:80/stub_status
     expose:
-      - 9113
+      - '9113'
     networks:
       - symfony_app
       - monitoring
