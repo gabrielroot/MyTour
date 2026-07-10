@@ -118,7 +118,7 @@ services:
     expose:
       - 9113
     networks:
-      - dokploy-network
+      - monitoring
     deploy:
       replicas: 1
       update_config:
@@ -141,4 +141,6 @@ volumes:
 networks:
   symfony_app:
   dokploy-network:
+    external: true
+  monitoring:
     external: true
