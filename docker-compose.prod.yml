@@ -111,6 +111,30 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+  mytour__nginx_exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    command:
+      - -nginx.scrape-uri=http://mytour_nginx:80/stub_status
+    expose:
+      - 9113
+    networks:
+      - dokploy-network
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+        failure_action: rollback
+        max_failure_ratio: 0.25
+        order: start-first
+      rollback_config:
+        parallelism: 3
+        delay: 5s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
 volumes:
   symfony_app_var:
   redis_data:
