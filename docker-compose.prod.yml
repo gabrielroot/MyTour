@@ -115,12 +115,14 @@ services:
   mytour__nginx_exporter:
     image: nginx/nginx-prometheus-exporter:latest
     command:
-      - -nginx.scrape-uri=http://mytour_nginx:80/stub_status
+      - --nginx.scrape-uri=http://mytour_nginx:80/stub_status
     expose:
       - '9113'
     networks:
       - symfony_app
       - monitoring
+    depends_on:
+      - mytour_nginx
     deploy:
       replicas: 1
       update_config:
