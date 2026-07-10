@@ -48,6 +48,7 @@ services:
     networks:
       - symfony_app
       - dokploy-network
+      - monitoring
     healthcheck:
       test: ["CMD", "curl", "-f", "-H", "Accept: text/html", "http://localhost/login/"]
       interval: 30s
