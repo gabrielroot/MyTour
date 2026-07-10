@@ -145,6 +145,33 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+  mytour__php_fpm_exporter:
+    image: hipages/php-fpm_exporter
+    expose:
+      - '9253'
+    environment:
+      PHP_FPM_SCRAPE_URI: tcp://mytour_app:9000/status
+    networks:
+      - symfony_app
+      - monitoring
+    depends_on:
+      - mytour_app
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+        failure_action: rollback
+        max_failure_ratio: 0.25
+        order: start-first
+      rollback_config:
+        parallelism: 3
+        delay: 5s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
 volumes:
   symfony_app_var:
   redis_data:
