@@ -93,7 +93,8 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - dokploy-network 
+      - dokploy-network
+      - monitoring
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -118,6 +119,9 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+
+#################### EXPORTERS #############################
+
   mytour__nginx_exporter:
     image: nginx/nginx-prometheus-exporter:latest
     command:
@@ -156,6 +160,32 @@ services:
       - monitoring
     depends_on:
       - mytour_app
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+        failure_action: rollback
+        max_failure_ratio: 0.25
+        order: start-first
+      rollback_config:
+        parallelism: 3
+        delay: 5s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+  mytour__redis_exporter:
+    image: oliver006/redis_exporter:latest
+    expose:
+      - '9121'
+    environment:
+      REDIS_ADDR: redis://redis_mytour:6379
+    networks:
+      - monitoring
+    depends_on:
+      - redis_mytour
     deploy:
       replicas: 1
       update_config:
