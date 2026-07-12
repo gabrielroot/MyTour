@@ -14,23 +14,23 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 class OpcacheController extends AbstractController
 {
-    #[Route(path: '/opcache/7.1', name: 'php71')]
-    public function opcache71(): Response
-    {
-        $opcacheFile = $this->getParameter('kernel.project_dir') . '/src/CoreBundle/Utils/monitoring/opcache7.1.php';
+    // #[Route(path: '/opcache/7.1', name: 'php71')]
+    // public function opcache71(): Response
+    // {
+    //     $opcacheFile = $this->getParameter('kernel.project_dir') . '/src/CoreBundle/Utils/monitoring/opcache7.1.php';
 
-        if (!file_exists($opcacheFile)) {
-            throw $this->createNotFoundException('Opcache 7.1 file not found');
-        }
+    //     if (!file_exists($opcacheFile)) {
+    //         throw $this->createNotFoundException('Opcache 7.1 file not found');
+    //     }
 
-        ob_start();
-        include $opcacheFile;
-        $content = ob_get_clean();
+    //     ob_start();
+    //     include $opcacheFile;
+    //     $content = ob_get_clean();
 
-        return new Response($content, 200, [
-            'Content-Type' => 'text/html; charset=UTF-8',
-        ]);
-    }
+    //     return new Response($content, 200, [
+    //         'Content-Type' => 'text/html; charset=UTF-8',
+    //     ]);
+    // }
 
     #[Route(path: '/opcache/8.2', name: 'php82')]
     public function opcache82(): Response
