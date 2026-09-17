@@ -50,15 +50,15 @@ class OpcacheController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/phpinfo', name: 'phpinfo')]
-    public function phpinfo(): Response
-    {
-        ob_start();
-        phpinfo();
-        $content = ob_get_clean();
+    // #[Route(path: '/phpinfo', name: 'phpinfo')]
+    // public function phpinfo(): Response
+    // {
+    //     ob_start();
+    //     phpinfo();
+    //     $content = ob_get_clean();
 
-        return new Response($content, 200, [
-            'Content-Type' => 'text/html; charset=UTF-8',
-        ]);
-    }
+    //     return new Response($content, 200, [
+    //         'Content-Type' => 'text/html; charset=UTF-8',
+    //     ]);
+    // }
 }
