@@ -4,13 +4,11 @@ services:
     environment:
       APP_ENV: ${APP_ENV:-prod}
       APP_DEBUG: ${APP_DEBUG:-0}
-      APP_SECRET: ${APP_SECRET}
-      DATABASE_URL: ${DATABASE_URL}
       TIMEZONE: ${TIMEZONE:-America/Fortaleza}
-      LOCK_DSN: ${LOCK_DSN:-flock}
-      REDIS_URL: redis://redis_mytour:6379
-      APP_IMAGE: ${APP_IMAGE:-registry.gitlab.grwxtech.com/gabrielroot/mytour.grwxtech.com/app:latest}
-      NGINX_IMAGE: ${NGINX_IMAGE:-registry.gitlab.grwxtech.com/gabrielroot/mytour.grwxtech.com/nginx:latest}
+      #LOCK_DSN: ${LOCK_DSN:-flock}
+      #REDIS_URL: redis://redis_mytour:6379
+      #APP_IMAGE: ${APP_IMAGE:-registry.gitlab.grwxtech.com/gabrielroot/mytour.grwxtech.com/app:latest}
+      #NGINX_IMAGE: ${NGINX_IMAGE:-registry.gitlab.grwxtech.com/gabrielroot/mytour.grwxtech.com/nginx:latest}
     restart: unless-stopped
     volumes:
       - symfony_app_var:/var/www/var
