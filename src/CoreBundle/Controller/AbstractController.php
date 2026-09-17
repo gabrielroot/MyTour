@@ -28,6 +28,7 @@ abstract class AbstractController extends BaseController
      */
     protected function addErrorMessage($message)
     {
+        
         $this->addFlash('danger', $message);
     }
 
